@@ -45,8 +45,33 @@
             color: #fff;
         }
 
+        header h1 span.terry, header h1 span.jokic {
+            display: inline-block;
+            position: relative;
+            cursor: pointer;
+        }
         header h1 span.terry { color: #ff6b6b; }
         header h1 span.jokic { color: #51cf66; }
+
+        header h1 span.terry img, header h1 span.jokic img {
+            display: none;
+            height: 36px;
+            border-radius: 4px;
+            vertical-align: middle;
+            margin-top: -4px;
+        }
+
+        header h1 span.terry:hover .name-text,
+        header h1 span.jokic:hover .name-text { visibility: hidden; }
+
+        header h1 span.terry:hover img,
+        header h1 span.jokic:hover img {
+            display: inline;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
 
         .subtitle {
             color: #888;
@@ -695,7 +720,7 @@
         <header>
             <div class="top-row">
                 <div>
-                    <h1>The <span class="terry">Terry</span> & <span class="jokic">Jokic</span> Awards</h1>
+                    <h1>The <span class="terry"><span class="name-text">Terry</span><img src="https://cdn.nba.com/headshots/nba/latest/260x190/1626179.png" alt="Terry Rozier"></span> & <span class="jokic"><span class="name-text">Jokic</span><img src="https://cdn.nba.com/headshots/nba/latest/260x190/203999.png" alt="Nikola Jokic"></span> Awards</h1>
                     <div class="subtitle">The worst and best NBA player performance each night</div>
                 </div>
                 <div class="season-selector">
