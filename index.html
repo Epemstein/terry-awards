@@ -121,7 +121,40 @@
         .tab:hover { color: #ccc; }
         .tab.active.terry-tab { color: #ff6b6b; border-bottom-color: #ff6b6b; }
         .tab.active.jokic-tab { color: #51cf66; border-bottom-color: #51cf66; }
-        .tab.active.settings-tab { color: #fff; border-bottom-color: #fff; }
+        .tab.active.daily-tab { color: #fff; border-bottom-color: #fff; }
+
+        /* Daily summary nav */
+        .daily-nav {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .daily-nav button {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 6px;
+            color: #e0e0e0;
+            padding: 8px 14px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .daily-nav button:hover { background: #333; }
+        .daily-nav button:disabled { opacity: 0.3; cursor: default; }
+
+        .daily-nav .daily-date {
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .daily-nav .daily-games {
+            font-size: 13px;
+            color: #888;
+        }
 
         /* Top Cards */
         .top-cards {
@@ -733,7 +766,7 @@
         <div class="tabs">
             <div class="tab terry-tab active" data-tab="terry">Terry Award</div>
             <div class="tab jokic-tab" data-tab="jokic">Jokic Award</div>
-            <div class="tab settings-tab" data-tab="settings" style="color:#888">Settings</div>
+            <div class="tab daily-tab" data-tab="daily">Daily Summary</div>
             <div style="flex:1"></div>
             <div class="toggle-row" style="margin-bottom:0;padding:0 8px;">
                 <label for="playoffToggleGlobal">Include Playoffs</label>
@@ -1017,6 +1050,8 @@
 
     let leaderboardView = 'offenders'; // 'offenders', 'cumulative', 'per_game'
     let expandedPlayer = null; // player_id of expanded row
+    let dailyDate = null; // current date for daily summary
+    let dailySort = { key: null, asc: false };
 
     // Build lookup: player_name -> array of game objects from terry/jokic history
     function getPlayerGames(playerName) {
@@ -1173,7 +1208,6 @@
         html += `
         <div class="view-toggle">
             <button class="view-btn active" data-view="nightly">Nightly Winners</button>
-            <button class="view-btn" data-view="offenders">All Offenders</button>
         </div>
         <div id="tableArea"></div>`;
 
@@ -1228,7 +1262,6 @@
         html += `
         <div class="view-toggle">
             <button class="view-btn active" data-view="nightly">Nightly Winners</button>
-            <button class="view-btn" data-view="offenders">All Winners</button>
         </div>
         <div id="tableArea"></div>`;
 
@@ -1371,6 +1404,143 @@
         return html;
     }
 
+    // --- Daily Summary ---
+
+    function getAvailableDates() {
+        if (!rawData) return [];
+        const dates = new Set();
+        rawData.rows.forEach(r => { if (r[C.min] >= 5) dates.add(r[C.date]); });
+        return [...dates].sort();
+    }
+
+    function getDayPlayers(dateStr) {
+        if (!rawData) return [];
+        const players = [];
+        rawData.rows.forEach(r => {
+            if (r[C.date] !== dateStr || r[C.min] < 5) return;
+            const score = calcTerry(r);
+            players.push(rowToPlayer(r, score));
+        });
+        return players;
+    }
+
+    function renderDaily() {
+        const dates = getAvailableDates();
+        if (!dates.length) {
+            return '<div class="loading">No raw data loaded for this season.</div>';
+        }
+
+        if (!dailyDate || !dates.includes(dailyDate)) {
+            dailyDate = dates[dates.length - 1]; // default to most recent
+        }
+
+        const dateIdx = dates.indexOf(dailyDate);
+        const players = getDayPlayers(dailyDate);
+        players.sort((a, b) => a.terry_score - b.terry_score);
+
+        const gameCount = Math.round(players.length / 26) || '?';
+
+        let html = `
+        <div class="daily-nav">
+            <button id="dailyPrev" ${dateIdx <= 0 ? 'disabled' : ''}>&larr;</button>
+            <span class="daily-date">${formatDateFull(dailyDate)}</span>
+            <button id="dailyNext" ${dateIdx >= dates.length - 1 ? 'disabled' : ''}>&rarr;</button>
+            <span class="daily-games">${gameCount} games &middot; ${players.length} players</span>
+        </div>`;
+
+        // Sortable table — reuse nightly table columns but for all players
+        const DAILY_COLS = [
+            { key: 'rank', label: '#', getValue: (p, i) => i + 1, numeric: true },
+            { key: 'player', label: 'Player', getValue: p => p.player_name },
+            { key: 'team', label: 'Team', getValue: p => p.team },
+            { key: 'opp', label: 'Opp', getValue: p => p.opp },
+            { key: 'wl', label: 'Result', getValue: p => p.won ? 1 : 0, numeric: true },
+            { key: 'score', label: 'Score', getValue: p => p.terry_score, numeric: true },
+            { key: 'min', label: 'MIN', getValue: p => p.min, numeric: true },
+            { key: 'pts', label: 'PTS', getValue: p => p.pts, numeric: true },
+            { key: 'fg', label: 'FG', getValue: p => p.fga > 0 ? p.fgm / p.fga : 0, numeric: true },
+            { key: '3pt', label: '3PT', getValue: p => p.fg3a > 0 ? p.fg3m / p.fg3a : 0, numeric: true },
+            { key: 'ft', label: 'FT', getValue: p => p.fta > 0 ? p.ftm / p.fta : 0, numeric: true },
+            { key: 'reb', label: 'REB', getValue: p => p.reb, numeric: true },
+            { key: 'ast', label: 'AST', getValue: p => p.ast, numeric: true },
+            { key: 'to', label: 'TO', getValue: p => p.to, numeric: true },
+            { key: 'stl', label: 'STL', getValue: p => p.stl, numeric: true },
+            { key: 'blk', label: 'BLK', getValue: p => p.blk, numeric: true },
+            { key: 'pf', label: 'PF', getValue: p => p.pf, numeric: true },
+            { key: 'pm', label: '+/-', getValue: p => p.plus_minus, numeric: true },
+        ];
+
+        // Sort
+        let sorted = players;
+        if (dailySort.key) {
+            const col = DAILY_COLS.find(c => c.key === dailySort.key);
+            if (col) {
+                sorted = [...players].sort((a, b) => {
+                    let va = col.getValue(a, 0), vb = col.getValue(b, 0);
+                    if (col.numeric) return dailySort.asc ? va - vb : vb - va;
+                    return dailySort.asc ? String(va).localeCompare(String(vb)) : String(vb).localeCompare(String(va));
+                });
+            }
+        }
+
+        html += `<div class="table-container"><table><thead><tr>`;
+        DAILY_COLS.forEach(col => {
+            const s = dailySort.key === col.key;
+            const cls = `sortable${s ? (dailySort.asc ? ' sorted-asc' : ' sorted-desc') : ''}`;
+            html += `<th class="${cls}" data-dsort="${col.key}">${col.label}</th>`;
+        });
+        html += `</tr></thead><tbody>`;
+
+        sorted.forEach((p, i) => {
+            html += `<tr>
+                <td>${i + 1}</td>
+                <td><div class="player-cell">
+                    <img src="${playerImg(p.player_id)}" onerror="handleImgError(this)">
+                    <div class="player-info"><div class="name">${p.player_name}</div></div>
+                </div></td>
+                <td>${p.team}</td>
+                <td>${p.home_away} ${p.opp}</td>
+                <td class="${p.won ? 'win' : 'loss'}">${p.team_score || p.opp_score ? `${p.team_score}-${p.opp_score}` : (p.won ? 'W' : 'L')}</td>
+                <td>${scoreBadge(p.terry_score)}</td>
+                <td>${p.min}</td>
+                <td>${p.pts}</td>
+                <td>${p.fgm}-${p.fga}</td>
+                <td>${p.fg3m}-${p.fg3a}</td>
+                <td>${p.ftm}-${p.fta}</td>
+                <td>${p.reb}</td>
+                <td>${p.ast}</td>
+                <td>${p.to}</td>
+                <td>${p.stl}</td>
+                <td>${p.blk}</td>
+                <td>${p.pf}</td>
+                <td>${p.plus_minus >= 0 ? '+' : ''}${p.plus_minus}</td>
+            </tr>`;
+        });
+
+        html += `</tbody></table></div>`;
+        return html;
+    }
+
+    function wireUpDaily() {
+        const dates = getAvailableDates();
+        const dateIdx = dates.indexOf(dailyDate);
+
+        document.getElementById('dailyPrev')?.addEventListener('click', () => {
+            if (dateIdx > 0) { dailyDate = dates[dateIdx - 1]; dailySort = { key: null, asc: false }; render(); }
+        });
+        document.getElementById('dailyNext')?.addEventListener('click', () => {
+            if (dateIdx < dates.length - 1) { dailyDate = dates[dateIdx + 1]; dailySort = { key: null, asc: false }; render(); }
+        });
+        document.querySelectorAll('th[data-dsort]').forEach(th => {
+            th.addEventListener('click', () => {
+                const key = th.dataset.dsort;
+                if (dailySort.key === key) dailySort.asc = !dailySort.asc;
+                else dailySort = { key, asc: false };
+                render();
+            });
+        });
+    }
+
     function renderSettings() {
         const weightDefs = [
             { key: 'MIN', label: 'Minutes' },
@@ -1472,9 +1642,9 @@
     function render() {
         const content = document.getElementById('content');
 
-        if (currentTab === 'settings') {
-            content.innerHTML = renderSettings();
-            wireUpSettings();
+        if (currentTab === 'daily') {
+            content.innerHTML = renderDaily();
+            wireUpDaily();
             return;
         }
 
