@@ -1,0 +1,1805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terry Awards v1</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+
+        a { color: #7cb3ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            border-bottom: 1px solid #222;
+            padding: 16px 0;
+            margin-bottom: 24px;
+        }
+
+        header .top-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        header h1 span.terry { color: #ff6b6b; }
+        header h1 span.jokic { color: #51cf66; }
+
+        .subtitle {
+            color: #888;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        .season-selector {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .season-selector label {
+            color: #888;
+            font-size: 14px;
+        }
+
+        .season-selector select {
+            background: #1a1a1a;
+            color: #e0e0e0;
+            border: 1px solid #333;
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0;
+            border-bottom: 1px solid #222;
+            margin-bottom: 24px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            color: #888;
+            transition: all 0.2s;
+        }
+
+        .tab:hover { color: #ccc; }
+        .tab.active.terry-tab { color: #ff6b6b; border-bottom-color: #ff6b6b; }
+        .tab.active.jokic-tab { color: #51cf66; border-bottom-color: #51cf66; }
+        .tab.active.settings-tab { color: #fff; border-bottom-color: #fff; }
+
+        /* Top Cards */
+        .top-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .card {
+            background: #141414;
+            border: 1px solid #222;
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card.primary {
+            grid-column: span 2;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .card .card-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #888;
+            margin-bottom: 4px;
+        }
+
+        .card .card-value {
+            font-size: 36px;
+            font-weight: 700;
+            line-height: 1.1;
+        }
+
+        .card .card-value.terry-color { color: #ff6b6b; }
+        .card .card-value.jokic-color { color: #51cf66; }
+
+        .card .card-player {
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            margin-top: 4px;
+        }
+
+        .card .card-detail {
+            font-size: 12px;
+            color: #888;
+            margin-top: 2px;
+        }
+
+        .card .player-img {
+            width: 100px;
+            height: 73px;
+            object-fit: cover;
+            object-position: top;
+            border-radius: 8px;
+            background: #1a1a1a;
+            flex-shrink: 0;
+        }
+
+        .card .card-text { flex: 1; }
+
+        /* Secondary cards */
+        .card.secondary .player-img {
+            width: 60px;
+            height: 44px;
+            margin-bottom: 8px;
+        }
+
+        .card.secondary .card-value {
+            font-size: 24px;
+        }
+
+        .card.secondary .card-player {
+            font-size: 13px;
+        }
+
+        /* Leaderboard section */
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .section-subtitle {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 16px;
+        }
+
+        /* Table */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        thead th {
+            text-align: left;
+            padding: 10px 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #888;
+            border-bottom: 1px solid #222;
+            white-space: nowrap;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        thead th:hover { color: #ccc; }
+        thead th.sorted { color: #fff; }
+        thead th .sort-arrow { margin-left: 4px; font-size: 10px; }
+
+        tbody tr {
+            border-bottom: 1px solid #1a1a1a;
+            transition: background 0.15s;
+        }
+
+        tbody tr:hover { background: #141414; }
+
+        tbody td {
+            padding: 10px 12px;
+            white-space: nowrap;
+        }
+
+        .player-cell {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .player-cell img {
+            width: 36px;
+            height: 26px;
+            object-fit: cover;
+            object-position: top;
+            border-radius: 4px;
+            background: #1a1a1a;
+        }
+
+        .player-cell .player-info .name {
+            font-weight: 500;
+            color: #fff;
+        }
+
+        .player-cell .player-info .meta {
+            font-size: 11px;
+            color: #666;
+        }
+
+        .score-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .score-badge.negative {
+            background: rgba(255, 107, 107, 0.15);
+            color: #ff6b6b;
+        }
+
+        .score-badge.positive {
+            background: rgba(81, 207, 102, 0.15);
+            color: #51cf66;
+        }
+
+        .win { color: #51cf66; }
+        .loss { color: #ff6b6b; }
+
+        .offense-count {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        /* View toggle */
+        .view-toggle {
+            display: flex;
+            gap: 0;
+            margin-bottom: 16px;
+            background: #141414;
+            border-radius: 8px;
+            border: 1px solid #222;
+            overflow: hidden;
+            width: fit-content;
+        }
+
+        .view-btn {
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            color: #888;
+            transition: all 0.2s;
+        }
+
+        .view-btn:hover { color: #ccc; }
+        .view-btn.active { background: #222; color: #fff; }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: #888;
+        }
+
+        .loading .spinner {
+            width: 32px;
+            height: 32px;
+            border: 3px solid #333;
+            border-top-color: #ff6b6b;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .card.primary { grid-column: span 1; }
+            .top-cards { grid-template-columns: 1fr 1fr; }
+            .container { padding: 12px; }
+            header h1 { font-size: 22px; }
+        }
+
+        @media (max-width: 480px) {
+            .top-cards { grid-template-columns: 1fr; }
+        }
+
+        /* Stat line in primary card */
+        .card .stat-line {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        .card .stat-line .stat {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .card .stat-line .stat .stat-val {
+            color: #ccc;
+            font-weight: 600;
+        }
+
+        /* Offender list */
+        .offender-list {
+            background: #141414;
+            border: 1px solid #222;
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 32px;
+        }
+
+        .offender-list .list-title {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #888;
+            margin-bottom: 12px;
+        }
+
+        .offender-list .offender-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 0;
+            border-bottom: 1px solid #1a1a1a;
+        }
+
+        .offender-list .offender-item:last-child {
+            border-bottom: none;
+        }
+
+        .offender-list .offender-rank {
+            font-size: 13px;
+            color: #555;
+            width: 20px;
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        .offender-list .offender-img {
+            width: 40px;
+            height: 29px;
+            object-fit: cover;
+            object-position: top;
+            border-radius: 4px;
+            background: #1a1a1a;
+            flex-shrink: 0;
+        }
+
+        .offender-list .offender-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #fff;
+            flex: 1;
+        }
+
+        .offender-list .offender-team {
+            font-size: 12px;
+            color: #666;
+            margin-left: 4px;
+            font-weight: 400;
+        }
+
+        .offender-list .offender-count {
+            font-size: 16px;
+            font-weight: 700;
+            min-width: 32px;
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        .offender-list .offender-count.terry-color { color: #ff6b6b; }
+        .offender-list .offender-count.jokic-color { color: #51cf66; }
+
+        .offender-list .offender-item { cursor: pointer; }
+        .offender-list .offender-item:hover { background: #1a1a1a; margin: 0 -8px; padding-left: 8px; padding-right: 8px; border-radius: 6px; }
+
+        .offender-detail {
+            padding: 8px 0 12px 32px;
+            border-bottom: 1px solid #1a1a1a;
+        }
+
+        .offender-detail .detail-game {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            padding: 6px 0;
+            font-size: 12px;
+            border-bottom: 1px solid #111;
+        }
+
+        .offender-detail .detail-game:last-child { border-bottom: none; }
+
+        .offender-detail .detail-date {
+            color: #888;
+            min-width: 100px;
+        }
+
+        .offender-detail .detail-matchup {
+            color: #aaa;
+            min-width: 90px;
+        }
+
+        .offender-detail .detail-score {
+            min-width: 60px;
+        }
+
+        .offender-detail .detail-stats {
+            color: #666;
+            flex: 1;
+        }
+
+        .offender-detail .detail-stats span { color: #aaa; font-weight: 500; }
+
+        /* Playoff badge */
+        .playoff-badge {
+            display: inline-block;
+            padding: 1px 5px;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: 600;
+            background: rgba(255, 215, 0, 0.15);
+            color: #ffd700;
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+
+        /* Toggle switch */
+        .toggle-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .toggle-row label {
+            font-size: 13px;
+            color: #888;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 36px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            inset: 0;
+            background: #333;
+            border-radius: 10px;
+            transition: 0.2s;
+        }
+
+        .toggle-slider::before {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            left: 2px;
+            bottom: 2px;
+            background: #888;
+            border-radius: 50%;
+            transition: 0.2s;
+        }
+
+        .toggle-switch input:checked + .toggle-slider {
+            background: #444;
+        }
+
+        .toggle-switch input:checked + .toggle-slider::before {
+            transform: translateX(16px);
+            background: #ffd700;
+        }
+
+        /* Settings panel */
+        .settings-panel {
+            background: #141414;
+            border: 1px solid #222;
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin-bottom: 24px;
+        }
+
+        .settings-panel h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 16px;
+        }
+
+        .weights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+        }
+
+        .weight-input {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .weight-input label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #888;
+        }
+
+        .weight-input input {
+            background: #0a0a0a;
+            border: 1px solid #333;
+            border-radius: 6px;
+            padding: 6px 10px;
+            color: #e0e0e0;
+            font-size: 14px;
+            font-weight: 600;
+            width: 100%;
+            text-align: center;
+        }
+
+        .weight-input input:focus {
+            outline: none;
+            border-color: #555;
+        }
+
+        .weight-input input.positive { color: #51cf66; }
+        .weight-input input.negative { color: #ff6b6b; }
+
+        .settings-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+            align-items: center;
+        }
+
+        .settings-actions button {
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid #333;
+            background: #222;
+            color: #fff;
+            transition: all 0.2s;
+        }
+
+        .settings-actions button:hover { background: #333; }
+
+        .settings-actions button.primary-btn {
+            background: #ff6b6b;
+            border-color: #ff6b6b;
+            color: #fff;
+        }
+
+        .settings-actions button.primary-btn:hover { background: #ff5252; }
+
+        .settings-actions .recalc-status {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .breakeven-bar {
+            display: flex;
+            gap: 24px;
+            margin-top: 16px;
+            padding: 12px 16px;
+            background: #0a0a0a;
+            border-radius: 8px;
+            border: 1px solid #222;
+            flex-wrap: wrap;
+        }
+
+        .breakeven-item {
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+        }
+
+        .breakeven-item .be-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #888;
+        }
+
+        .breakeven-item .be-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #ffd700;
+        }
+
+        /* Sort arrows */
+        thead th.sortable:after {
+            content: '↕';
+            margin-left: 4px;
+            font-size: 10px;
+            opacity: 0.3;
+        }
+
+        thead th.sorted-asc:after {
+            content: '↑';
+            opacity: 1;
+        }
+
+        thead th.sorted-desc:after {
+            content: '↓';
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="top-row">
+                <div>
+                    <h1>The <span class="terry">Terry</span> & <span class="jokic">Jokic</span> Awards</h1>
+                    <div class="subtitle">The worst and best NBA player performance each night</div>
+                </div>
+                <div class="season-selector">
+                    <label>Season</label>
+                    <select id="seasonSelect"></select>
+                </div>
+            </div>
+        </header>
+
+        <div class="tabs">
+            <div class="tab terry-tab active" data-tab="terry">Terry Award</div>
+            <div class="tab jokic-tab" data-tab="jokic">Jokic Award</div>
+            <div class="tab settings-tab" data-tab="settings" style="color:#888">Settings</div>
+            <div style="flex:1"></div>
+            <div class="toggle-row" style="margin-bottom:0;padding:0 8px;">
+                <label for="playoffToggleGlobal">Include Playoffs</label>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="playoffToggleGlobal" checked>
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <div id="content">
+            <div class="loading">
+                <div class="spinner"></div>
+                Loading data...
+            </div>
+        </div>
+    </div>
+
+    <script>
+    const BASE_URL = 'data';
+    let currentSeason = null;
+    let currentTab = 'terry';
+    let summaryData = null;
+    let seasonData = null;
+    let rawData = null; // compact player-game data for recalculation
+    let includePlayoffs = true;
+    let currentSort = { key: null, asc: false };
+
+    // Default weights — match the Python script
+    const DEFAULT_WEIGHTS = {
+        MIN: -0.2, PLUS_MINUS: 0.5, WL: 5, FGM: 2, FGA: -1.2,
+        FG3M: 2, FG3A: -0.7, FTM: 2, FTA: -1.5, REB: 2,
+        AST: 2.5, STL: 1, BLK: 1, TO: -4, PF: -0.5, PTS: 0.5,
+    };
+    let weights = { ...DEFAULT_WEIGHTS };
+
+    // Column indices in raw data rows
+    const C = { date:0, player_id:1, player_name:2, team:3, opp:4, home_away:5,
+        won:6, min:7, fgm:8, fga:9, fg3m:10, fg3a:11, ftm:12, fta:13,
+        reb:14, ast:15, stl:16, blk:17, to:18, pf:19, pts:20, plus_minus:21, is_playoff:22,
+        on_off:23, team_score:24, opp_score:25 };
+
+    function calcTerry(r) {
+        return Math.round((
+            r[C.min] * weights.MIN + r[C.plus_minus] * weights.PLUS_MINUS +
+            r[C.won] * weights.WL + r[C.fgm] * weights.FGM + r[C.fga] * weights.FGA +
+            r[C.fg3m] * weights.FG3M + r[C.fg3a] * weights.FG3A +
+            r[C.ftm] * weights.FTM + r[C.fta] * weights.FTA +
+            r[C.reb] * weights.REB + r[C.ast] * weights.AST +
+            r[C.stl] * weights.STL + r[C.blk] * weights.BLK +
+            r[C.to] * weights.TO + r[C.pf] * weights.PF + r[C.pts] * weights.PTS
+        ) * 10) / 10;
+    }
+
+    function rowToPlayer(r, terryScore) {
+        return {
+            date: r[C.date], player_id: r[C.player_id], player_name: r[C.player_name],
+            team: r[C.team], opp: r[C.opp], home_away: r[C.home_away],
+            won: !!r[C.won], min: r[C.min], fgm: r[C.fgm], fga: r[C.fga],
+            fg3m: r[C.fg3m], fg3a: r[C.fg3a], ftm: r[C.ftm], fta: r[C.fta],
+            reb: r[C.reb], ast: r[C.ast], stl: r[C.stl], blk: r[C.blk],
+            to: r[C.to], pf: r[C.pf], pts: r[C.pts], plus_minus: r[C.plus_minus],
+            on_off: r[C.on_off] || 0, team_score: r[C.team_score] || 0, opp_score: r[C.opp_score] || 0,
+            is_playoff: !!r[C.is_playoff], terry_score: terryScore,
+        };
+    }
+
+    function weightsAreCustom() {
+        return Object.keys(DEFAULT_WEIGHTS).some(k => weights[k] !== DEFAULT_WEIGHTS[k]);
+    }
+
+    function recalcFromRaw() {
+        if (!rawData) return;
+        const t0 = performance.now();
+        const rows = rawData.rows;
+
+        // Group by date
+        const byDate = {};
+        rows.forEach(r => {
+            if (r[C.min] < 5) return;
+            const d = r[C.date];
+            if (!byDate[d]) byDate[d] = [];
+            byDate[d].push(r);
+        });
+
+        // Rebuild summaryData
+        const dates = {};
+        const terryHistory = [];
+        const jokicHistory = [];
+        const terryOffenders = {};
+        const jokicOffenders = {};
+        const playerAggs = {};
+
+        for (const [dateStr, dayRows] of Object.entries(byDate)) {
+            const scored = dayRows.map(r => ({ r, score: calcTerry(r) }));
+            scored.sort((a, b) => a.score - b.score);
+
+            const worst = scored[0];
+            const best = scored[scored.length - 1];
+            const terryWinner = rowToPlayer(worst.r, worst.score);
+            const jokicWinner = rowToPlayer(best.r, best.score);
+            const isPlayoff = dayRows.some(r => r[C.is_playoff]);
+
+            dates[dateStr] = {
+                display_date: `${parseInt(dateStr.slice(5,7))}/${parseInt(dateStr.slice(8,10))}`,
+                is_playoff: isPlayoff,
+                terry_winner: terryWinner,
+                jokic_winner: jokicWinner,
+                total_players: dayRows.length,
+            };
+
+            terryHistory.push({ date: dateStr, is_playoff: isPlayoff, ...terryWinner });
+            jokicHistory.push({ date: dateStr, is_playoff: isPlayoff, ...jokicWinner });
+
+            // Offenders
+            const tn = terryWinner.player_name;
+            if (!terryOffenders[tn]) terryOffenders[tn] = { count:0, dates:[], player_id:terryWinner.player_id, team:terryWinner.team, worst_score:terryWinner.terry_score, total_offense_terry:0 };
+            terryOffenders[tn].count++;
+            terryOffenders[tn].total_offense_terry += terryWinner.terry_score;
+            terryOffenders[tn].dates.push({ date:dateStr, is_playoff:isPlayoff, terry_score:terryWinner.terry_score });
+            terryOffenders[tn].team = terryWinner.team;
+            terryOffenders[tn].worst_score = Math.min(terryOffenders[tn].worst_score, terryWinner.terry_score);
+
+            const jn = jokicWinner.player_name;
+            if (!jokicOffenders[jn]) jokicOffenders[jn] = { count:0, dates:[], player_id:jokicWinner.player_id, team:jokicWinner.team, best_score:jokicWinner.terry_score, total_offense_terry:0 };
+            jokicOffenders[jn].count++;
+            jokicOffenders[jn].total_offense_terry += jokicWinner.terry_score;
+            jokicOffenders[jn].dates.push({ date:dateStr, is_playoff:isPlayoff, terry_score:jokicWinner.terry_score });
+            jokicOffenders[jn].team = jokicWinner.team;
+            jokicOffenders[jn].best_score = Math.max(jokicOffenders[jn].best_score, jokicWinner.terry_score);
+
+            // Player aggs
+            scored.forEach(({ r, score }) => {
+                const pid = r[C.player_id];
+                if (!playerAggs[pid]) playerAggs[pid] = { player_id:pid, player_name:r[C.player_name], team:r[C.team], games:0, playoff_games:0, total_terry:0, reg_games:0, reg_total_terry:0 };
+                playerAggs[pid].games++;
+                playerAggs[pid].total_terry += score;
+                playerAggs[pid].team = r[C.team];
+                if (r[C.is_playoff]) { playerAggs[pid].playoff_games++; }
+                else { playerAggs[pid].reg_games++; playerAggs[pid].reg_total_terry += score; }
+            });
+        }
+
+        // Finalize aggs
+        Object.values(playerAggs).forEach(a => {
+            a.total_terry = Math.round(a.total_terry * 10) / 10;
+            a.reg_total_terry = Math.round(a.reg_total_terry * 10) / 10;
+            a.terry_per_game = a.games > 0 ? Math.round(a.total_terry / a.games * 10) / 10 : 0;
+            a.reg_terry_per_game = a.reg_games > 0 ? Math.round(a.reg_total_terry / a.reg_games * 10) / 10 : 0;
+        });
+
+        // Offender avg
+        Object.values(terryOffenders).forEach(o => { o.avg_offense_terry = Math.round(o.total_offense_terry / o.count * 10) / 10; });
+        Object.values(jokicOffenders).forEach(o => { o.avg_offense_terry = Math.round(o.total_offense_terry / o.count * 10) / 10; });
+
+        terryHistory.sort((a, b) => b.date.localeCompare(a.date));
+        jokicHistory.sort((a, b) => b.date.localeCompare(a.date));
+
+        const terryLB = Object.entries(terryOffenders).map(([name, info]) => ({ player: name, ...info })).sort((a, b) => b.count - a.count || a.worst_score - b.worst_score);
+        const jokicLB = Object.entries(jokicOffenders).map(([name, info]) => ({ player: name, ...info })).sort((a, b) => b.count - a.count || b.best_score - a.best_score);
+
+        const minGames = Math.max(5, Object.keys(dates).length / 10);
+        const allAggs = Object.values(playerAggs);
+        const cumulativeWorst = [...allAggs].sort((a, b) => a.total_terry - b.total_terry).slice(0, 50);
+        const cumulativeBest = [...allAggs].sort((a, b) => b.total_terry - a.total_terry).slice(0, 50);
+        const perGameWorst = allAggs.filter(p => p.games >= minGames).sort((a, b) => a.terry_per_game - b.terry_per_game).slice(0, 50);
+        const perGameBest = allAggs.filter(p => p.games >= minGames).sort((a, b) => b.terry_per_game - a.terry_per_game).slice(0, 50);
+
+        summaryData = {
+            season: currentSeason,
+            total_nights: Object.keys(dates).length,
+            terry_leaderboard: terryLB,
+            jokic_leaderboard: jokicLB,
+            worst_ever: terryHistory.length ? terryHistory.reduce((a, b) => a.terry_score < b.terry_score ? a : b) : null,
+            best_ever: jokicHistory.length ? jokicHistory.reduce((a, b) => a.terry_score > b.terry_score ? a : b) : null,
+            terry_history: terryHistory,
+            jokic_history: jokicHistory,
+            cumulative_worst: cumulativeWorst,
+            cumulative_best: cumulativeBest,
+            per_game_worst: perGameWorst,
+            per_game_best: perGameBest,
+        };
+
+        // Also rebuild gamesPerDate
+        gamesPerDate = {};
+        for (const [d, info] of Object.entries(dates)) {
+            gamesPerDate[d] = info.total_players;
+        }
+
+        const elapsed = Math.round(performance.now() - t0);
+        return elapsed;
+    }
+
+    function playerImg(playerId, size = 260) {
+        return `https://cdn.nba.com/headshots/nba/latest/${size}x${Math.round(size * 0.73)}/${playerId}.png`;
+    }
+
+    function handleImgError(img) {
+        img.src = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 190" fill="%23333"><rect width="260" height="190" fill="%231a1a1a"/><text x="130" y="105" text-anchor="middle" font-size="40" fill="%23444">?</text></svg>');
+    }
+
+    function formatScore(score) {
+        const prefix = score >= 0 ? '+' : '';
+        return prefix + score.toFixed(1);
+    }
+
+    function scoreBadge(score) {
+        const cls = score < 0 ? 'negative' : 'positive';
+        return `<span class="score-badge ${cls}">${formatScore(score)}</span>`;
+    }
+
+    function formatDate(dateEntry) {
+        // dateEntry can be a string "2025-10-21" or an object {date, is_playoff}
+        const dateStr = typeof dateEntry === 'string' ? dateEntry : dateEntry.date;
+        const [y, m, d] = dateStr.split('-');
+        return `${parseInt(m)}/${parseInt(d)}`;
+    }
+
+    function formatDateFull(dateStr) {
+        const date = new Date(dateStr + 'T12:00:00');
+        return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+    }
+
+    let gamesPerDate = {};
+
+    function buildGamesPerDate() {
+        gamesPerDate = {};
+        if (!rawData) return;
+        rawData.rows.forEach(r => {
+            if (r[C.min] < 5) return;
+            const d = r[C.date];
+            gamesPerDate[d] = (gamesPerDate[d] || 0) + 1;
+        });
+    }
+
+    function getGameCount(date) {
+        const players = gamesPerDate[date] || 0;
+        return Math.round(players / 26) || '?';
+    }
+
+    // --- Render ---
+
+    function statLine(p) {
+        return `
+            <div class="stat-line">
+                <span class="stat"><span class="stat-val">${p.min}</span> MIN</span>
+                <span class="stat"><span class="stat-val">${p.pts}</span> PTS</span>
+                <span class="stat"><span class="stat-val">${p.fgm}-${p.fga}</span> FG</span>
+                <span class="stat"><span class="stat-val">${p.fg3m}-${p.fg3a}</span> 3PT</span>
+                <span class="stat"><span class="stat-val">${p.ftm}-${p.fta}</span> FT</span>
+                <span class="stat"><span class="stat-val">${p.reb}</span> REB</span>
+                <span class="stat"><span class="stat-val">${p.ast}</span> AST</span>
+                <span class="stat"><span class="stat-val">${p.to}</span> TO</span>
+                <span class="stat"><span class="stat-val">${p.stl}</span> STL</span>
+                <span class="stat"><span class="stat-val">${p.blk}</span> BLK</span>
+                <span class="stat"><span class="stat-val">${p.pf}</span> PF</span>
+                <span class="stat"><span class="stat-val">${p.plus_minus >= 0 ? '+' : ''}${p.plus_minus}</span> +/-</span>
+            </div>`;
+    }
+
+    function playoffBadge(isPlayoff) {
+        return isPlayoff ? '<span class="playoff-badge">PO</span>' : '';
+    }
+
+    function getFilteredOffenders(leaderboard) {
+        if (includePlayoffs) return leaderboard;
+        // Recount excluding playoff dates
+        return leaderboard.map(o => {
+            const regDates = o.dates.filter(d => !d.is_playoff);
+            return { ...o, count: regDates.length, dates: regDates };
+        }).filter(o => o.count > 0).sort((a, b) => b.count - a.count || a.worst_score - b.worst_score);
+    }
+
+    function getFilteredOffendersJokic(leaderboard) {
+        if (includePlayoffs) return leaderboard;
+        return leaderboard.map(o => {
+            const regDates = o.dates.filter(d => !d.is_playoff);
+            return { ...o, count: regDates.length, dates: regDates };
+        }).filter(o => o.count > 0).sort((a, b) => b.count - a.count || b.best_score - a.best_score);
+    }
+
+    let leaderboardView = 'offenders'; // 'offenders', 'cumulative', 'per_game'
+    let expandedPlayer = null; // player_id of expanded row
+
+    // Build lookup: player_name -> array of game objects from terry/jokic history
+    function getPlayerGames(playerName) {
+        if (!summaryData) return { terry: [], jokic: [] };
+        const terry = summaryData.terry_history.filter(g => g.player_name === playerName);
+        const jokic = summaryData.jokic_history.filter(g => g.player_name === playerName);
+        return { terry, jokic };
+    }
+
+    function renderGameDetail(game, awardType) {
+        const badge = awardType === 'terry' ? 'negative' : 'positive';
+        const label = awardType === 'terry' ? 'T' : 'J';
+        return `
+        <div class="detail-game">
+            <span class="detail-date">${formatDateFull(game.date)}${playoffBadge(game.is_playoff)}</span>
+            <span class="detail-matchup">${game.team} ${game.home_away} ${game.opp} <span class="${game.won ? 'win' : 'loss'}">${game.won ? 'W' : 'L'}</span></span>
+            <span class="detail-score"><span class="score-badge ${badge}" style="font-size:11px">${label} ${formatScore(game.terry_score)}</span></span>
+            <span class="detail-stats">
+                <span>${game.min}</span> MIN
+                <span>${game.pts}</span> PTS
+                <span>${game.fgm}-${game.fga}</span> FG
+                <span>${game.fg3m}-${game.fg3a}</span> 3PT
+                <span>${game.ftm}-${game.fta}</span> FT
+                <span>${game.reb}</span> REB
+                <span>${game.ast}</span> AST
+                <span>${game.to}</span> TO
+                <span>${game.stl}</span> STL
+                <span>${game.blk}</span> BLK
+                <span>${game.pf}</span> PF
+                <span>${game.plus_minus >= 0 ? '+' : ''}${game.plus_minus}</span> +/-
+            </span>
+        </div>`;
+    }
+
+    function renderPlayerDetail(playerName) {
+        const { terry, jokic } = getPlayerGames(playerName);
+        // Merge and sort by date descending
+        const all = [
+            ...terry.map(g => ({ ...g, _award: 'terry' })),
+            ...jokic.map(g => ({ ...g, _award: 'jokic' })),
+        ].sort((a, b) => b.date.localeCompare(a.date));
+
+        if (all.length === 0) return '';
+
+        let html = `<div class="offender-detail">`;
+        all.forEach(g => { html += renderGameDetail(g, g._award); });
+        html += `</div>`;
+        return html;
+    }
+
+    function offenderRow(i, playerId, playerName, team, rightLabel, rightValue, colorClass) {
+        const isExpanded = expandedPlayer === playerId;
+        return `
+            <div class="offender-item" data-player-id="${playerId}" data-player-name="${playerName}">
+                <span class="offender-rank">${i + 1}</span>
+                <img class="offender-img" src="${playerImg(playerId)}" onerror="handleImgError(this)">
+                <span class="offender-name">${playerName}<span class="offender-team"> ${team}</span></span>
+                ${rightLabel}
+                <span class="offender-count ${colorClass}">${rightValue}</span>
+            </div>
+            ${isExpanded ? renderPlayerDetail(playerName) : ''}`;
+    }
+
+    function renderLeaderboardSection(leaderboard, isTerry) {
+        const colorClass = isTerry ? 'terry-color' : 'jokic-color';
+
+        let html = `<div class="offender-list">
+            <div style="display:flex;align-items:center;gap:0;margin-bottom:12px;">
+                <div class="view-toggle" style="margin-bottom:0">
+                    <button class="view-btn lb-btn ${leaderboardView === 'offenders' ? 'active' : ''}" data-lb="offenders">Repeat ${isTerry ? 'Offenders' : 'Winners'}</button>
+                    <button class="view-btn lb-btn ${leaderboardView === 'cumulative' ? 'active' : ''}" data-lb="cumulative">Cumulative</button>
+                    <button class="view-btn lb-btn ${leaderboardView === 'per_game' ? 'active' : ''}" data-lb="per_game">Per Game</button>
+                </div>
+            </div>`;
+
+        if (leaderboardView === 'offenders') {
+            const filtered = isTerry ? getFilteredOffenders(leaderboard) : getFilteredOffendersJokic(leaderboard);
+            const top = filtered.slice(0, 10);
+            top.forEach((o, i) => {
+                const avgScore = o.count > 0 ? (o.dates.reduce((sum, d) => sum + (d.terry_score || 0), 0) / o.dates.length) : 0;
+                html += offenderRow(i, o.player_id, o.player, o.team,
+                    `<span style="color:#666;font-size:12px;margin-right:8px">avg ${formatScore(avgScore)}</span>`,
+                    `${o.count}x`, colorClass);
+            });
+        } else if (leaderboardView === 'cumulative') {
+            const key = isTerry ? 'cumulative_worst' : 'cumulative_best';
+            const list = (summaryData[key] || []).slice(0, 15);
+            list.forEach((p, i) => {
+                const val = includePlayoffs ? p.total_terry : p.reg_total_terry;
+                html += offenderRow(i, p.player_id, p.player_name, p.team,
+                    `<span style="color:#666;font-size:12px;margin-right:8px">${includePlayoffs ? p.games : p.reg_games} gp</span>`,
+                    formatScore(val), colorClass);
+            });
+        } else if (leaderboardView === 'per_game') {
+            const key = isTerry ? 'per_game_worst' : 'per_game_best';
+            const list = (summaryData[key] || []).slice(0, 15);
+            list.forEach((p, i) => {
+                const val = includePlayoffs ? p.terry_per_game : p.reg_terry_per_game;
+                html += offenderRow(i, p.player_id, p.player_name, p.team,
+                    `<span style="color:#666;font-size:12px;margin-right:8px">${includePlayoffs ? p.games : p.reg_games} gp</span>`,
+                    formatScore(val), colorClass);
+            });
+        }
+
+        html += `</div>`;
+        return html;
+    }
+
+    function renderTerry() {
+        if (!summaryData) return '';
+        const s = summaryData;
+
+        const filteredHistory = filterPlayoffs(s.terry_history);
+        const latest = filteredHistory[0];
+        const worst = includePlayoffs ? s.worst_ever :
+            (filteredHistory.length ? filteredHistory.reduce((a, b) => a.terry_score < b.terry_score ? a : b) : null);
+
+        let html = `<div class="top-cards">`;
+
+        if (latest) {
+            html += `
+            <div class="card primary">
+                <img class="player-img" src="${playerImg(latest.player_id)}" onerror="handleImgError(this)">
+                <div class="card-text">
+                    <div class="card-label">Latest Terry Award &middot; ${formatDateFull(latest.date)}${playoffBadge(latest.is_playoff)}</div>
+                    <div class="card-value terry-color">${formatScore(latest.terry_score)}</div>
+                    <div class="card-player">${latest.player_name}</div>
+                    <div class="card-detail">${latest.team} ${latest.home_away} ${latest.opp} &middot; <span class="${latest.won ? 'win' : 'loss'}">${latest.won ? 'W' : 'L'}</span></div>
+                    ${statLine(latest)}
+                </div>
+            </div>`;
+        }
+
+        if (worst) {
+            html += `
+            <div class="card primary">
+                <img class="player-img" src="${playerImg(worst.player_id)}" onerror="handleImgError(this)">
+                <div class="card-text">
+                    <div class="card-label">Worst Score &middot; ${formatDateFull(worst.date)}${playoffBadge(worst.is_playoff)}</div>
+                    <div class="card-value terry-color">${formatScore(worst.terry_score)}</div>
+                    <div class="card-player">${worst.player_name}</div>
+                    <div class="card-detail">${worst.team} ${worst.home_away} ${worst.opp} &middot; <span class="${worst.won ? 'win' : 'loss'}">${worst.won ? 'W' : 'L'}</span></div>
+                    ${statLine(worst)}
+                </div>
+            </div>`;
+        }
+
+        html += `</div>`;
+
+        if (s.terry_leaderboard.length > 0) {
+            html += renderLeaderboardSection(s.terry_leaderboard, true);
+        }
+
+        html += `
+        <div class="view-toggle">
+            <button class="view-btn active" data-view="nightly">Nightly Winners</button>
+            <button class="view-btn" data-view="offenders">All Offenders</button>
+        </div>
+        <div id="tableArea"></div>`;
+
+        return html;
+    }
+
+    function renderJokic() {
+        if (!summaryData) return '';
+        const s = summaryData;
+
+        const filteredHistory = filterPlayoffs(s.jokic_history);
+        const latest = filteredHistory[0];
+        const best = includePlayoffs ? s.best_ever :
+            (filteredHistory.length ? filteredHistory.reduce((a, b) => a.terry_score > b.terry_score ? a : b) : null);
+
+        let html = `<div class="top-cards">`;
+
+        if (latest) {
+            html += `
+            <div class="card primary">
+                <img class="player-img" src="${playerImg(latest.player_id)}" onerror="handleImgError(this)">
+                <div class="card-text">
+                    <div class="card-label">Latest Jokic Award &middot; ${formatDateFull(latest.date)}${playoffBadge(latest.is_playoff)}</div>
+                    <div class="card-value jokic-color">${formatScore(latest.terry_score)}</div>
+                    <div class="card-player">${latest.player_name}</div>
+                    <div class="card-detail">${latest.team} ${latest.home_away} ${latest.opp} &middot; <span class="${latest.won ? 'win' : 'loss'}">${latest.won ? 'W' : 'L'}</span></div>
+                    ${statLine(latest)}
+                </div>
+            </div>`;
+        }
+
+        if (best) {
+            html += `
+            <div class="card primary">
+                <img class="player-img" src="${playerImg(best.player_id)}" onerror="handleImgError(this)">
+                <div class="card-text">
+                    <div class="card-label">Best Score &middot; ${formatDateFull(best.date)}${playoffBadge(best.is_playoff)}</div>
+                    <div class="card-value jokic-color">${formatScore(best.terry_score)}</div>
+                    <div class="card-player">${best.player_name}</div>
+                    <div class="card-detail">${best.team} ${best.home_away} ${best.opp} &middot; <span class="${best.won ? 'win' : 'loss'}">${best.won ? 'W' : 'L'}</span></div>
+                    ${statLine(best)}
+                </div>
+            </div>`;
+        }
+
+        html += `</div>`;
+
+        if (s.jokic_leaderboard.length > 0) {
+            html += renderLeaderboardSection(s.jokic_leaderboard, false);
+        }
+
+        html += `
+        <div class="view-toggle">
+            <button class="view-btn active" data-view="nightly">Nightly Winners</button>
+            <button class="view-btn" data-view="offenders">All Winners</button>
+        </div>
+        <div id="tableArea"></div>`;
+
+        return html;
+    }
+
+    // --- Sortable nightly table ---
+
+    const NIGHTLY_COLUMNS = [
+        { key: 'date', label: 'Date', getValue: p => p.date },
+        { key: 'games', label: 'Games', getValue: p => getGameCount(p.date), numeric: true },
+        { key: 'player', label: 'Player', getValue: p => p.player_name },
+        { key: 'team', label: 'Team', getValue: p => p.team },
+        { key: 'opp', label: 'Opp', getValue: p => p.opp },
+        { key: 'wl', label: 'Result', getValue: p => p.won ? 1 : 0, numeric: true },
+        { key: 'score', label: 'Score', getValue: p => p.terry_score, numeric: true },
+        { key: 'min', label: 'MIN', getValue: p => p.min, numeric: true },
+        { key: 'pts', label: 'PTS', getValue: p => p.pts, numeric: true },
+        { key: 'fg', label: 'FG', getValue: p => p.fga > 0 ? p.fgm / p.fga : 0, numeric: true },
+        { key: '3pt', label: '3PT', getValue: p => p.fg3a > 0 ? p.fg3m / p.fg3a : 0, numeric: true },
+        { key: 'ft', label: 'FT', getValue: p => p.fta > 0 ? p.ftm / p.fta : 0, numeric: true },
+        { key: 'reb', label: 'REB', getValue: p => p.reb, numeric: true },
+        { key: 'ast', label: 'AST', getValue: p => p.ast, numeric: true },
+        { key: 'to', label: 'TO', getValue: p => p.to, numeric: true },
+        { key: 'stl', label: 'STL', getValue: p => p.stl, numeric: true },
+        { key: 'blk', label: 'BLK', getValue: p => p.blk, numeric: true },
+        { key: 'pf', label: 'PF', getValue: p => p.pf, numeric: true },
+        { key: 'pm', label: '+/-', getValue: p => p.plus_minus, numeric: true },
+    ];
+
+    function sortHistory(history, sortKey, asc) {
+        const col = NIGHTLY_COLUMNS.find(c => c.key === sortKey);
+        if (!col) return history;
+        const sorted = [...history].sort((a, b) => {
+            let va = col.getValue(a), vb = col.getValue(b);
+            if (col.numeric) return asc ? va - vb : vb - va;
+            if (typeof va === 'string') return asc ? va.localeCompare(vb) : vb.localeCompare(va);
+            return 0;
+        });
+        return sorted;
+    }
+
+    function renderNightlyTable(history, isTerry) {
+        if (currentSort.key) {
+            history = sortHistory(history, currentSort.key, currentSort.asc);
+        }
+
+        let html = `<div class="table-container"><table><thead><tr>`;
+        NIGHTLY_COLUMNS.forEach(col => {
+            const sorted = currentSort.key === col.key;
+            const cls = `sortable${sorted ? (currentSort.asc ? ' sorted-asc' : ' sorted-desc') : ''}`;
+            html += `<th class="${cls}" data-sort="${col.key}">${col.label}</th>`;
+        });
+        html += `</tr></thead><tbody>`;
+
+        history.forEach(p => {
+            const po = p.is_playoff ? playoffBadge(true) : '';
+            html += `
+                <tr>
+                    <td>${formatDateFull(p.date)}${po}</td>
+                    <td style="text-align:center;color:#666">${getGameCount(p.date)}</td>
+                    <td>
+                        <div class="player-cell">
+                            <img src="${playerImg(p.player_id)}" onerror="handleImgError(this)">
+                            <div class="player-info">
+                                <div class="name">${p.player_name}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>${p.team}</td>
+                    <td>${p.home_away} ${p.opp}</td>
+                    <td class="${p.won ? 'win' : 'loss'}">${p.team_score || p.opp_score ? `${p.team_score}-${p.opp_score}` : (p.won ? 'W' : 'L')}</td>
+                    <td>${scoreBadge(p.terry_score)}</td>
+                    <td>${p.min}</td>
+                    <td>${p.pts}</td>
+                    <td>${p.fgm}-${p.fga}</td>
+                    <td>${p.fg3m}-${p.fg3a}</td>
+                    <td>${p.ftm}-${p.fta}</td>
+                    <td>${p.reb}</td>
+                    <td>${p.ast}</td>
+                    <td>${p.to}</td>
+                    <td>${p.stl}</td>
+                    <td>${p.blk}</td>
+                    <td>${p.pf}</td>
+                    <td>${p.plus_minus >= 0 ? '+' : ''}${p.plus_minus}</td>
+                </tr>`;
+        });
+
+        html += `</tbody></table></div>`;
+        return html;
+    }
+
+    function renderOffendersTable(leaderboard, isTerry) {
+        const label = isTerry ? 'Offenses' : 'Wins';
+        const scoreLabel = isTerry ? 'Worst Score' : 'Best Score';
+        const scoreKey = isTerry ? 'worst_score' : 'best_score';
+        const filtered = isTerry ? getFilteredOffenders(leaderboard) : getFilteredOffendersJokic(leaderboard);
+
+        let html = `
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Player</th>
+                        <th>Team</th>
+                        <th>${label}</th>
+                        <th>${scoreLabel}</th>
+                        <th>Dates</th>
+                    </tr>
+                </thead>
+                <tbody>`;
+
+        filtered.forEach((o, i) => {
+            const dateStrs = o.dates.map(d => {
+                const ds = formatDate(d);
+                const isPo = typeof d === 'object' && d.is_playoff;
+                return ds + (isPo ? '<span class="playoff-badge" style="margin-left:2px">PO</span>' : '');
+            }).join(', ');
+
+            html += `
+                <tr>
+                    <td>${i + 1}</td>
+                    <td>
+                        <div class="player-cell">
+                            <img src="${playerImg(o.player_id)}" onerror="handleImgError(this)">
+                            <div class="player-info">
+                                <div class="name">${o.player}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>${o.team}</td>
+                    <td><strong>${o.count}</strong></td>
+                    <td>${scoreBadge(o[scoreKey])}</td>
+                    <td>${dateStrs}</td>
+                </tr>`;
+        });
+
+        html += `</tbody></table></div>`;
+        return html;
+    }
+
+    function renderSettings() {
+        const weightDefs = [
+            { key: 'MIN', label: 'Minutes' },
+            { key: 'PTS', label: 'Points' },
+            { key: 'FGM', label: 'FG Made' },
+            { key: 'FGA', label: 'FG Att' },
+            { key: 'FG3M', label: '3PT Made' },
+            { key: 'FG3A', label: '3PT Att' },
+            { key: 'FTM', label: 'FT Made' },
+            { key: 'FTA', label: 'FT Att' },
+            { key: 'REB', label: 'Rebounds' },
+            { key: 'AST', label: 'Assists' },
+            { key: 'STL', label: 'Steals' },
+            { key: 'BLK', label: 'Blocks' },
+            { key: 'TO', label: 'Turnovers' },
+            { key: 'PF', label: 'Fouls' },
+            { key: 'PLUS_MINUS', label: '+/-' },
+            { key: 'WL', label: 'Win Bonus' },
+        ];
+
+        let html = `<div class="settings-panel">
+            <h3>Scoring Weights</h3>
+            <div class="weights-grid">`;
+
+        weightDefs.forEach(w => {
+            const val = weights[w.key];
+            const cls = val > 0 ? 'positive' : val < 0 ? 'negative' : '';
+            html += `
+                <div class="weight-input">
+                    <label>${w.label}</label>
+                    <input type="number" step="0.1" data-weight="${w.key}" value="${val}" class="${cls}">
+                </div>`;
+        });
+
+        const fgBe = calcBreakeven(weights.FGA, weights.FGM, weights.PTS, 2);
+        const threeBe = calcBreakeven3(weights);
+        const ftBe = calcBreakeven(weights.FTA, weights.FTM, weights.PTS, 1);
+
+        html += `</div>
+            <div class="breakeven-bar" id="breakevenBar">
+                <div class="breakeven-item">
+                    <span class="be-label">FG% Breakeven</span>
+                    <span class="be-value" id="beFG">${fgBe}</span>
+                </div>
+                <div class="breakeven-item">
+                    <span class="be-label">3PT% Breakeven</span>
+                    <span class="be-value" id="be3PT">${threeBe}</span>
+                </div>
+                <div class="breakeven-item">
+                    <span class="be-label">FT% Breakeven</span>
+                    <span class="be-value" id="beFT">${ftBe}</span>
+                </div>
+            </div>
+            <div class="settings-actions">
+                <button class="primary-btn" id="recalcBtn">Recalculate</button>
+                <button id="resetBtn">Reset to Defaults</button>
+                <button id="saveWeightsBtn">Save Weights</button>
+                <span class="recalc-status" id="recalcStatus">${rawData ? 'Raw data loaded — ready to recalculate' : 'Loading raw data...'}</span>
+            </div>
+        </div>`;
+
+        return html;
+    }
+
+    // Breakeven: at what shooting % does the make reward offset the attempt penalty?
+    // A made 2PT FG: +FGM weight + FGA weight + 2*PTS weight
+    // A missed 2PT FG: +FGA weight
+    // Breakeven FG% = -FGA / (FGM + 2*PTS)
+    function calcBreakeven(attWeight, madeWeight, ptsWeight, ptsPerMake) {
+        const denom = madeWeight + ptsPerMake * ptsWeight;
+        if (denom === 0) return 'N/A';
+        const be = -attWeight / denom;
+        return (be * 100).toFixed(1) + '%';
+    }
+
+    // 3PT: a made 3 counts as FGM+FGA AND FG3M+FG3A + 3 PTS
+    // Breakeven 3P% = -(FGA + FG3A) / (FGM + FG3M + 3*PTS)
+    function calcBreakeven3(w) {
+        const denom = w.FGM + w.FG3M + 3 * w.PTS;
+        if (denom === 0) return 'N/A';
+        const be = -(w.FGA + w.FG3A) / denom;
+        return (be * 100).toFixed(1) + '%';
+    }
+
+    function updateBreakevens() {
+        // Read current input values
+        const w = {};
+        document.querySelectorAll('.weight-input input').forEach(input => {
+            w[input.dataset.weight] = parseFloat(input.value) || 0;
+        });
+        const beFG = document.getElementById('beFG');
+        const be3PT = document.getElementById('be3PT');
+        const beFT = document.getElementById('beFT');
+        if (beFG) beFG.textContent = calcBreakeven(w.FGA, w.FGM, w.PTS, 2);
+        if (be3PT) be3PT.textContent = calcBreakeven3(w);
+        if (beFT) beFT.textContent = calcBreakeven(w.FTA, w.FTM, w.PTS, 1);
+    }
+
+    function render() {
+        const content = document.getElementById('content');
+
+        if (currentTab === 'settings') {
+            content.innerHTML = renderSettings();
+            wireUpSettings();
+            return;
+        }
+
+        if (!summaryData) {
+            content.innerHTML = '<div class="loading"><div class="spinner"></div>Loading data...</div>';
+            return;
+        }
+
+        if (summaryData.total_nights === 0) {
+            content.innerHTML = '<div class="loading">No data available for this season yet.</div>';
+            return;
+        }
+
+        let html = currentTab === 'terry' ? renderTerry() : renderJokic();
+        content.innerHTML = html;
+
+        // Wire up nightly/offenders view toggle
+        document.querySelectorAll('.view-btn:not(.lb-btn)').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.view-btn:not(.lb-btn)').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentSort = { key: null, asc: false };
+                renderTable(btn.dataset.view);
+            });
+        });
+
+        // Wire up leaderboard toggle (Repeat Offenders / Cumulative / Per Game)
+        document.querySelectorAll('.lb-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                leaderboardView = btn.dataset.lb;
+                expandedPlayer = null;
+                render();
+            });
+        });
+
+        // Wire up offender row clicks to expand/collapse
+        document.querySelectorAll('.offender-item[data-player-id]').forEach(row => {
+            row.addEventListener('click', () => {
+                const pid = parseInt(row.dataset.playerId);
+                expandedPlayer = expandedPlayer === pid ? null : pid;
+                render();
+            });
+        });
+
+        renderTable('nightly');
+    }
+
+    function wireUpSort() {
+        document.querySelectorAll('th[data-sort]').forEach(th => {
+            th.addEventListener('click', () => {
+                const key = th.dataset.sort;
+                if (currentSort.key === key) {
+                    currentSort.asc = !currentSort.asc;
+                } else {
+                    currentSort = { key, asc: false };
+                }
+                const isTerry = currentTab === 'terry';
+                const history = filterPlayoffs(isTerry ? summaryData.terry_history : summaryData.jokic_history);
+                const area = document.getElementById('tableArea');
+                area.innerHTML = renderNightlyTable(history, isTerry);
+                wireUpSort();
+            });
+        });
+    }
+
+    function filterPlayoffs(list) {
+        if (includePlayoffs) return list;
+        return list.filter(p => !p.is_playoff);
+    }
+
+    function renderTable(view) {
+        const area = document.getElementById('tableArea');
+        if (!area) return;
+        const isTerry = currentTab === 'terry';
+        if (view === 'nightly') {
+            const history = filterPlayoffs(isTerry ? summaryData.terry_history : summaryData.jokic_history);
+            area.innerHTML = renderNightlyTable(history, isTerry);
+            wireUpSort();
+        } else {
+            const leaderboard = isTerry ? summaryData.terry_leaderboard : summaryData.jokic_leaderboard;
+            area.innerHTML = renderOffendersTable(leaderboard, isTerry);
+        }
+    }
+
+    // --- Data Loading ---
+
+    function wireUpSettings() {
+        // Color inputs based on value
+        document.querySelectorAll('.weight-input input').forEach(input => {
+            const update = () => {
+                const v = parseFloat(input.value);
+                input.classList.remove('positive', 'negative');
+                if (v > 0) input.classList.add('positive');
+                else if (v < 0) input.classList.add('negative');
+                updateBreakevens();
+            };
+            input.addEventListener('input', update);
+        });
+
+        const recalcBtn = document.getElementById('recalcBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const status = document.getElementById('recalcStatus');
+
+        recalcBtn.addEventListener('click', () => {
+            // Read weights from inputs
+            document.querySelectorAll('.weight-input input').forEach(input => {
+                weights[input.dataset.weight] = parseFloat(input.value) || 0;
+            });
+
+            if (!rawData) {
+                status.textContent = 'Still loading raw data...';
+                return;
+            }
+
+            status.textContent = 'Recalculating...';
+            setTimeout(() => {
+                const elapsed = recalcFromRaw();
+                status.textContent = `Recalculated in ${elapsed}ms — switch to Terry or Jokic tab to see results`;
+                // Auto-switch to terry tab after a beat
+                setTimeout(() => {
+                    currentTab = 'terry';
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    document.querySelector('.terry-tab').classList.add('active');
+                    render();
+                }, 500);
+            }, 10);
+        });
+
+        resetBtn.addEventListener('click', () => {
+            weights = { ...DEFAULT_WEIGHTS };
+            document.querySelectorAll('.weight-input input').forEach(input => {
+                input.value = DEFAULT_WEIGHTS[input.dataset.weight];
+                input.classList.remove('positive', 'negative');
+                const v = parseFloat(input.value);
+                if (v > 0) input.classList.add('positive');
+                else if (v < 0) input.classList.add('negative');
+            });
+            updateBreakevens();
+            status.textContent = 'Reset to defaults — click Recalculate to apply';
+        });
+
+        const saveBtn = document.getElementById('saveWeightsBtn');
+        saveBtn.addEventListener('click', () => {
+            // Read current weights from inputs
+            const w = {};
+            document.querySelectorAll('.weight-input input').forEach(input => {
+                w[input.dataset.weight] = parseFloat(input.value) || 0;
+            });
+            // Download as weights.json
+            const blob = new Blob([JSON.stringify(w, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'weights.json';
+            a.click();
+            URL.revokeObjectURL(url);
+            status.textContent = 'Downloaded weights.json — move it to data/ and push to GitHub';
+        });
+    }
+
+    let allSeasons = [];
+
+    async function loadSeason(seasonKey) {
+        currentSeason = seasonKey;
+        currentSort = { key: null, asc: false };
+        const content = document.getElementById('content');
+        content.innerHTML = '<div class="loading"><div class="spinner"></div>Loading data...</div>';
+
+        try {
+            if (seasonKey === 'all-time') {
+                rawData = null;
+                if (weightsAreCustom()) {
+                    await loadAllTimeRaw();
+                } else {
+                    await loadAllTime();
+                }
+            } else {
+                const [summaryRes, rawRes] = await Promise.all([
+                    fetch(`${BASE_URL}/${seasonKey}_summary.json`),
+                    fetch(`${BASE_URL}/${seasonKey}_raw.json`).catch(() => null),
+                ]);
+                summaryData = await summaryRes.json();
+                try {
+                    rawData = rawRes && rawRes.ok ? await rawRes.json() : null;
+                } catch(e) { rawData = null; }
+
+                buildGamesPerDate();
+
+                if (weightsAreCustom() && rawData) {
+                    recalcFromRaw();
+                }
+            }
+            render();
+        } catch (e) {
+            content.innerHTML = '<div class="loading">Failed to load data. Run update_data.py first.</div>';
+        }
+    }
+
+    async function loadAllTime() {
+        // Load all season summaries and merge them
+        const fetches = allSeasons.map(s => fetch(`${BASE_URL}/${s}_summary.json`).then(r => r.json()));
+        const allSummaries = await Promise.all(fetches);
+
+        // Also load all season detail files for game counts
+        gamesPerDate = {};
+        const detailFetches = allSeasons.map(s => fetch(`${BASE_URL}/${s}.json`).then(r => r.json()).catch(() => null));
+        const allDetails = await Promise.all(detailFetches);
+        allDetails.forEach(d => {
+            if (!d) return;
+            for (const [date, dayData] of Object.entries(d.dates)) {
+                gamesPerDate[date] = dayData.total_players;
+            }
+        });
+
+        // Merge histories
+        let allTerryHistory = [];
+        let allJokicHistory = [];
+        let terryOffenders = {};
+        let jokicOffenders = {};
+
+        allSummaries.forEach(s => {
+            allTerryHistory.push(...s.terry_history);
+            allJokicHistory.push(...s.jokic_history);
+
+            s.terry_leaderboard.forEach(o => {
+                if (!terryOffenders[o.player]) {
+                    terryOffenders[o.player] = { player: o.player, count: 0, playoff_count: 0, dates: [], player_id: o.player_id, team: o.team, worst_score: o.worst_score };
+                }
+                terryOffenders[o.player].count += o.count;
+                terryOffenders[o.player].playoff_count += (o.playoff_count || 0);
+                terryOffenders[o.player].dates.push(...o.dates);
+                terryOffenders[o.player].worst_score = Math.min(terryOffenders[o.player].worst_score, o.worst_score);
+                terryOffenders[o.player].team = o.team; // most recent
+                terryOffenders[o.player].player_id = o.player_id;
+            });
+
+            s.jokic_leaderboard.forEach(o => {
+                if (!jokicOffenders[o.player]) {
+                    jokicOffenders[o.player] = { player: o.player, count: 0, playoff_count: 0, dates: [], player_id: o.player_id, team: o.team, best_score: o.best_score };
+                }
+                jokicOffenders[o.player].count += o.count;
+                jokicOffenders[o.player].playoff_count += (o.playoff_count || 0);
+                jokicOffenders[o.player].dates.push(...o.dates);
+                jokicOffenders[o.player].best_score = Math.max(jokicOffenders[o.player].best_score, o.best_score);
+                jokicOffenders[o.player].team = o.team;
+                jokicOffenders[o.player].player_id = o.player_id;
+            });
+        });
+
+        allTerryHistory.sort((a, b) => b.date.localeCompare(a.date));
+        allJokicHistory.sort((a, b) => b.date.localeCompare(a.date));
+
+        const terryLeaderboard = Object.values(terryOffenders).sort((a, b) => b.count - a.count || a.worst_score - b.worst_score);
+        const jokicLeaderboard = Object.values(jokicOffenders).sort((a, b) => b.count - a.count || b.best_score - a.best_score);
+
+        const worstEver = allTerryHistory.length ? allTerryHistory.reduce((a, b) => a.terry_score < b.terry_score ? a : b) : null;
+        const bestEver = allJokicHistory.length ? allJokicHistory.reduce((a, b) => a.terry_score > b.terry_score ? a : b) : null;
+
+        summaryData = {
+            season: 'All Time',
+            total_nights: allTerryHistory.length,
+            terry_leaderboard: terryLeaderboard,
+            jokic_leaderboard: jokicLeaderboard,
+            worst_ever: worstEver,
+            best_ever: bestEver,
+            terry_history: allTerryHistory,
+            jokic_history: allJokicHistory,
+        };
+    }
+
+    async function loadAllTimeRaw() {
+        // Load all raw files, merge rows, then recalculate
+        const rawFetches = allSeasons.map(s =>
+            fetch(`${BASE_URL}/${s}_raw.json`).then(r => r.ok ? r.json() : null).catch(() => null)
+        );
+        const allRaws = await Promise.all(rawFetches);
+
+        // Merge all rows into one rawData
+        let mergedRows = [];
+        allRaws.forEach(rd => {
+            if (rd && rd.rows) mergedRows.push(...rd.rows);
+        });
+        rawData = { cols: allRaws.find(r => r)?.cols || [], rows: mergedRows };
+
+        recalcFromRaw();
+    }
+
+    async function init() {
+        // Load saved weights if they exist
+        try {
+            const wRes = await fetch(`${BASE_URL}/weights.json`);
+            if (wRes.ok) {
+                const saved = await wRes.json();
+                Object.keys(saved).forEach(k => {
+                    if (k in weights) weights[k] = saved[k];
+                });
+            }
+        } catch(e) {}
+
+        try {
+            const res = await fetch(`${BASE_URL}/seasons.json`);
+            const seasons = await res.json();
+            allSeasons = [...seasons];
+            const select = document.getElementById('seasonSelect');
+
+            // Add All Time option first
+            const allOpt = document.createElement('option');
+            allOpt.value = 'all-time';
+            allOpt.textContent = 'All Time';
+            select.appendChild(allOpt);
+
+            // Add individual seasons (newest first)
+            seasons.reverse().forEach(s => {
+                const opt = document.createElement('option');
+                opt.value = s;
+                opt.textContent = s;
+                select.appendChild(opt);
+            });
+
+            // Default to most recent season
+            if (seasons.length > 0) {
+                select.value = seasons[0];
+                loadSeason(seasons[0]);
+            }
+
+            select.addEventListener('change', () => loadSeason(select.value));
+        } catch (e) {
+            document.getElementById('content').innerHTML = '<div class="loading">No data found. Run <code>python update_data.py</code> to fetch NBA data.</div>';
+        }
+
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                currentTab = tab.dataset.tab;
+                currentSort = { key: null, asc: false };
+                render();
+            });
+        });
+
+        // Global playoff toggle
+        const globalToggle = document.getElementById('playoffToggleGlobal');
+        if (globalToggle) {
+            globalToggle.addEventListener('change', () => {
+                includePlayoffs = globalToggle.checked;
+                render();
+            });
+        }
+    }
+
+    init();
+    </script>
+</body>
+</html>
