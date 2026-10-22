@@ -149,6 +149,20 @@
             font-size: 18px;
             font-weight: 600;
             color: #fff;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .daily-nav .daily-date:hover { color: #7cb3ff; }
+
+        .daily-nav .daily-date input[type="date"] {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            cursor: pointer;
         }
 
         .daily-nav .daily-games {
@@ -729,6 +743,95 @@
             color: #ffd700;
         }
 
+        /* Player modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal {
+            background: #141414;
+            border: 1px solid #333;
+            border-radius: 12px;
+            max-width: 1200px;
+            width: 100%;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .modal > .modal-header,
+        .modal > .modal-close { padding: 24px 24px 0; flex-shrink: 0; }
+        .modal > .modal-close { padding: 12px 16px 0 0; }
+
+        .modal > #modalBody {
+            overflow-y: auto;
+            padding: 16px 24px 24px;
+            flex: 1;
+        }
+
+        .modal thead th {
+            position: sticky;
+            top: 0;
+            background: #141414;
+            z-index: 1;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 4px 8px;
+            line-height: 1;
+        }
+
+        .modal-close:hover { color: #fff; }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .modal-header img {
+            width: 64px;
+            height: 47px;
+            object-fit: cover;
+            object-position: top;
+            border-radius: 8px;
+            background: #1a1a1a;
+        }
+
+        .modal-header .modal-name {
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .modal-header .modal-team {
+            font-size: 14px;
+            color: #888;
+        }
+
+        .modal-header .modal-summary {
+            font-size: 13px;
+            color: #666;
+            margin-top: 2px;
+        }
+
         /* Sort arrows */
         thead th.sortable:after {
             content: '↕';
@@ -767,11 +870,12 @@
             <div class="tab terry-tab active" data-tab="terry">Terry Award</div>
             <div class="tab jokic-tab" data-tab="jokic">Jokic Award</div>
             <div class="tab daily-tab" data-tab="daily">Daily Summary</div>
+            <div class="tab settings-tab" data-tab="settings" style="color:#888">Settings</div>
             <div style="flex:1"></div>
             <div class="toggle-row" style="margin-bottom:0;padding:0 8px;">
                 <label for="playoffToggleGlobal">Include Playoffs</label>
                 <label class="toggle-switch">
-                    <input type="checkbox" id="playoffToggleGlobal" checked>
+                    <input type="checkbox" id="playoffToggleGlobal">
                     <span class="toggle-slider"></span>
                 </label>
             </div>
@@ -792,7 +896,7 @@
     let summaryData = null;
     let seasonData = null;
     let rawData = null; // compact player-game data for recalculation
-    let includePlayoffs = true;
+    let includePlayoffs = false;
     let currentSort = { key: null, asc: false };
 
     // Default weights — match the Python script
@@ -987,7 +1091,7 @@
 
     function formatDateFull(dateStr) {
         const date = new Date(dateStr + 'T12:00:00');
-        return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+        return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
     }
 
     let gamesPerDate = {};
@@ -1103,7 +1207,6 @@
     }
 
     function offenderRow(i, playerId, playerName, team, rightLabel, rightValue, colorClass) {
-        const isExpanded = expandedPlayer === playerId;
         return `
             <div class="offender-item" data-player-id="${playerId}" data-player-name="${playerName}">
                 <span class="offender-rank">${i + 1}</span>
@@ -1111,8 +1214,7 @@
                 <span class="offender-name">${playerName}<span class="offender-team"> ${team}</span></span>
                 ${rightLabel}
                 <span class="offender-count ${colorClass}">${rightValue}</span>
-            </div>
-            ${isExpanded ? renderPlayerDetail(playerName) : ''}`;
+            </div>`;
     }
 
     function renderLeaderboardSection(leaderboard, isTerry) {
@@ -1404,6 +1506,313 @@
         return html;
     }
 
+    // --- Player Modal ---
+
+    function percentileColor(pct) {
+        if (pct >= 90) return 'color:#51cf66';
+        if (pct >= 70) return 'color:#a9e34b';
+        if (pct >= 30) return 'color:#888';
+        if (pct >= 10) return 'color:#ff922b';
+        return 'color:#ff6b6b';
+    }
+
+    // Cache raw data by season for modal season switching
+    let rawDataCache = {};
+    let modalPlayerName = null;
+    let modalPlayerId = null;
+    let modalSeason = null;
+
+    async function loadRawForSeason(seasonKey) {
+        if (rawDataCache[seasonKey]) return rawDataCache[seasonKey];
+        try {
+            const res = await fetch(`${BASE_URL}/${seasonKey}_raw.json`);
+            if (res.ok) {
+                const data = await res.json();
+                rawDataCache[seasonKey] = data;
+                return data;
+            }
+        } catch(e) {}
+        return null;
+    }
+
+    function getPlayerAllGamesFromRaw(rd, playerId) {
+        if (!rd) return [];
+        const playerRows = rd.rows.filter(r => r[C.player_id] === playerId && r[C.min] >= 5);
+        if (!playerRows.length) return [];
+
+        const dateScores = {};
+        rd.rows.forEach(r => {
+            if (r[C.min] < 5) return;
+            const d = r[C.date];
+            if (!dateScores[d]) dateScores[d] = [];
+            dateScores[d].push(calcTerry(r));
+        });
+
+        return playerRows.map(r => {
+            const score = calcTerry(r);
+            const date = r[C.date];
+            const dayScores = dateScores[date] || [];
+            const rank = dayScores.filter(s => s <= score).length;
+            const percentile = dayScores.length > 0 ? Math.round((rank / dayScores.length) * 1000) / 10 : 50;
+            const p = rowToPlayer(r, score);
+            p.percentile = percentile;
+
+            // Check award status from summary if available
+            if (summaryData && modalSeason === currentSeason) {
+                const { terry, jokic } = getPlayerGames(p.player_name);
+                const isTerry = terry.some(g => g.date === date);
+                const isJokic = jokic.some(g => g.date === date);
+                p._award = isTerry ? 'terry' : isJokic ? 'jokic' : null;
+            } else {
+                // Determine from raw: lowest score that day = terry, highest = jokic
+                const minScore = Math.min(...dayScores);
+                const maxScore = Math.max(...dayScores);
+                p._award = score === minScore ? 'terry' : score === maxScore ? 'jokic' : null;
+            }
+            return p;
+        }).sort((a, b) => b.date.localeCompare(a.date));
+    }
+
+    function computeSeasonAverages(games, rd, playerId) {
+        if (!games.length) return null;
+        const n = games.length;
+        const sum = (fn) => games.reduce((s, g) => s + fn(g), 0);
+        const totalPts = sum(g => g.pts);
+        const totalFga = sum(g => g.fga);
+        const totalFta = sum(g => g.fta);
+        const ts = totalFga + 0.44 * totalFta > 0
+            ? (totalPts / (2 * (totalFga + 0.44 * totalFta)) * 100) : 0;
+        const avgScore = sum(g => g.terry_score) / n;
+
+        // Compute season-wide percentile: compare this player's avg score to all players' avg scores
+        let seasonPctl = 50;
+        if (rd) {
+            const playerAvgs = {};
+            rd.rows.forEach(r => {
+                if (r[C.min] < 5) return;
+                const pid = r[C.player_id];
+                if (!playerAvgs[pid]) playerAvgs[pid] = { total: 0, count: 0 };
+                playerAvgs[pid].total += calcTerry(r);
+                playerAvgs[pid].count++;
+            });
+            // Min games = at least 1, scale with season (require playing ~25% of game nights)
+            const totalDates = new Set(rd.rows.filter(r => r[C.min] >= 5).map(r => r[C.date])).size;
+            const minGp = Math.max(1, Math.floor(totalDates * 0.25));
+            const allAvgs = Object.values(playerAvgs).filter(p => p.count >= minGp).map(p => p.total / p.count);
+            if (allAvgs.length > 0) {
+                const rank = allAvgs.filter(a => a <= avgScore).length;
+                seasonPctl = Math.round((rank / allAvgs.length) * 1000) / 10;
+            }
+        }
+
+        return {
+            gp: n,
+            min: (sum(g => g.min) / n).toFixed(1),
+            pts: (totalPts / n).toFixed(1),
+            reb: (sum(g => g.reb) / n).toFixed(1),
+            ast: (sum(g => g.ast) / n).toFixed(1),
+            ts: ts.toFixed(1),
+            avgScore: avgScore.toFixed(1),
+            seasonPctl: seasonPctl.toFixed(1),
+        };
+    }
+
+    function renderModalContentSplit(games, seasonKey, rd) {
+        const full = renderModalContent(games, seasonKey, rd);
+        // Split at the table
+        const tableStart = full.indexOf('<div class="table-container">');
+        const noGamesStart = full.indexOf('<div style="color:#888');
+        if (tableStart >= 0) {
+            return { statsHtml: full.slice(0, tableStart), tableHtml: full.slice(tableStart) };
+        } else if (noGamesStart >= 0) {
+            return { statsHtml: full.slice(0, noGamesStart), tableHtml: full.slice(noGamesStart) };
+        }
+        return { statsHtml: full, tableHtml: '' };
+    }
+
+    function renderModalContent(games, seasonKey, rd) {
+        const avgs = computeSeasonAverages(games, rd, modalPlayerId);
+        const terryCount = games.filter(g => g._award === 'terry').length;
+        const jokicCount = games.filter(g => g._award === 'jokic').length;
+
+        let html = '';
+
+        if (avgs) {
+            const statBox = (val, label, sub) => `<div style="text-align:center;padding:0 10px">
+                <div style="font-size:20px;font-weight:700;color:#fff;line-height:1.2">${val}</div>
+                <div style="font-size:9px;color:#666;text-transform:uppercase;letter-spacing:0.5px">${label}</div>
+                ${sub ? `<div style="font-size:9px;${sub.style || 'color:#666'}">${sub.text}</div>` : ''}
+            </div>`;
+            html += `<div style="display:flex;align-items:center;background:#0a0a0a;border:1px solid #222;border-radius:8px;padding:8px 4px">
+                ${statBox(avgs.gp, 'GP')}
+                ${statBox(avgs.min, 'MIN')}
+                ${statBox(avgs.pts, 'PTS')}
+                ${statBox(avgs.reb, 'REB')}
+                ${statBox(avgs.ast, 'AST')}
+                ${statBox(avgs.ts + '%', 'TS%')}
+                ${statBox(formatScore(parseFloat(avgs.avgScore)), 'AVG Score', { text: avgs.seasonPctl + 'th', style: percentileColor(parseFloat(avgs.seasonPctl)) })}
+                ${terryCount > 0 ? statBox(`<span class="terry-color">${terryCount}</span>`, 'Terry') : ''}
+                ${jokicCount > 0 ? statBox(`<span class="jokic-color">${jokicCount}</span>`, 'Jokic') : ''}
+            </div>`;
+        }
+
+        // Games table
+        if (games.length > 0) {
+            const terryFace = 'https://cdn.nba.com/headshots/nba/latest/260x190/1626179.png';
+            const jokicFace = 'https://cdn.nba.com/headshots/nba/latest/260x190/203999.png';
+            html += `<div class="table-container"><table><thead><tr>
+                <th style="width:28px"></th><th>Date</th><th>Matchup</th><th>Result</th><th>Score</th><th>Pctl</th>
+                <th>MIN</th><th>PTS</th><th>FG</th><th>3PT</th><th>FT</th>
+                <th>REB</th><th>AST</th><th>TO</th><th>STL</th><th>BLK</th><th>PF</th><th>+/-</th>
+            </tr></thead><tbody>`;
+            games.forEach(g => {
+                const rowBg = g._award === 'terry' ? 'background:rgba(255,107,107,0.08);'
+                    : g._award === 'jokic' ? 'background:rgba(81,207,102,0.08);' : '';
+                const awardIcon = g._award === 'terry'
+                    ? `<img src="${terryFace}" style="width:22px;height:16px;object-fit:cover;object-position:top;border-radius:3px">`
+                    : g._award === 'jokic'
+                    ? `<img src="${jokicFace}" style="width:22px;height:16px;object-fit:cover;object-position:top;border-radius:3px">`
+                    : '';
+                html += `<tr style="${rowBg}">
+                    <td>${awardIcon}</td>
+                    <td>${formatDateFull(g.date)}${playoffBadge(g.is_playoff)}</td>
+                    <td>${g.team} ${g.home_away} ${g.opp}</td>
+                    <td class="${g.won ? 'win' : 'loss'}">${g.team_score || g.opp_score ? `${g.team_score}-${g.opp_score}` : (g.won ? 'W' : 'L')}</td>
+                    <td>${scoreBadge(g.terry_score)}</td>
+                    <td style="${percentileColor(g.percentile)};font-weight:600">${g.percentile.toFixed(1)}%</td>
+                    <td>${g.min}</td><td>${g.pts}</td>
+                    <td>${g.fgm}-${g.fga}</td><td>${g.fg3m}-${g.fg3a}</td><td>${g.ftm}-${g.fta}</td>
+                    <td>${g.reb}</td><td>${g.ast}</td><td>${g.to}</td>
+                    <td>${g.stl}</td><td>${g.blk}</td><td>${g.pf}</td>
+                    <td>${g.plus_minus >= 0 ? '+' : ''}${g.plus_minus}</td>
+                </tr>`;
+            });
+            html += `</tbody></table></div>`;
+        } else {
+            html += `<div style="color:#888;text-align:center;padding:20px">No games found for this season</div>`;
+        }
+
+        return html;
+    }
+
+    async function showPlayerModal(playerName, playerId, season) {
+        modalPlayerName = playerName;
+        modalPlayerId = playerId;
+        modalSeason = season || currentSeason;
+
+        // Cache current season's raw data
+        if (rawData && currentSeason && currentSeason !== 'all-time') {
+            rawDataCache[currentSeason] = rawData;
+        }
+
+        // Load raw data for the selected season
+        let rd;
+        if (modalSeason === currentSeason && rawData) {
+            rd = rawData;
+        } else {
+            rd = await loadRawForSeason(modalSeason);
+        }
+
+        const games = rd ? getPlayerAllGamesFromRaw(rd, playerId) : [];
+        const team = games.length > 0 ? games[0].team : '';
+
+        // Season selector options
+        let seasonOpts = allSeasons.slice().reverse().map(s =>
+            `<option value="${s}" ${s === modalSeason ? 'selected' : ''}>${s}</option>`
+        ).join('');
+
+        let html = `<div class="modal-overlay" id="playerModal">
+            <div class="modal">
+                <button class="modal-close" id="modalClose" style="position:absolute;top:12px;right:16px;z-index:2">&times;</button>
+                <div style="padding:24px 24px 0;flex-shrink:0">
+                    <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px">
+                        <img src="${playerImg(playerId)}" onerror="handleImgError(this)" style="width:64px;height:47px;object-fit:cover;object-position:top;border-radius:8px;background:#1a1a1a;flex-shrink:0">
+                        <div style="flex-shrink:0">
+                            <div style="display:flex;align-items:center;gap:10px">
+                                <div class="modal-name">${playerName}</div>
+                                <select id="modalSeasonSelect" style="background:#0a0a0a;color:#e0e0e0;border:1px solid #333;border-radius:6px;padding:4px 10px;font-size:13px;cursor:pointer">
+                                    ${seasonOpts}
+                                </select>
+                            </div>
+                            <div class="modal-team">${team}</div>
+                        </div>
+                        <div id="modalStats" style="flex:1;display:flex;justify-content:flex-end;margin-right:32px"></div>
+                    </div>
+                </div>
+                <div id="modalBody" style="overflow-y:auto;padding:0 24px 24px;flex:1"></div>
+            </div>
+        </div>`;
+
+        const modalRd = rawDataCache[modalSeason] || rawData;
+        const { statsHtml, tableHtml } = renderModalContentSplit(games, modalSeason, modalRd);
+
+        document.getElementById('playerModal')?.remove();
+        document.body.insertAdjacentHTML('beforeend', html);
+
+        // Inject split content
+        document.getElementById('modalStats').innerHTML = statsHtml;
+        document.getElementById('modalBody').innerHTML = tableHtml;
+
+        // Close handlers
+        document.getElementById('modalClose').addEventListener('click', closeModal);
+        document.getElementById('playerModal').addEventListener('click', (e) => {
+            if (e.target.id === 'playerModal') closeModal();
+        });
+
+        // Season switcher
+        document.getElementById('modalSeasonSelect')?.addEventListener('change', async (e) => {
+            const newSeason = e.target.value;
+            document.getElementById('modalStats').innerHTML = '';
+            document.getElementById('modalBody').innerHTML = '<div class="loading"><div class="spinner"></div>Loading...</div>';
+            modalSeason = newSeason;
+            const newRd = await loadRawForSeason(newSeason);
+            const newGames = newRd ? getPlayerAllGamesFromRaw(newRd, modalPlayerId) : [];
+            const team2 = newGames.length > 0 ? newGames[0].team : '';
+            const { statsHtml: sh, tableHtml: th } = renderModalContentSplit(newGames, newSeason, newRd);
+            document.getElementById('modalStats').innerHTML = sh;
+            document.getElementById('modalBody').innerHTML = th;
+        });
+    }
+
+    function closeModal() {
+        document.getElementById('playerModal')?.remove();
+    }
+
+    function wireUpPlayerClicks() {
+        // Table player cells
+        document.querySelectorAll('.player-cell').forEach(cell => {
+            const name = cell.querySelector('.name')?.textContent;
+            const img = cell.querySelector('img');
+            if (!name || !img) return;
+            const match = img.src.match(/\/(\d+)\.png/);
+            if (!match) return;
+            const pid = parseInt(match[1]);
+            cell.style.cursor = 'pointer';
+            cell.addEventListener('click', (e) => {
+                e.stopPropagation();
+                showPlayerModal(name, pid);
+            });
+        });
+
+        // Top cards — player name + image
+        document.querySelectorAll('.card.primary').forEach(card => {
+            const name = card.querySelector('.card-player')?.textContent;
+            const img = card.querySelector('.player-img');
+            if (!name || !img) return;
+            const match = img.src.match(/\/(\d+)\.png/);
+            if (!match) return;
+            const pid = parseInt(match[1]);
+            [card.querySelector('.card-player'), img].forEach(el => {
+                if (!el) return;
+                el.style.cursor = 'pointer';
+                el.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    showPlayerModal(name, pid);
+                });
+            });
+        });
+    }
+
     // --- Daily Summary ---
 
     function getAvailableDates() {
@@ -1443,7 +1852,7 @@
         let html = `
         <div class="daily-nav">
             <button id="dailyPrev" ${dateIdx <= 0 ? 'disabled' : ''}>&larr;</button>
-            <span class="daily-date">${formatDateFull(dailyDate)}</span>
+            <span class="daily-date">${formatDateFull(dailyDate)}<input type="date" id="dailyPicker" value="${dailyDate}"></span>
             <button id="dailyNext" ${dateIdx >= dates.length - 1 ? 'disabled' : ''}>&rarr;</button>
             <span class="daily-games">${gameCount} games &middot; ${players.length} players</span>
         </div>`;
@@ -1531,6 +1940,21 @@
         document.getElementById('dailyNext')?.addEventListener('click', () => {
             if (dateIdx < dates.length - 1) { dailyDate = dates[dateIdx + 1]; dailySort = { key: null, asc: false }; render(); }
         });
+        document.getElementById('dailyPicker')?.addEventListener('change', (e) => {
+            const picked = e.target.value;
+            // Find the closest available date
+            if (dates.includes(picked)) {
+                dailyDate = picked;
+            } else {
+                // Snap to nearest game date
+                const closest = dates.reduce((best, d) =>
+                    Math.abs(new Date(d) - new Date(picked)) < Math.abs(new Date(best) - new Date(picked)) ? d : best
+                );
+                dailyDate = closest;
+            }
+            dailySort = { key: null, asc: false };
+            render();
+        });
         document.querySelectorAll('th[data-dsort]').forEach(th => {
             th.addEventListener('click', () => {
                 const key = th.dataset.dsort;
@@ -1539,6 +1963,7 @@
                 render();
             });
         });
+        wireUpPlayerClicks();
     }
 
     function renderSettings() {
@@ -1648,6 +2073,12 @@
             return;
         }
 
+        if (currentTab === 'settings') {
+            content.innerHTML = renderSettings();
+            wireUpSettings();
+            return;
+        }
+
         if (!summaryData) {
             content.innerHTML = '<div class="loading"><div class="spinner"></div>Loading data...</div>';
             return;
@@ -1680,16 +2111,17 @@
             });
         });
 
-        // Wire up offender row clicks to expand/collapse
+        // Wire up offender row clicks to open modal
         document.querySelectorAll('.offender-item[data-player-id]').forEach(row => {
             row.addEventListener('click', () => {
                 const pid = parseInt(row.dataset.playerId);
-                expandedPlayer = expandedPlayer === pid ? null : pid;
-                render();
+                const name = row.dataset.playerName;
+                showPlayerModal(name, pid);
             });
         });
 
         renderTable('nightly');
+        wireUpPlayerClicks();
     }
 
     function wireUpSort() {
@@ -1706,6 +2138,7 @@
                 const area = document.getElementById('tableArea');
                 area.innerHTML = renderNightlyTable(history, isTerry);
                 wireUpSort();
+                wireUpPlayerClicks();
             });
         });
     }
@@ -1723,6 +2156,7 @@
             const history = filterPlayoffs(isTerry ? summaryData.terry_history : summaryData.jokic_history);
             area.innerHTML = renderNightlyTable(history, isTerry);
             wireUpSort();
+            wireUpPlayerClicks();
         } else {
             const leaderboard = isTerry ? summaryData.terry_leaderboard : summaryData.jokic_leaderboard;
             area.innerHTML = renderOffendersTable(leaderboard, isTerry);
@@ -1996,6 +2430,40 @@
     }
 
     init();
+
+    // Random face flash — each on its own independent schedule
+    function flashFace(selector) {
+        const span = document.querySelector(selector);
+        if (!span) return;
+        const text = span.querySelector('.name-text');
+        const img = span.querySelector('img');
+        if (!text || !img) return;
+        text.style.visibility = 'hidden';
+        img.style.display = 'inline';
+        img.style.position = 'absolute';
+        img.style.left = '50%';
+        img.style.top = '50%';
+        img.style.transform = 'translate(-50%, -50%)';
+        setTimeout(() => {
+            text.style.visibility = '';
+            img.style.display = '';
+            img.style.position = '';
+            img.style.left = '';
+            img.style.top = '';
+            img.style.transform = '';
+        }, 500);
+    }
+
+    function scheduleFlash(selector) {
+        const delay = 3000 + Math.random() * 7000; // 3-10 seconds
+        setTimeout(() => {
+            flashFace(selector);
+            scheduleFlash(selector);
+        }, delay);
+    }
+
+    scheduleFlash('h1 span.terry');
+    scheduleFlash('h1 span.jokic');
     </script>
 </body>
 </html>
