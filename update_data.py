@@ -5,13 +5,11 @@ Uses PlayerGameLogs bulk endpoint for fast full-season fetches.
 """
 
 import json
-import os
 import time
 from datetime import datetime
 from pathlib import Path
 
-import pandas as pd
-import requests
+from nba_api.stats.endpoints import playergamelogs
 from requests.exceptions import ReadTimeout, ConnectionError
 
 # Terry Score weights
@@ -123,50 +121,22 @@ def row_to_player_dict(row, is_playoff):
     }
 
 
-NBA_STATS_URL = "https://stats.nba.com/stats/playergamelogs"
-NBA_HEADERS = {
-    "Referer": "https://www.nba.com/",
-    "Origin": "https://www.nba.com",
-    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-    "Accept": "application/json, text/plain, */*",
-    "Accept-Language": "en-US,en;q=0.9",
-    "x-nba-stats-origin": "stats",
-    "x-nba-stats-token": "true",
-}
-
-
-def fetch_with_retry(api_season, max_retries=5, timeout=120):
-    """Fetch PlayerGameLogs from NBA API. Uses Tor SOCKS proxy in CI to bypass IP blocks."""
-    params = {"Season": api_season, "LeagueID": "00"}
-
-    # Use Tor SOCKS proxy if available (GitHub Actions sets this)
-    proxies = None
-    if os.environ.get("USE_TOR_PROXY"):
-        proxies = {
-            "http": "socks5h://127.0.0.1:9050",
-            "https": "socks5h://127.0.0.1:9050",
-        }
-        print("  Using Tor proxy")
-
+def fetch_with_retry(api_season, max_retries=3, timeout=120):
+    """Fetch PlayerGameLogs with retry logic."""
     for attempt in range(1, max_retries + 1):
         try:
             print(f"  Attempt {attempt}/{max_retries} (timeout={timeout}s)...")
-            resp = requests.get(
-                NBA_STATS_URL, params=params, headers=NBA_HEADERS,
-                proxies=proxies, timeout=timeout,
+            logs = playergamelogs.PlayerGameLogs(
+                season_nullable=api_season,
+                league_id_nullable="00",
+                timeout=timeout,
             )
-            resp.raise_for_status()
-            data = resp.json()
-            cols = data["resultSets"][0]["headers"]
-            rows = data["resultSets"][0]["rowSet"]
-            df = pd.DataFrame(rows, columns=cols)
-            print(f"  Got {len(df)} rows")
-            return df
+            return logs.get_data_frames()[0]
         except (ReadTimeout, ConnectionError) as e:
             print(f"  Attempt {attempt} failed: {e}")
             if attempt == max_retries:
                 raise
-            wait = 15 * attempt
+            wait = 30 * attempt
             print(f"  Retrying in {wait}s...")
             time.sleep(wait)
 

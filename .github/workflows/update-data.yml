@@ -1,9 +1,6 @@
 name: Update NBA Data
 on:
-  schedule:
-    # Run at 10am ET (2pm UTC) daily — after all games from the night before are final
-    - cron: '0 14 * * *'
-  workflow_dispatch: # allow manual trigger
+  workflow_dispatch: # manual trigger only
 
 permissions:
   contents: write
@@ -20,22 +17,11 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Install Tor proxy
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq tor
-          sudo systemctl start tor
-          sleep 2
-          # Verify Tor is running
-          curl --socks5-hostname 127.0.0.1:9050 -s https://check.torproject.org/api/ip | head -c 100
-
-      - name: Install Python dependencies
-        run: pip install pandas requests pysocks
+      - name: Install dependencies
+        run: pip install nba_api pandas
 
       - name: Update current season data
         run: python update_data.py
-        env:
-          USE_TOR_PROXY: "1"
 
       - name: Commit and push if changed
         run: |
