@@ -10,6 +10,7 @@ from datetime import datetime
 from pathlib import Path
 
 from nba_api.stats.endpoints import playergamelogs
+from requests.exceptions import ReadTimeout, ConnectionError
 
 # Terry Score weights
 WEIGHTS = {
@@ -120,14 +121,38 @@ def row_to_player_dict(row, is_playoff):
     }
 
 
+def fetch_with_retry(api_season, max_retries=3, timeout=60):
+    """Fetch PlayerGameLogs with retry logic for flaky NBA API."""
+    headers = {
+        "Referer": "https://www.nba.com/",
+        "Origin": "https://www.nba.com",
+    }
+    for attempt in range(1, max_retries + 1):
+        try:
+            print(f"  Attempt {attempt}/{max_retries} (timeout={timeout}s)...")
+            logs = playergamelogs.PlayerGameLogs(
+                season_nullable=api_season,
+                league_id_nullable="00",
+                headers=headers,
+                timeout=timeout,
+            )
+            return logs.get_data_frames()[0]
+        except (ReadTimeout, ConnectionError) as e:
+            print(f"  Attempt {attempt} failed: {e}")
+            if attempt == max_retries:
+                raise
+            wait = 10 * attempt
+            print(f"  Retrying in {wait}s...")
+            time.sleep(wait)
+
+
 def update_season(season_start_year):
     """Fetch full season data in one bulk call."""
     season_key = f"{season_start_year}-{str(season_start_year + 1)[-2:]}"
     api_season = f"{season_start_year}-{str(season_start_year + 1)[-2:]}"
     print(f"\nFetching season {season_key} (bulk)...")
 
-    logs = playergamelogs.PlayerGameLogs(season_nullable=api_season, league_id_nullable="00")
-    df = logs.get_data_frames()[0]
+    df = fetch_with_retry(api_season)
     print(f"  Got {len(df)} player-game rows")
 
     if df.empty:
