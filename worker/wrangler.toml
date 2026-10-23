@@ -1,0 +1,6 @@
+name = "terry-nba-proxy"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+[triggers]
+crons = ["0 14 * * *"]  # 2pm UTC / 10am ET daily
