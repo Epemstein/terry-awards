@@ -1275,7 +1275,7 @@
         if (latest) {
             html += `
             <div class="card primary">
-                <img class="player-img" src="${playerImg(latest.player_id)}" onerror="handleImgError(this)">
+                <img class="player-img" data-pid="${latest.player_id}" src="${playerImg(latest.player_id)}" onerror="handleImgError(this)">
                 <div class="card-text">
                     <div class="card-label">Latest Terry Award &middot; ${formatDateFull(latest.date)}${playoffBadge(latest.is_playoff)}</div>
                     <div class="card-value terry-color">${formatScore(latest.terry_score)}</div>
@@ -1289,7 +1289,7 @@
         if (worst) {
             html += `
             <div class="card primary">
-                <img class="player-img" src="${playerImg(worst.player_id)}" onerror="handleImgError(this)">
+                <img class="player-img" data-pid="${worst.player_id}" src="${playerImg(worst.player_id)}" onerror="handleImgError(this)">
                 <div class="card-text">
                     <div class="card-label">Worst Score &middot; ${formatDateFull(worst.date)}${playoffBadge(worst.is_playoff)}</div>
                     <div class="card-value terry-color">${formatScore(worst.terry_score)}</div>
@@ -1329,7 +1329,7 @@
         if (latest) {
             html += `
             <div class="card primary">
-                <img class="player-img" src="${playerImg(latest.player_id)}" onerror="handleImgError(this)">
+                <img class="player-img" data-pid="${latest.player_id}" src="${playerImg(latest.player_id)}" onerror="handleImgError(this)">
                 <div class="card-text">
                     <div class="card-label">Latest Jokic Award &middot; ${formatDateFull(latest.date)}${playoffBadge(latest.is_playoff)}</div>
                     <div class="card-value jokic-color">${formatScore(latest.terry_score)}</div>
@@ -1343,7 +1343,7 @@
         if (best) {
             html += `
             <div class="card primary">
-                <img class="player-img" src="${playerImg(best.player_id)}" onerror="handleImgError(this)">
+                <img class="player-img" data-pid="${best.player_id}" src="${playerImg(best.player_id)}" onerror="handleImgError(this)">
                 <div class="card-text">
                     <div class="card-label">Best Score &middot; ${formatDateFull(best.date)}${playoffBadge(best.is_playoff)}</div>
                     <div class="card-value jokic-color">${formatScore(best.terry_score)}</div>
@@ -1425,7 +1425,7 @@
                     <td>${formatDateFull(p.date)}${po}</td>
                     <td style="text-align:center;color:#666">${getGameCount(p.date)}</td>
                     <td>
-                        <div class="player-cell">
+                        <div class="player-cell" data-pid="${p.player_id}">
                             <img src="${playerImg(p.player_id)}" onerror="handleImgError(this)">
                             <div class="player-info">
                                 <div class="name">${p.player_name}</div>
@@ -1487,7 +1487,7 @@
                 <tr>
                     <td>${i + 1}</td>
                     <td>
-                        <div class="player-cell">
+                        <div class="player-cell" data-pid="${o.player_id}">
                             <img src="${playerImg(o.player_id)}" onerror="handleImgError(this)">
                             <div class="player-info">
                                 <div class="name">${o.player}</div>
@@ -1775,14 +1775,11 @@
     }
 
     function wireUpPlayerClicks() {
-        // Table player cells
-        document.querySelectorAll('.player-cell').forEach(cell => {
+        // Table player cells — use data-pid attribute
+        document.querySelectorAll('.player-cell[data-pid]').forEach(cell => {
             const name = cell.querySelector('.name')?.textContent;
-            const img = cell.querySelector('img');
-            if (!name || !img) return;
-            const match = img.src.match(/\/(\d+)\.png/);
-            if (!match) return;
-            const pid = parseInt(match[1]);
+            const pid = parseInt(cell.dataset.pid);
+            if (!name || !pid) return;
             cell.style.cursor = 'pointer';
             cell.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -1796,8 +1793,8 @@
             const img = card.querySelector('.player-img');
             if (!name || !img) return;
             const match = img.src.match(/\/(\d+)\.png/);
-            if (!match) return;
-            const pid = parseInt(match[1]);
+            const pid = match ? parseInt(match[1]) : parseInt(img.dataset.pid);
+            if (!pid) return;
             [card.querySelector('.card-player'), img].forEach(el => {
                 if (!el) return;
                 el.style.cursor = 'pointer';
@@ -1899,7 +1896,7 @@
         sorted.forEach((p, i) => {
             html += `<tr>
                 <td>${i + 1}</td>
-                <td><div class="player-cell">
+                <td><div class="player-cell" data-pid="${p.player_id}">
                     <img src="${playerImg(p.player_id)}" onerror="handleImgError(this)">
                     <div class="player-info"><div class="name">${p.player_name}</div></div>
                 </div></td>
