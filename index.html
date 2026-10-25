@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terry Awards v9</title>
+    <title>Terry Awards v10</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -1207,7 +1207,7 @@
 
     function offenderRow(i, playerId, playerName, team, rightLabel, rightValue, colorClass) {
         return `
-            <div class="offender-item" style="cursor:pointer" onclick="window._openPlayer('${playerName.replace(/'/g,"\\'")}',${playerId})">
+            <div class="offender-item" style="cursor:pointer" data-pclick='${JSON.stringify([playerName,playerId])}'>
                 <span class="offender-rank">${i + 1}</span>
                 <img class="offender-img" src="${playerImg(playerId)}" onerror="handleImgError(this)">
                 <span class="offender-name">${playerName}<span class="offender-team"> ${team}</span></span>
@@ -1274,7 +1274,7 @@
 
         if (latest) {
             html += `
-            <div class="card primary" style="cursor:pointer" onclick="window._openPlayer('${latest.player_name.replace(/'/g,"\\'")}',${latest.player_id})">
+            <div class="card primary" style="cursor:pointer" data-pclick='${JSON.stringify([latest.player_name,latest.player_id])}'>
                 <img class="player-img" src="${playerImg(latest.player_id)}" onerror="handleImgError(this)">
                 <div class="card-text">
                     <div class="card-label">Latest Terry Award &middot; ${formatDateFull(latest.date)}${playoffBadge(latest.is_playoff)}</div>
@@ -1288,7 +1288,7 @@
 
         if (worst) {
             html += `
-            <div class="card primary" style="cursor:pointer" onclick="window._openPlayer('${worst.player_name.replace(/'/g,"\\'")}',${worst.player_id})">
+            <div class="card primary" style="cursor:pointer" data-pclick='${JSON.stringify([worst.player_name,worst.player_id])}'>
                 <img class="player-img" src="${playerImg(worst.player_id)}" onerror="handleImgError(this)">
                 <div class="card-text">
                     <div class="card-label">Worst Score &middot; ${formatDateFull(worst.date)}${playoffBadge(worst.is_playoff)}</div>
@@ -1328,7 +1328,7 @@
 
         if (latest) {
             html += `
-            <div class="card primary" style="cursor:pointer" onclick="window._openPlayer('${latest.player_name.replace(/'/g,"\\'")}',${latest.player_id})">
+            <div class="card primary" style="cursor:pointer" data-pclick='${JSON.stringify([latest.player_name,latest.player_id])}'>
                 <img class="player-img" src="${playerImg(latest.player_id)}" onerror="handleImgError(this)">
                 <div class="card-text">
                     <div class="card-label">Latest Jokic Award &middot; ${formatDateFull(latest.date)}${playoffBadge(latest.is_playoff)}</div>
@@ -1342,7 +1342,7 @@
 
         if (best) {
             html += `
-            <div class="card primary" style="cursor:pointer" onclick="window._openPlayer('${best.player_name.replace(/'/g,"\\'")}',${best.player_id})">
+            <div class="card primary" style="cursor:pointer" data-pclick='${JSON.stringify([best.player_name,best.player_id])}'>
                 <img class="player-img" src="${playerImg(best.player_id)}" onerror="handleImgError(this)">
                 <div class="card-text">
                     <div class="card-label">Best Score &middot; ${formatDateFull(best.date)}${playoffBadge(best.is_playoff)}</div>
@@ -1425,7 +1425,7 @@
                     <td>${formatDateFull(p.date)}${po}</td>
                     <td style="text-align:center;color:#666">${getGameCount(p.date)}</td>
                     <td>
-                        <div class="player-cell" style="cursor:pointer" onclick="window._openPlayer('${p.player_name.replace(/'/g,"\\'")}',${p.player_id})">
+                        <div class="player-cell" style="cursor:pointer" data-pclick='${JSON.stringify([p.player_name,p.player_id])}'>
                             <img src="${playerImg(p.player_id)}" onerror="handleImgError(this)">
                             <div class="player-info">
                                 <div class="name">${p.player_name}</div>
@@ -1774,11 +1774,16 @@
         document.getElementById('playerModal')?.remove();
     }
 
-    // Expose for inline onclick handlers in templates
-    window._openPlayer = function(name, pid) { showPlayerModal(name, pid); };
+    // Single delegated click handler for all player-clickable elements
+    document.getElementById('content').addEventListener('click', function(e) {
+        const el = e.target.closest('[data-pclick]');
+        if (!el) return;
+        const [name, pid] = JSON.parse(el.dataset.pclick);
+        if (name && pid) showPlayerModal(name, pid);
+    });
 
     function wireUpPlayerClicks() {
-        // No-op — clicks handled via inline onclick in HTML templates
+        // No-op — clicks handled via data-pclick delegation
     }
 
     // --- Daily Summary ---
@@ -1871,7 +1876,7 @@
         sorted.forEach((p, i) => {
             html += `<tr>
                 <td>${i + 1}</td>
-                <td><div class="player-cell" style="cursor:pointer" onclick="window._openPlayer('${p.player_name.replace(/'/g,"\\'")}',${p.player_id})">
+                <td><div class="player-cell" style="cursor:pointer" data-pclick='${JSON.stringify([p.player_name,p.player_id])}'>
                     <img src="${playerImg(p.player_id)}" onerror="handleImgError(this)">
                     <div class="player-info"><div class="name">${p.player_name}</div></div>
                 </div></td>
