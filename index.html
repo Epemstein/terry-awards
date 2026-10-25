@@ -1774,30 +1774,28 @@
         document.getElementById('playerModal')?.remove();
     }
 
-    // Global click delegation — handles all player clicks reliably
-    document.addEventListener('click', (e) => {
-        // Player cells in tables
-        const cell = e.target.closest('.player-cell[data-pid]');
-        if (cell) {
+    function wireUpPlayerClicks() {
+        // Player cells in tables — click entire row
+        document.querySelectorAll('.player-cell[data-pid]').forEach(cell => {
+            if (cell.dataset.wired) return;
+            cell.dataset.wired = '1';
             const name = cell.querySelector('.name')?.textContent;
             const pid = parseInt(cell.dataset.pid);
-            if (name && pid) { e.stopPropagation(); showPlayerModal(name, pid); return; }
-        }
+            if (!name || !pid) return;
+            cell.style.cursor = 'pointer';
+            cell.onclick = () => showPlayerModal(name, pid);
+        });
+
         // Top winner cards
-        const card = e.target.closest('.card.primary');
-        if (card) {
+        document.querySelectorAll('.card.primary').forEach(card => {
+            if (card.dataset.wired) return;
+            card.dataset.wired = '1';
             const name = card.querySelector('.card-player')?.textContent;
             const img = card.querySelector('.player-img');
             const pid = img ? parseInt(img.dataset.pid) : 0;
-            if (name && pid) { e.stopPropagation(); showPlayerModal(name, pid); return; }
-        }
-    });
-
-    function wireUpPlayerClicks() {
-        // Set cursor style on clickable elements
-        document.querySelectorAll('.player-cell[data-pid]').forEach(cell => { cell.style.cursor = 'pointer'; });
-        document.querySelectorAll('.card.primary').forEach(card => {
-            if (card.querySelector('.player-img[data-pid]')) card.style.cursor = 'pointer';
+            if (!name || !pid) return;
+            card.style.cursor = 'pointer';
+            card.onclick = () => showPlayerModal(name, pid);
         });
     }
 
