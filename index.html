@@ -1774,35 +1774,30 @@
         document.getElementById('playerModal')?.remove();
     }
 
-    function wireUpPlayerClicks() {
-        // Table player cells — use data-pid attribute
-        document.querySelectorAll('.player-cell[data-pid]').forEach(cell => {
-            if (cell._clickWired) return;
-            cell._clickWired = true;
+    // Global click delegation — handles all player clicks reliably
+    document.addEventListener('click', (e) => {
+        // Player cells in tables
+        const cell = e.target.closest('.player-cell[data-pid]');
+        if (cell) {
             const name = cell.querySelector('.name')?.textContent;
             const pid = parseInt(cell.dataset.pid);
-            if (!name || !pid) return;
-            cell.style.cursor = 'pointer';
-            cell.addEventListener('click', (e) => {
-                e.stopPropagation();
-                showPlayerModal(name, pid);
-            });
-        });
-
-        // Top cards — entire card is clickable
-        document.querySelectorAll('.card.primary').forEach(card => {
-            if (card._clickWired) return;
-            card._clickWired = true;
+            if (name && pid) { e.stopPropagation(); showPlayerModal(name, pid); return; }
+        }
+        // Top winner cards
+        const card = e.target.closest('.card.primary');
+        if (card) {
             const name = card.querySelector('.card-player')?.textContent;
             const img = card.querySelector('.player-img');
-            if (!name || !img) return;
-            const pid = parseInt(img.dataset.pid);
-            if (!pid) return;
-            card.style.cursor = 'pointer';
-            card.addEventListener('click', (e) => {
-                e.stopPropagation();
-                showPlayerModal(name, pid);
-            });
+            const pid = img ? parseInt(img.dataset.pid) : 0;
+            if (name && pid) { e.stopPropagation(); showPlayerModal(name, pid); return; }
+        }
+    });
+
+    function wireUpPlayerClicks() {
+        // Set cursor style on clickable elements
+        document.querySelectorAll('.player-cell[data-pid]').forEach(cell => { cell.style.cursor = 'pointer'; });
+        document.querySelectorAll('.card.primary').forEach(card => {
+            if (card.querySelector('.player-img[data-pid]')) card.style.cursor = 'pointer';
         });
     }
 
