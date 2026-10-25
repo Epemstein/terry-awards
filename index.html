@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terry Awards v8</title>
+    <title>Terry Awards v9</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -1207,7 +1207,7 @@
 
     function offenderRow(i, playerId, playerName, team, rightLabel, rightValue, colorClass) {
         return `
-            <div class="offender-item" data-player-id="${playerId}" data-player-name="${playerName}">
+            <div class="offender-item" style="cursor:pointer" onclick="window._openPlayer('${playerName.replace(/'/g,"\\'")}',${playerId})">
                 <span class="offender-rank">${i + 1}</span>
                 <img class="offender-img" src="${playerImg(playerId)}" onerror="handleImgError(this)">
                 <span class="offender-name">${playerName}<span class="offender-team"> ${team}</span></span>
@@ -1274,8 +1274,8 @@
 
         if (latest) {
             html += `
-            <div class="card primary">
-                <img class="player-img" data-pid="${latest.player_id}" src="${playerImg(latest.player_id)}" onerror="handleImgError(this)">
+            <div class="card primary" style="cursor:pointer" onclick="window._openPlayer('${latest.player_name.replace(/'/g,"\\'")}',${latest.player_id})">
+                <img class="player-img" src="${playerImg(latest.player_id)}" onerror="handleImgError(this)">
                 <div class="card-text">
                     <div class="card-label">Latest Terry Award &middot; ${formatDateFull(latest.date)}${playoffBadge(latest.is_playoff)}</div>
                     <div class="card-value terry-color">${formatScore(latest.terry_score)}</div>
@@ -1288,8 +1288,8 @@
 
         if (worst) {
             html += `
-            <div class="card primary">
-                <img class="player-img" data-pid="${worst.player_id}" src="${playerImg(worst.player_id)}" onerror="handleImgError(this)">
+            <div class="card primary" style="cursor:pointer" onclick="window._openPlayer('${worst.player_name.replace(/'/g,"\\'")}',${worst.player_id})">
+                <img class="player-img" src="${playerImg(worst.player_id)}" onerror="handleImgError(this)">
                 <div class="card-text">
                     <div class="card-label">Worst Score &middot; ${formatDateFull(worst.date)}${playoffBadge(worst.is_playoff)}</div>
                     <div class="card-value terry-color">${formatScore(worst.terry_score)}</div>
@@ -1328,8 +1328,8 @@
 
         if (latest) {
             html += `
-            <div class="card primary">
-                <img class="player-img" data-pid="${latest.player_id}" src="${playerImg(latest.player_id)}" onerror="handleImgError(this)">
+            <div class="card primary" style="cursor:pointer" onclick="window._openPlayer('${latest.player_name.replace(/'/g,"\\'")}',${latest.player_id})">
+                <img class="player-img" src="${playerImg(latest.player_id)}" onerror="handleImgError(this)">
                 <div class="card-text">
                     <div class="card-label">Latest Jokic Award &middot; ${formatDateFull(latest.date)}${playoffBadge(latest.is_playoff)}</div>
                     <div class="card-value jokic-color">${formatScore(latest.terry_score)}</div>
@@ -1342,8 +1342,8 @@
 
         if (best) {
             html += `
-            <div class="card primary">
-                <img class="player-img" data-pid="${best.player_id}" src="${playerImg(best.player_id)}" onerror="handleImgError(this)">
+            <div class="card primary" style="cursor:pointer" onclick="window._openPlayer('${best.player_name.replace(/'/g,"\\'")}',${best.player_id})">
+                <img class="player-img" src="${playerImg(best.player_id)}" onerror="handleImgError(this)">
                 <div class="card-text">
                     <div class="card-label">Best Score &middot; ${formatDateFull(best.date)}${playoffBadge(best.is_playoff)}</div>
                     <div class="card-value jokic-color">${formatScore(best.terry_score)}</div>
@@ -1425,7 +1425,7 @@
                     <td>${formatDateFull(p.date)}${po}</td>
                     <td style="text-align:center;color:#666">${getGameCount(p.date)}</td>
                     <td>
-                        <div class="player-cell" data-pid="${p.player_id}">
+                        <div class="player-cell" style="cursor:pointer" onclick="window._openPlayer('${p.player_name.replace(/'/g,"\\'")}',${p.player_id})">
                             <img src="${playerImg(p.player_id)}" onerror="handleImgError(this)">
                             <div class="player-info">
                                 <div class="name">${p.player_name}</div>
@@ -1774,29 +1774,11 @@
         document.getElementById('playerModal')?.remove();
     }
 
-    function wireUpPlayerClicks() {
-        // Player cells in tables — click entire row
-        document.querySelectorAll('.player-cell[data-pid]').forEach(cell => {
-            if (cell.dataset.wired) return;
-            cell.dataset.wired = '1';
-            const name = cell.querySelector('.name')?.textContent;
-            const pid = parseInt(cell.dataset.pid);
-            if (!name || !pid) return;
-            cell.style.cursor = 'pointer';
-            cell.onclick = () => showPlayerModal(name, pid);
-        });
+    // Expose for inline onclick handlers in templates
+    window._openPlayer = function(name, pid) { showPlayerModal(name, pid); };
 
-        // Top winner cards
-        document.querySelectorAll('.card.primary').forEach(card => {
-            if (card.dataset.wired) return;
-            card.dataset.wired = '1';
-            const name = card.querySelector('.card-player')?.textContent;
-            const img = card.querySelector('.player-img');
-            const pid = img ? parseInt(img.dataset.pid) : 0;
-            if (!name || !pid) return;
-            card.style.cursor = 'pointer';
-            card.onclick = () => showPlayerModal(name, pid);
-        });
+    function wireUpPlayerClicks() {
+        // No-op — clicks handled via inline onclick in HTML templates
     }
 
     // --- Daily Summary ---
@@ -1889,7 +1871,7 @@
         sorted.forEach((p, i) => {
             html += `<tr>
                 <td>${i + 1}</td>
-                <td><div class="player-cell" data-pid="${p.player_id}">
+                <td><div class="player-cell" style="cursor:pointer" onclick="window._openPlayer('${p.player_name.replace(/'/g,"\\'")}',${p.player_id})">
                     <img src="${playerImg(p.player_id)}" onerror="handleImgError(this)">
                     <div class="player-info"><div class="name">${p.player_name}</div></div>
                 </div></td>
@@ -2097,14 +2079,7 @@
             });
         });
 
-        // Wire up offender row clicks to open modal
-        document.querySelectorAll('.offender-item[data-player-id]').forEach(row => {
-            row.addEventListener('click', () => {
-                const pid = parseInt(row.dataset.playerId);
-                const name = row.dataset.playerName;
-                showPlayerModal(name, pid);
-            });
-        });
+        // Offender clicks handled via inline onclick
 
         renderTable('nightly');
         wireUpPlayerClicks();
