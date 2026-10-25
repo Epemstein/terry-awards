@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terry Awards v5</title>
+    <title>Terry Awards v6</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -1539,20 +1539,17 @@
         const playerRows = rd.rows.filter(r => r[C.player_id] === playerId && r[C.min] >= 5);
         if (!playerRows.length) return [];
 
-        const dateScores = {};
+        // Collect ALL scores across the season for season-wide percentile ranking
+        const allSeasonScores = [];
         rd.rows.forEach(r => {
             if (r[C.min] < 5) return;
-            const d = r[C.date];
-            if (!dateScores[d]) dateScores[d] = [];
-            dateScores[d].push(calcTerry(r));
+            allSeasonScores.push(calcTerry(r));
         });
 
         return playerRows.map(r => {
             const score = calcTerry(r);
-            const date = r[C.date];
-            const dayScores = dateScores[date] || [];
-            const rank = dayScores.filter(s => s <= score).length;
-            const percentile = dayScores.length > 0 ? Math.round((rank / dayScores.length) * 1000) / 10 : 50;
+            const rank = allSeasonScores.filter(s => s <= score).length;
+            const percentile = allSeasonScores.length > 0 ? Math.round((rank / allSeasonScores.length) * 1000) / 10 : 50;
             const p = rowToPlayer(r, score);
             p.percentile = percentile;
 
