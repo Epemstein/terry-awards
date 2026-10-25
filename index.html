@@ -1777,6 +1777,8 @@
     function wireUpPlayerClicks() {
         // Table player cells — use data-pid attribute
         document.querySelectorAll('.player-cell[data-pid]').forEach(cell => {
+            if (cell._clickWired) return;
+            cell._clickWired = true;
             const name = cell.querySelector('.name')?.textContent;
             const pid = parseInt(cell.dataset.pid);
             if (!name || !pid) return;
@@ -1787,21 +1789,19 @@
             });
         });
 
-        // Top cards — player name + image
+        // Top cards — entire card is clickable
         document.querySelectorAll('.card.primary').forEach(card => {
+            if (card._clickWired) return;
+            card._clickWired = true;
             const name = card.querySelector('.card-player')?.textContent;
             const img = card.querySelector('.player-img');
             if (!name || !img) return;
-            const match = img.src.match(/\/(\d+)\.png/);
-            const pid = match ? parseInt(match[1]) : parseInt(img.dataset.pid);
+            const pid = parseInt(img.dataset.pid);
             if (!pid) return;
-            [card.querySelector('.card-player'), img].forEach(el => {
-                if (!el) return;
-                el.style.cursor = 'pointer';
-                el.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    showPlayerModal(name, pid);
-                });
+            card.style.cursor = 'pointer';
+            card.addEventListener('click', (e) => {
+                e.stopPropagation();
+                showPlayerModal(name, pid);
             });
         });
     }
