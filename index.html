@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terry Awards v11</title>
+    <title>Terry Awards v12</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -1556,8 +1556,8 @@
             // Check award status from summary if available
             if (summaryData && modalSeason === currentSeason) {
                 const { terry, jokic } = getPlayerGames(p.player_name);
-                const isTerry = terry.some(g => g.date === date);
-                const isJokic = jokic.some(g => g.date === date);
+                const isTerry = terry.some(g => g.date === r[C.date]);
+                const isJokic = jokic.some(g => g.date === r[C.date]);
                 p._award = isTerry ? 'terry' : isJokic ? 'jokic' : null;
             } else {
                 // Determine from raw: lowest score that day = terry, highest = jokic
