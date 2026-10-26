@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terry Awards v15</title>
+    <title>Terry Awards v16</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -889,7 +889,9 @@
     </div>
 
     <script>
+    const CACHE_V = 'v15';
     const BASE_URL = 'data';
+    function cfetch(url) { return fetch(url + (url.includes('?') ? '&' : '?') + '_=' + CACHE_V); }
     let currentSeason = null;
     let currentTab = 'terry';
     let summaryData = null;
@@ -1524,7 +1526,7 @@
     async function loadRawForSeason(seasonKey) {
         if (rawDataCache[seasonKey]) return rawDataCache[seasonKey];
         try {
-            const res = await fetch(`${BASE_URL}/${seasonKey}_raw.json`);
+            const res = await cfetch(`${BASE_URL}/${seasonKey}_raw.json`);
             if (res.ok) {
                 const data = await res.json();
                 rawDataCache[seasonKey] = data;
@@ -2224,8 +2226,8 @@
                 }
             } else {
                 const [summaryRes, rawRes] = await Promise.all([
-                    fetch(`${BASE_URL}/${seasonKey}_summary.json`),
-                    fetch(`${BASE_URL}/${seasonKey}_raw.json`).catch(() => null),
+                    cfetch(`${BASE_URL}/${seasonKey}_summary.json`),
+                    cfetch(`${BASE_URL}/${seasonKey}_raw.json`).catch(() => null),
                 ]);
                 summaryData = await summaryRes.json();
                 try {
@@ -2246,12 +2248,12 @@
 
     async function loadAllTime() {
         // Load all season summaries and merge them
-        const fetches = allSeasons.map(s => fetch(`${BASE_URL}/${s}_summary.json`).then(r => r.json()));
+        const fetches = allSeasons.map(s => cfetch(`${BASE_URL}/${s}_summary.json`).then(r => r.json()));
         const allSummaries = await Promise.all(fetches);
 
         // Also load all season detail files for game counts
         gamesPerDate = {};
-        const detailFetches = allSeasons.map(s => fetch(`${BASE_URL}/${s}.json`).then(r => r.json()).catch(() => null));
+        const detailFetches = allSeasons.map(s => cfetch(`${BASE_URL}/${s}.json`).then(r => r.json()).catch(() => null));
         const allDetails = await Promise.all(detailFetches);
         allDetails.forEach(d => {
             if (!d) return;
@@ -2319,7 +2321,7 @@
     async function loadAllTimeRaw() {
         // Load all raw files, merge rows, then recalculate
         const rawFetches = allSeasons.map(s =>
-            fetch(`${BASE_URL}/${s}_raw.json`).then(r => r.ok ? r.json() : null).catch(() => null)
+            cfetch(`${BASE_URL}/${s}_raw.json`).then(r => r.ok ? r.json() : null).catch(() => null)
         );
         const allRaws = await Promise.all(rawFetches);
 
@@ -2336,7 +2338,7 @@
     async function init() {
         // Load saved weights if they exist
         try {
-            const wRes = await fetch(`${BASE_URL}/weights.json`);
+            const wRes = await cfetch(`${BASE_URL}/weights.json`);
             if (wRes.ok) {
                 const saved = await wRes.json();
                 Object.keys(saved).forEach(k => {
@@ -2346,7 +2348,7 @@
         } catch(e) {}
 
         try {
-            const res = await fetch(`${BASE_URL}/seasons.json`);
+            const res = await cfetch(`${BASE_URL}/seasons.json`);
             const seasons = await res.json();
             allSeasons = [...seasons];
             const select = document.getElementById('seasonSelect');
