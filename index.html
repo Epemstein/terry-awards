@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terry Awards v17</title>
+    <title>Terry Awards v18</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -889,7 +889,7 @@
     </div>
 
     <script>
-    const CACHE_V = 'v17';
+    const CACHE_V = 'v18';
     const BASE_URL = 'data';
     function cfetch(url) { return fetch(url + (url.includes('?') ? '&' : '?') + '_=' + CACHE_V); }
     let currentSeason = null;
@@ -1157,6 +1157,29 @@
     let expandedPlayer = null; // player_id of expanded row
     let dailyDate = null; // current date for daily summary
     let dailySort = { key: null, asc: false };
+    let dailySearch = '';
+
+    const NBA_TEAM_NAMES = {
+        ATL: ['Atlanta', 'Hawks'], BOS: ['Boston', 'Celtics'], BKN: ['Brooklyn', 'Nets'],
+        CHA: ['Charlotte', 'Hornets'], CHI: ['Chicago', 'Bulls'], CLE: ['Cleveland', 'Cavaliers', 'Cavs'],
+        DAL: ['Dallas', 'Mavericks', 'Mavs'], DEN: ['Denver', 'Nuggets'], DET: ['Detroit', 'Pistons'],
+        GSW: ['Golden State', 'Warriors'], HOU: ['Houston', 'Rockets'], IND: ['Indiana', 'Pacers'],
+        LAC: ['LA Clippers', 'Clippers'], LAL: ['LA Lakers', 'Lakers', 'Los Angeles'],
+        MEM: ['Memphis', 'Grizzlies'], MIA: ['Miami', 'Heat'], MIL: ['Milwaukee', 'Bucks'],
+        MIN: ['Minnesota', 'Timberwolves', 'Wolves'], NOP: ['New Orleans', 'Pelicans'],
+        NYK: ['New York', 'Knicks'], OKC: ['Oklahoma City', 'Thunder'],
+        ORL: ['Orlando', 'Magic'], PHI: ['Philadelphia', 'Sixers', '76ers'],
+        PHX: ['Phoenix', 'Suns'], POR: ['Portland', 'Trail Blazers', 'Blazers'],
+        SAC: ['Sacramento', 'Kings'], SAS: ['San Antonio', 'Spurs'],
+        TOR: ['Toronto', 'Raptors'], UTA: ['Utah', 'Jazz'],
+        WAS: ['Washington', 'Wizards'], SEA: ['Seattle', 'Sonics'],
+    };
+
+    function teamMatchesSearch(abbrev, query) {
+        if (abbrev.toLowerCase().includes(query)) return true;
+        const names = NBA_TEAM_NAMES[abbrev];
+        return names ? names.some(n => n.toLowerCase().includes(query)) : false;
+    }
 
     // Build lookup: player_name -> array of game objects from terry/jokic history
     function getPlayerGames(playerName) {
@@ -1831,6 +1854,7 @@
             <span class="daily-date">${formatDateFull(dailyDate)}<input type="date" id="dailyPicker" value="${dailyDate}"></span>
             <button id="dailyNext" ${dateIdx >= dates.length - 1 ? 'disabled' : ''}>&rarr;</button>
             <span class="daily-games">${gameCount} games &middot; ${players.length} players</span>
+            <input type="text" id="dailySearchInput" placeholder="Search player or team..." value="${dailySearch}" style="margin-left:auto;padding:6px 12px;background:#1a1a1a;color:#e0e0e0;border:1px solid #333;border-radius:6px;font-size:13px;width:200px;outline:none">
         </div>`;
 
         // Sortable table — reuse nightly table columns but for all players
@@ -1855,8 +1879,19 @@
             { key: 'pm', label: '+/-', getValue: p => p.plus_minus, numeric: true },
         ];
 
+        // Filter by search
+        let filtered = players;
+        if (dailySearch) {
+            const q = dailySearch.toLowerCase();
+            filtered = players.filter(p =>
+                p.player_name.toLowerCase().includes(q) ||
+                teamMatchesSearch(p.team, q) ||
+                teamMatchesSearch(p.opp, q)
+            );
+        }
+
         // Sort
-        let sorted = players;
+        let sorted = filtered;
         if (dailySort.key) {
             const col = DAILY_COLS.find(c => c.key === dailySort.key);
             if (col) {
@@ -1911,10 +1946,10 @@
         const dateIdx = dates.indexOf(dailyDate);
 
         document.getElementById('dailyPrev')?.addEventListener('click', () => {
-            if (dateIdx > 0) { dailyDate = dates[dateIdx - 1]; dailySort = { key: null, asc: false }; render(); }
+            if (dateIdx > 0) { dailyDate = dates[dateIdx - 1]; dailySort = { key: null, asc: false }; dailySearch = ''; render(); }
         });
         document.getElementById('dailyNext')?.addEventListener('click', () => {
-            if (dateIdx < dates.length - 1) { dailyDate = dates[dateIdx + 1]; dailySort = { key: null, asc: false }; render(); }
+            if (dateIdx < dates.length - 1) { dailyDate = dates[dateIdx + 1]; dailySort = { key: null, asc: false }; dailySearch = ''; render(); }
         });
         document.getElementById('dailyPicker')?.addEventListener('change', (e) => {
             const picked = e.target.value;
@@ -1939,6 +1974,16 @@
                 render();
             });
         });
+        const searchInput = document.getElementById('dailySearchInput');
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                dailySearch = e.target.value;
+                render();
+                // Re-focus and restore cursor position after re-render
+                const newInput = document.getElementById('dailySearchInput');
+                if (newInput) { newInput.focus(); newInput.selectionStart = newInput.selectionEnd = newInput.value.length; }
+            });
+        }
         wireUpPlayerClicks();
     }
 
