@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terry Awards v14</title>
+    <title>Terry Awards v15</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -949,7 +949,7 @@
         // Group by date
         const byDate = {};
         rows.forEach(r => {
-            if (r[C.min] < 5) return;
+            if (r[C.min] <= 0) return;
             const d = r[C.date];
             if (!byDate[d]) byDate[d] = [];
             byDate[d].push(r);
@@ -1099,7 +1099,7 @@
         gamesPerDate = {};
         if (!rawData) return;
         rawData.rows.forEach(r => {
-            if (r[C.min] < 5) return;
+            if (r[C.min] <= 0) return;
             const d = r[C.date];
             gamesPerDate[d] = (gamesPerDate[d] || 0) + 1;
         });
@@ -1542,7 +1542,7 @@
         // Collect ALL scores across the season for season-wide percentile ranking
         const allSeasonScores = [];
         rd.rows.forEach(r => {
-            if (r[C.min] < 5) return;
+            if (r[C.min] <= 0) return;
             allSeasonScores.push(calcTerry(r));
         });
 
@@ -1585,14 +1585,14 @@
         if (rd) {
             const playerAvgs = {};
             rd.rows.forEach(r => {
-                if (r[C.min] < 5) return;
+                if (r[C.min] <= 0) return;
                 const pid = r[C.player_id];
                 if (!playerAvgs[pid]) playerAvgs[pid] = { total: 0, count: 0 };
                 playerAvgs[pid].total += calcTerry(r);
                 playerAvgs[pid].count++;
             });
             // Min games = at least 1, scale with season (require playing ~25% of game nights)
-            const totalDates = new Set(rd.rows.filter(r => r[C.min] >= 5).map(r => r[C.date])).size;
+            const totalDates = new Set(rd.rows.filter(r => r[C.min] > 0).map(r => r[C.date])).size;
             const minGp = Math.max(1, Math.floor(totalDates * 0.25));
             const allAvgs = Object.values(playerAvgs).filter(p => p.count >= minGp).map(p => p.total / p.count);
             if (allAvgs.length > 0) {
@@ -1792,7 +1792,7 @@
     function getAvailableDates() {
         if (!rawData) return [];
         const dates = new Set();
-        rawData.rows.forEach(r => { if (r[C.min] >= 5) dates.add(r[C.date]); });
+        rawData.rows.forEach(r => { if (r[C.min] > 0) dates.add(r[C.date]); });
         return [...dates].sort();
     }
 
