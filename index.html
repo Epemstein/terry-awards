@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terry Awards v13</title>
+    <title>Terry Awards v14</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -1536,7 +1536,7 @@
 
     function getPlayerAllGamesFromRaw(rd, playerId) {
         if (!rd) return [];
-        const playerRows = rd.rows.filter(r => r[C.player_id] === playerId && r[C.min] >= 5);
+        const playerRows = rd.rows.filter(r => r[C.player_id] === playerId);
         if (!playerRows.length) return [];
 
         // Collect ALL scores across the season for season-wide percentile ranking

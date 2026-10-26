@@ -624,7 +624,7 @@
           "is_playoff": false
         }
       ],
-      "total_players": 60
+      "total_players": 68
     },
     "2026-10-21": {
       "display_date": "10/21",
@@ -1249,7 +1249,7 @@
           "is_playoff": false
         }
       ],
-      "total_players": 232
+      "total_players": 254
     },
     "2026-10-22": {
       "display_date": "10/22",
@@ -1874,7 +1874,7 @@
           "is_playoff": false
         }
       ],
-      "total_players": 38
+      "total_players": 45
     },
     "2026-10-23": {
       "display_date": "10/23",
@@ -2499,7 +2499,7 @@
           "is_playoff": false
         }
       ],
-      "total_players": 241
+      "total_players": 275
     },
     "2026-10-24": {
       "display_date": "10/24",
@@ -3124,7 +3124,7 @@
           "is_playoff": false
         }
       ],
-      "total_players": 154
+      "total_players": 170
     },
     "2026-10-25": {
       "display_date": "10/25",
@@ -3749,7 +3749,7 @@
           "is_playoff": false
         }
       ],
-      "total_players": 142
+      "total_players": 157
     }
   }
 }

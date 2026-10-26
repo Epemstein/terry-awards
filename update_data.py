@@ -188,9 +188,9 @@ def update_season(season_start_year):
     df["TEAM_PTS_TOTAL"] = margins[2]
     df["OPP_PTS_TOTAL"] = margins[3]
 
-    # Now filter min >= 5 minutes
-    df = df[df["MIN_FLOAT"] >= 5]
-    print(f"  After filtering < 5 min: {len(df)} rows")
+    # Filter out 0-minute rows (DNPs)
+    df = df[df["MIN_FLOAT"] > 0]
+    print(f"  After filtering 0 min: {len(df)} rows")
 
     # Parse dates
     df["DATE"] = df["GAME_DATE"].str[:10]  # "2025-10-21T00:00:00" -> "2025-10-21"
