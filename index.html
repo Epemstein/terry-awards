@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terry Awards v18</title>
+    <title>Terry Awards v19</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -889,7 +889,7 @@
     </div>
 
     <script>
-    const CACHE_V = 'v18';
+    const CACHE_V = 'v19';
     const BASE_URL = 'data';
     function cfetch(url) { return fetch(url + (url.includes('?') ? '&' : '?') + '_=' + CACHE_V); }
     let currentSeason = null;
@@ -1885,8 +1885,7 @@
             const q = dailySearch.toLowerCase();
             filtered = players.filter(p =>
                 p.player_name.toLowerCase().includes(q) ||
-                teamMatchesSearch(p.team, q) ||
-                teamMatchesSearch(p.opp, q)
+                teamMatchesSearch(p.team, q)
             );
         }
 
@@ -1895,7 +1894,7 @@
         if (dailySort.key) {
             const col = DAILY_COLS.find(c => c.key === dailySort.key);
             if (col) {
-                sorted = [...players].sort((a, b) => {
+                sorted = [...filtered].sort((a, b) => {
                     let va = col.getValue(a, 0), vb = col.getValue(b, 0);
                     if (col.numeric) return dailySort.asc ? va - vb : vb - va;
                     return dailySort.asc ? String(va).localeCompare(String(vb)) : String(vb).localeCompare(String(va));
