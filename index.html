@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terry Awards v16</title>
+    <title>Terry Awards v17</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -889,7 +889,7 @@
     </div>
 
     <script>
-    const CACHE_V = 'v15';
+    const CACHE_V = 'v17';
     const BASE_URL = 'data';
     function cfetch(url) { return fetch(url + (url.includes('?') ? '&' : '?') + '_=' + CACHE_V); }
     let currentSeason = null;
@@ -1802,7 +1802,7 @@
         if (!rawData) return [];
         const players = [];
         rawData.rows.forEach(r => {
-            if (r[C.date] !== dateStr || r[C.min] < 5) return;
+            if (r[C.date] !== dateStr || r[C.min] <= 0) return;
             const score = calcTerry(r);
             players.push(rowToPlayer(r, score));
         });
