@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terry Awards v10</title>
+    <title>Terry Awards v11</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -1487,7 +1487,7 @@
                 <tr>
                     <td>${i + 1}</td>
                     <td>
-                        <div class="player-cell" data-pid="${o.player_id}">
+                        <div class="player-cell" style="cursor:pointer" data-pclick='${JSON.stringify([o.player, o.player_id])}'>
                             <img src="${playerImg(o.player_id)}" onerror="handleImgError(this)">
                             <div class="player-info">
                                 <div class="name">${o.player}</div>
