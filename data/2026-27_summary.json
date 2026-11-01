@@ -1,6 +1,6 @@
 {
   "season": "2026-27",
-  "total_nights": 11,
+  "total_nights": 12,
   "terry_leaderboard": [
     {
       "player": "Caleb Wilson",
@@ -120,6 +120,23 @@
       "worst_score": -27.1,
       "total_offense_terry": -27.1,
       "avg_offense_terry": -27.1
+    },
+    {
+      "player": "Precious Achiuwa",
+      "count": 1,
+      "playoff_count": 0,
+      "dates": [
+        {
+          "date": "2026-10-31",
+          "is_playoff": false,
+          "terry_score": -21.2
+        }
+      ],
+      "player_id": 1630173,
+      "team": "SAC",
+      "worst_score": -21.2,
+      "total_offense_terry": -21.2,
+      "avg_offense_terry": -21.2
     },
     {
       "player": "OG Anunoby",
@@ -263,6 +280,23 @@
       "best_score": 64.7,
       "total_offense_terry": 64.7,
       "avg_offense_terry": 64.7
+    },
+    {
+      "player": "Jabari Smith Jr.",
+      "count": 1,
+      "playoff_count": 0,
+      "dates": [
+        {
+          "date": "2026-10-31",
+          "is_playoff": false,
+          "terry_score": 59.9
+        }
+      ],
+      "player_id": 1631095,
+      "team": "HOU",
+      "best_score": 59.9,
+      "total_offense_terry": 59.9,
+      "avg_offense_terry": 59.9
     },
     {
       "player": "Tyrese Haliburton",
@@ -426,6 +460,35 @@
     "terry_score": 89.1
   },
   "terry_history": [
+    {
+      "date": "2026-10-31",
+      "is_playoff": false,
+      "player_name": "Precious Achiuwa",
+      "player_id": 1630173,
+      "team": "SAC",
+      "opp": "MEM",
+      "home_away": "@",
+      "won": false,
+      "min": 25.2,
+      "pts": 6,
+      "reb": 5,
+      "ast": 1,
+      "stl": 1,
+      "blk": 2,
+      "to": 3,
+      "pf": 2,
+      "fgm": 2,
+      "fga": 6,
+      "fg3m": 0,
+      "fg3a": 0,
+      "ftm": 2,
+      "fta": 4,
+      "plus_minus": -33.0,
+      "on_off": -2.0,
+      "team_score": 105,
+      "opp_score": 136,
+      "terry_score": -21.2
+    },
     {
       "date": "2026-10-30",
       "is_playoff": false,
@@ -748,6 +811,35 @@
   ],
   "jokic_history": [
     {
+      "date": "2026-10-31",
+      "is_playoff": false,
+      "player_name": "Jabari Smith Jr.",
+      "player_id": 1631095,
+      "team": "HOU",
+      "opp": "OKC",
+      "home_away": "vs",
+      "won": true,
+      "min": 33.2,
+      "pts": 30,
+      "reb": 9,
+      "ast": 5,
+      "stl": 0,
+      "blk": 1,
+      "to": 1,
+      "pf": 0,
+      "fgm": 10,
+      "fga": 18,
+      "fg3m": 6,
+      "fg3a": 12,
+      "ftm": 4,
+      "fta": 5,
+      "plus_minus": 33.0,
+      "on_off": 12.0,
+      "team_score": 119,
+      "opp_score": 98,
+      "terry_score": 59.9
+    },
+    {
       "date": "2026-10-30",
       "is_playoff": false,
       "player_name": "Giannis Antetokounmpo",
@@ -1069,6 +1161,18 @@
   ],
   "cumulative_worst": [
     {
+      "player_id": 1642284,
+      "player_name": "Alex Karaban",
+      "team": "SAC",
+      "games": 4,
+      "playoff_games": 0,
+      "total_terry": -38.7,
+      "reg_games": 4,
+      "reg_total_terry": -38.7,
+      "terry_per_game": -9.7,
+      "reg_terry_per_game": -9.7
+    },
+    {
       "player_id": 1629636,
       "player_name": "Darius Garland",
       "team": "LAC",
@@ -1093,16 +1197,40 @@
       "reg_terry_per_game": -7.1
     },
     {
+      "player_id": 1642363,
+      "player_name": "Nique Clifford",
+      "team": "SAC",
+      "games": 5,
+      "playoff_games": 0,
+      "total_terry": -34.7,
+      "reg_games": 5,
+      "reg_total_terry": -34.7,
+      "terry_per_game": -6.9,
+      "reg_terry_per_game": -6.9
+    },
+    {
+      "player_id": 1643567,
+      "player_name": "Emanuel Sharp",
+      "team": "SAC",
+      "games": 6,
+      "playoff_games": 0,
+      "total_terry": -31.2,
+      "reg_games": 6,
+      "reg_total_terry": -31.2,
+      "terry_per_game": -5.2,
+      "reg_terry_per_game": -5.2
+    },
+    {
       "player_id": 1643717,
       "player_name": "Josh Dix",
       "team": "OKC",
-      "games": 2,
+      "games": 3,
       "playoff_games": 0,
-      "total_terry": -35.0,
-      "reg_games": 2,
-      "reg_total_terry": -35.0,
-      "terry_per_game": -17.5,
-      "reg_terry_per_game": -17.5
+      "total_terry": -30.0,
+      "reg_games": 3,
+      "reg_total_terry": -30.0,
+      "terry_per_game": -10.0,
+      "reg_terry_per_game": -10.0
     },
     {
       "player_id": 1629060,
@@ -1129,40 +1257,28 @@
       "reg_terry_per_game": -4.8
     },
     {
-      "player_id": 1642271,
-      "player_name": "Kyle Filipowski",
-      "team": "UTA",
-      "games": 3,
-      "playoff_games": 0,
-      "total_terry": -25.6,
-      "reg_games": 3,
-      "reg_total_terry": -25.6,
-      "terry_per_game": -8.5,
-      "reg_terry_per_game": -8.5
-    },
-    {
-      "player_id": 1642284,
-      "player_name": "Alex Karaban",
-      "team": "SAC",
-      "games": 3,
-      "playoff_games": 0,
-      "total_terry": -25.5,
-      "reg_games": 3,
-      "reg_total_terry": -25.5,
-      "terry_per_game": -8.5,
-      "reg_terry_per_game": -8.5
-    },
-    {
       "player_id": 1628370,
       "player_name": "Malik Monk",
       "team": "SAC",
-      "games": 4,
+      "games": 5,
       "playoff_games": 0,
-      "total_terry": -25.1,
-      "reg_games": 4,
-      "reg_total_terry": -25.1,
-      "terry_per_game": -6.3,
-      "reg_terry_per_game": -6.3
+      "total_terry": -27.1,
+      "reg_games": 5,
+      "reg_total_terry": -27.1,
+      "terry_per_game": -5.4,
+      "reg_terry_per_game": -5.4
+    },
+    {
+      "player_id": 203897,
+      "player_name": "Zach LaVine",
+      "team": "SAC",
+      "games": 6,
+      "playoff_games": 0,
+      "total_terry": -26.8,
+      "reg_games": 6,
+      "reg_total_terry": -26.8,
+      "terry_per_game": -4.5,
+      "reg_terry_per_game": -4.5
     },
     {
       "player_id": 1631288,
@@ -1213,16 +1329,28 @@
       "reg_terry_per_game": -3.9
     },
     {
-      "player_id": 1643567,
-      "player_name": "Emanuel Sharp",
-      "team": "SAC",
+      "player_id": 1630703,
+      "player_name": "Scoot Henderson",
+      "team": "POR",
       "games": 5,
       "playoff_games": 0,
-      "total_terry": -20.4,
+      "total_terry": -23.0,
       "reg_games": 5,
-      "reg_total_terry": -20.4,
-      "terry_per_game": -4.1,
-      "reg_terry_per_game": -4.1
+      "reg_total_terry": -23.0,
+      "terry_per_game": -4.6,
+      "reg_terry_per_game": -4.6
+    },
+    {
+      "player_id": 1643515,
+      "player_name": "Christian Anderson",
+      "team": "CHA",
+      "games": 7,
+      "playoff_games": 0,
+      "total_terry": -21.2,
+      "reg_games": 7,
+      "reg_total_terry": -21.2,
+      "terry_per_game": -3.0,
+      "reg_terry_per_game": -3.0
     },
     {
       "player_id": 1642849,
@@ -1237,16 +1365,16 @@
       "reg_terry_per_game": -4.0
     },
     {
-      "player_id": 1642363,
-      "player_name": "Nique Clifford",
+      "player_id": 1631342,
+      "player_name": "Daeqwon Plowden",
       "team": "SAC",
-      "games": 4,
+      "games": 5,
       "playoff_games": 0,
-      "total_terry": -19.1,
-      "reg_games": 4,
-      "reg_total_terry": -19.1,
-      "terry_per_game": -4.8,
-      "reg_terry_per_game": -4.8
+      "total_terry": -18.4,
+      "reg_games": 5,
+      "reg_total_terry": -18.4,
+      "terry_per_game": -3.7,
+      "reg_terry_per_game": -3.7
     },
     {
       "player_id": 203114,
@@ -1273,16 +1401,28 @@
       "reg_terry_per_game": -5.5
     },
     {
-      "player_id": 1630703,
-      "player_name": "Scoot Henderson",
-      "team": "POR",
+      "player_id": 1642271,
+      "player_name": "Kyle Filipowski",
+      "team": "UTA",
       "games": 4,
       "playoff_games": 0,
-      "total_terry": -15.8,
+      "total_terry": -16.0,
       "reg_games": 4,
-      "reg_total_terry": -15.8,
+      "reg_total_terry": -16.0,
       "terry_per_game": -4.0,
       "reg_terry_per_game": -4.0
+    },
+    {
+      "player_id": 1642883,
+      "player_name": "Sion James",
+      "team": "CHA",
+      "games": 7,
+      "playoff_games": 0,
+      "total_terry": -15.7,
+      "reg_games": 7,
+      "reg_total_terry": -15.7,
+      "terry_per_game": -2.2,
+      "reg_terry_per_game": -2.2
     },
     {
       "player_id": 1627741,
@@ -1297,66 +1437,6 @@
       "reg_terry_per_game": -2.5
     },
     {
-      "player_id": 1626167,
-      "player_name": "Myles Turner",
-      "team": "MIL",
-      "games": 5,
-      "playoff_games": 0,
-      "total_terry": -14.4,
-      "reg_games": 5,
-      "reg_total_terry": -14.4,
-      "terry_per_game": -2.9,
-      "reg_terry_per_game": -2.9
-    },
-    {
-      "player_id": 1643411,
-      "player_name": "Darius Acuff Jr.",
-      "team": "SAC",
-      "games": 5,
-      "playoff_games": 0,
-      "total_terry": -13.7,
-      "reg_games": 5,
-      "reg_total_terry": -13.7,
-      "terry_per_game": -2.7,
-      "reg_terry_per_game": -2.7
-    },
-    {
-      "player_id": 1642367,
-      "player_name": "Jonathan Mogbo",
-      "team": "SAC",
-      "games": 3,
-      "playoff_games": 0,
-      "total_terry": -13.7,
-      "reg_games": 3,
-      "reg_total_terry": -13.7,
-      "terry_per_game": -4.6,
-      "reg_terry_per_game": -4.6
-    },
-    {
-      "player_id": 1642382,
-      "player_name": "Branden Carlson",
-      "team": "POR",
-      "games": 1,
-      "playoff_games": 0,
-      "total_terry": -13.5,
-      "reg_games": 1,
-      "reg_total_terry": -13.5,
-      "terry_per_game": -13.5,
-      "reg_terry_per_game": -13.5
-    },
-    {
-      "player_id": 1631342,
-      "player_name": "Daeqwon Plowden",
-      "team": "SAC",
-      "games": 4,
-      "playoff_games": 0,
-      "total_terry": -13.3,
-      "reg_games": 4,
-      "reg_total_terry": -13.3,
-      "terry_per_game": -3.3,
-      "reg_terry_per_game": -3.3
-    },
-    {
       "player_id": 1643052,
       "player_name": "Chaney Johnson",
       "team": "BKN",
@@ -1367,30 +1447,6 @@
       "reg_total_terry": -12.7,
       "terry_per_game": -2.5,
       "reg_terry_per_game": -2.5
-    },
-    {
-      "player_id": 1643515,
-      "player_name": "Christian Anderson",
-      "team": "CHA",
-      "games": 6,
-      "playoff_games": 0,
-      "total_terry": -12.5,
-      "reg_games": 6,
-      "reg_total_terry": -12.5,
-      "terry_per_game": -2.1,
-      "reg_terry_per_game": -2.1
-    },
-    {
-      "player_id": 1631172,
-      "player_name": "Ousmane Dieng",
-      "team": "MIL",
-      "games": 4,
-      "playoff_games": 0,
-      "total_terry": -12.0,
-      "reg_games": 4,
-      "reg_total_terry": -12.0,
-      "terry_per_game": -3.0,
-      "reg_terry_per_game": -3.0
     },
     {
       "player_id": 1643517,
@@ -1525,18 +1581,6 @@
       "reg_terry_per_game": -8.4
     },
     {
-      "player_id": 1631212,
-      "player_name": "Peyton Watson",
-      "team": "CLE",
-      "games": 5,
-      "playoff_games": 0,
-      "total_terry": -8.2,
-      "reg_games": 5,
-      "reg_total_terry": -8.2,
-      "terry_per_game": -1.6,
-      "reg_terry_per_game": -1.6
-    },
-    {
       "player_id": 1642860,
       "player_name": "Will Riley",
       "team": "WAS",
@@ -1547,18 +1591,6 @@
       "reg_total_terry": -7.6,
       "terry_per_game": -1.9,
       "reg_terry_per_game": -1.9
-    },
-    {
-      "player_id": 1629018,
-      "player_name": "Gary Trent Jr.",
-      "team": "MIL",
-      "games": 1,
-      "playoff_games": 0,
-      "total_terry": -6.9,
-      "reg_games": 1,
-      "reg_total_terry": -6.9,
-      "terry_per_game": -6.9,
-      "reg_terry_per_game": -6.9
     },
     {
       "player_id": 202691,
@@ -1585,28 +1617,16 @@
       "reg_terry_per_game": -1.6
     },
     {
-      "player_id": 203897,
-      "player_name": "Zach LaVine",
-      "team": "SAC",
+      "player_id": 1629006,
+      "player_name": "Josh Okogie",
+      "team": "UTA",
       "games": 5,
       "playoff_games": 0,
-      "total_terry": -6.2,
+      "total_terry": -5.6,
       "reg_games": 5,
-      "reg_total_terry": -6.2,
-      "terry_per_game": -1.2,
-      "reg_terry_per_game": -1.2
-    },
-    {
-      "player_id": 1643417,
-      "player_name": "Nate Ament",
-      "team": "MIL",
-      "games": 3,
-      "playoff_games": 0,
-      "total_terry": -5.9,
-      "reg_games": 3,
-      "reg_total_terry": -5.9,
-      "terry_per_game": -2.0,
-      "reg_terry_per_game": -2.0
+      "reg_total_terry": -5.6,
+      "terry_per_game": -1.1,
+      "reg_terry_per_game": -1.1
     },
     {
       "player_id": 1630174,
@@ -1621,6 +1641,18 @@
       "reg_terry_per_game": -1.0
     },
     {
+      "player_id": 1642877,
+      "player_name": "Micah Peavy",
+      "team": "OKC",
+      "games": 2,
+      "playoff_games": 0,
+      "total_terry": -5.0,
+      "reg_games": 2,
+      "reg_total_terry": -5.0,
+      "terry_per_game": -2.5,
+      "reg_terry_per_game": -2.5
+    },
+    {
       "player_id": 1630164,
       "player_name": "James Wiseman",
       "team": "NYK",
@@ -1631,6 +1663,30 @@
       "reg_total_terry": -5.0,
       "terry_per_game": -1.7,
       "reg_terry_per_game": -1.7
+    },
+    {
+      "player_id": 1631172,
+      "player_name": "Ousmane Dieng",
+      "team": "MIL",
+      "games": 5,
+      "playoff_games": 0,
+      "total_terry": -4.7,
+      "reg_games": 5,
+      "reg_total_terry": -4.7,
+      "terry_per_game": -0.9,
+      "reg_terry_per_game": -0.9
+    },
+    {
+      "player_id": 1642382,
+      "player_name": "Branden Carlson",
+      "team": "POR",
+      "games": 2,
+      "playoff_games": 0,
+      "total_terry": -4.7,
+      "reg_games": 2,
+      "reg_total_terry": -4.7,
+      "terry_per_game": -2.4,
+      "reg_terry_per_game": -2.4
     },
     {
       "player_id": 1643624,
@@ -1657,6 +1713,18 @@
       "reg_terry_per_game": -1.1
     },
     {
+      "player_id": 1631260,
+      "player_name": "AJ Green",
+      "team": "MIL",
+      "games": 6,
+      "playoff_games": 0,
+      "total_terry": -4.5,
+      "reg_games": 6,
+      "reg_total_terry": -4.5,
+      "terry_per_game": -0.8,
+      "reg_terry_per_game": -0.8
+    },
+    {
       "player_id": 1641722,
       "player_name": "Jordan Hawkins",
       "team": "CHI",
@@ -1667,6 +1735,30 @@
       "reg_total_terry": -4.5,
       "terry_per_game": -2.2,
       "reg_terry_per_game": -2.2
+    },
+    {
+      "player_id": 1626167,
+      "player_name": "Myles Turner",
+      "team": "MIL",
+      "games": 6,
+      "playoff_games": 0,
+      "total_terry": -4.0,
+      "reg_games": 6,
+      "reg_total_terry": -4.0,
+      "terry_per_game": -0.7,
+      "reg_terry_per_game": -0.7
+    },
+    {
+      "player_id": 1631457,
+      "player_name": "Alex Morales",
+      "team": "ORL",
+      "games": 3,
+      "playoff_games": 0,
+      "total_terry": -3.7,
+      "reg_games": 3,
+      "reg_total_terry": -3.7,
+      "terry_per_game": -1.2,
+      "reg_terry_per_game": -1.2
     }
   ],
   "cumulative_best": [
@@ -1674,13 +1766,49 @@
       "player_id": 1641705,
       "player_name": "Victor Wembanyama",
       "team": "SAS",
+      "games": 6,
+      "playoff_games": 0,
+      "total_terry": 225.8,
+      "reg_games": 6,
+      "reg_total_terry": 225.8,
+      "terry_per_game": 37.6,
+      "reg_terry_per_game": 37.6
+    },
+    {
+      "player_id": 1630578,
+      "player_name": "Alperen Sengun",
+      "team": "HOU",
       "games": 5,
       "playoff_games": 0,
-      "total_terry": 190.4,
+      "total_terry": 199.3,
       "reg_games": 5,
-      "reg_total_terry": 190.4,
-      "terry_per_game": 38.1,
-      "reg_terry_per_game": 38.1
+      "reg_total_terry": 199.3,
+      "terry_per_game": 39.9,
+      "reg_terry_per_game": 39.9
+    },
+    {
+      "player_id": 1627734,
+      "player_name": "Domantas Sabonis",
+      "team": "SAC",
+      "games": 6,
+      "playoff_games": 0,
+      "total_terry": 195.2,
+      "reg_games": 6,
+      "reg_total_terry": 195.2,
+      "terry_per_game": 32.5,
+      "reg_terry_per_game": 32.5
+    },
+    {
+      "player_id": 1631095,
+      "player_name": "Jabari Smith Jr.",
+      "team": "HOU",
+      "games": 7,
+      "playoff_games": 0,
+      "total_terry": 189.7,
+      "reg_games": 7,
+      "reg_total_terry": 189.7,
+      "terry_per_game": 27.1,
+      "reg_terry_per_game": 27.1
     },
     {
       "player_id": 203507,
@@ -1695,6 +1823,18 @@
       "reg_terry_per_game": 30.8
     },
     {
+      "player_id": 1643409,
+      "player_name": "Cameron Boozer",
+      "team": "MEM",
+      "games": 6,
+      "playoff_games": 0,
+      "total_terry": 181.4,
+      "reg_games": 6,
+      "reg_total_terry": 181.4,
+      "terry_per_game": 30.2,
+      "reg_terry_per_game": 30.2
+    },
+    {
       "player_id": 1642843,
       "player_name": "Cooper Flagg",
       "team": "DAL",
@@ -1707,64 +1847,88 @@
       "reg_terry_per_game": 34.3
     },
     {
-      "player_id": 1643409,
-      "player_name": "Cameron Boozer",
-      "team": "MEM",
-      "games": 5,
-      "playoff_games": 0,
-      "total_terry": 170.3,
-      "reg_games": 5,
-      "reg_total_terry": 170.3,
-      "terry_per_game": 34.1,
-      "reg_terry_per_game": 34.1
-    },
-    {
-      "player_id": 1630552,
-      "player_name": "Jalen Johnson",
-      "team": "ATL",
+      "player_id": 1628386,
+      "player_name": "Jarrett Allen",
+      "team": "CLE",
       "games": 6,
       "playoff_games": 0,
-      "total_terry": 164.1,
+      "total_terry": 170.0,
       "reg_games": 6,
-      "reg_total_terry": 164.1,
-      "terry_per_game": 27.3,
-      "reg_terry_per_game": 27.3
+      "reg_total_terry": 170.0,
+      "terry_per_game": 28.3,
+      "reg_terry_per_game": 28.3
     },
     {
       "player_id": 1630183,
       "player_name": "Jaden McDaniels",
       "team": "MIN",
+      "games": 7,
+      "playoff_games": 0,
+      "total_terry": 165.3,
+      "reg_games": 7,
+      "reg_total_terry": 165.3,
+      "terry_per_game": 23.6,
+      "reg_terry_per_game": 23.6
+    },
+    {
+      "player_id": 1630178,
+      "player_name": "Tyrese Maxey",
+      "team": "PHI",
+      "games": 7,
+      "playoff_games": 0,
+      "total_terry": 162.1,
+      "reg_games": 7,
+      "reg_total_terry": 162.1,
+      "terry_per_game": 23.2,
+      "reg_terry_per_game": 23.2
+    },
+    {
+      "player_id": 1630552,
+      "player_name": "Jalen Johnson",
+      "team": "ATL",
+      "games": 7,
+      "playoff_games": 0,
+      "total_terry": 160.2,
+      "reg_games": 7,
+      "reg_total_terry": 160.2,
+      "terry_per_game": 22.9,
+      "reg_terry_per_game": 22.9
+    },
+    {
+      "player_id": 1630596,
+      "player_name": "Evan Mobley",
+      "team": "CLE",
       "games": 6,
       "playoff_games": 0,
-      "total_terry": 163.9,
+      "total_terry": 158.2,
       "reg_games": 6,
-      "reg_total_terry": 163.9,
-      "terry_per_game": 27.3,
-      "reg_terry_per_game": 27.3
+      "reg_total_terry": 158.2,
+      "terry_per_game": 26.4,
+      "reg_terry_per_game": 26.4
     },
     {
-      "player_id": 1627734,
-      "player_name": "Domantas Sabonis",
-      "team": "SAC",
+      "player_id": 1628368,
+      "player_name": "De'Aaron Fox",
+      "team": "SAS",
+      "games": 6,
+      "playoff_games": 0,
+      "total_terry": 158.0,
+      "reg_games": 6,
+      "reg_total_terry": 158.0,
+      "terry_per_game": 26.3,
+      "reg_terry_per_game": 26.3
+    },
+    {
+      "player_id": 1642907,
+      "player_name": "Cedric Coward",
+      "team": "MEM",
       "games": 5,
       "playoff_games": 0,
-      "total_terry": 163.4,
+      "total_terry": 156.9,
       "reg_games": 5,
-      "reg_total_terry": 163.4,
-      "terry_per_game": 32.7,
-      "reg_terry_per_game": 32.7
-    },
-    {
-      "player_id": 1630578,
-      "player_name": "Alperen Sengun",
-      "team": "HOU",
-      "games": 4,
-      "playoff_games": 0,
-      "total_terry": 162.6,
-      "reg_games": 4,
-      "reg_total_terry": 162.6,
-      "terry_per_game": 40.6,
-      "reg_terry_per_game": 40.6
+      "reg_total_terry": 156.9,
+      "terry_per_game": 31.4,
+      "reg_terry_per_game": 31.4
     },
     {
       "player_id": 1631117,
@@ -1777,6 +1941,30 @@
       "reg_total_terry": 156.1,
       "terry_per_game": 26.0,
       "reg_terry_per_game": 26.0
+    },
+    {
+      "player_id": 1630166,
+      "player_name": "Deni Avdija",
+      "team": "POR",
+      "games": 5,
+      "playoff_games": 0,
+      "total_terry": 153.9,
+      "reg_games": 5,
+      "reg_total_terry": 153.9,
+      "terry_per_game": 30.8,
+      "reg_terry_per_game": 30.8
+    },
+    {
+      "player_id": 201142,
+      "player_name": "Kevin Durant",
+      "team": "HOU",
+      "games": 7,
+      "playoff_games": 0,
+      "total_terry": 151.0,
+      "reg_games": 7,
+      "reg_total_terry": 151.0,
+      "terry_per_game": 21.6,
+      "reg_terry_per_game": 21.6
     },
     {
       "player_id": 1629029,
@@ -1827,6 +2015,18 @@
       "reg_terry_per_game": 23.8
     },
     {
+      "player_id": 1642285,
+      "player_name": "Cam Spencer",
+      "team": "MEM",
+      "games": 6,
+      "playoff_games": 0,
+      "total_terry": 142.8,
+      "reg_games": 6,
+      "reg_total_terry": 142.8,
+      "terry_per_game": 23.8,
+      "reg_terry_per_game": 23.8
+    },
+    {
       "player_id": 1629660,
       "player_name": "Ty Jerome",
       "team": "MEM",
@@ -1837,6 +2037,30 @@
       "reg_total_terry": 142.6,
       "terry_per_game": 28.5,
       "reg_terry_per_game": 28.5
+    },
+    {
+      "player_id": 1641708,
+      "player_name": "Amen Thompson",
+      "team": "HOU",
+      "games": 7,
+      "playoff_games": 0,
+      "total_terry": 142.0,
+      "reg_games": 7,
+      "reg_total_terry": 142.0,
+      "terry_per_game": 20.3,
+      "reg_terry_per_game": 20.3
+    },
+    {
+      "player_id": 1642844,
+      "player_name": "Dylan Harper",
+      "team": "SAS",
+      "games": 6,
+      "playoff_games": 0,
+      "total_terry": 141.3,
+      "reg_games": 6,
+      "reg_total_terry": 141.3,
+      "terry_per_game": 23.6,
+      "reg_terry_per_game": 23.6
     },
     {
       "player_id": 1628369,
@@ -1863,6 +2087,18 @@
       "reg_terry_per_game": 22.8
     },
     {
+      "player_id": 1642270,
+      "player_name": "Donovan Clingan",
+      "team": "POR",
+      "games": 5,
+      "playoff_games": 0,
+      "total_terry": 135.9,
+      "reg_games": 5,
+      "reg_total_terry": 135.9,
+      "terry_per_game": 27.2,
+      "reg_terry_per_game": 27.2
+    },
+    {
       "player_id": 1627936,
       "player_name": "Alex Caruso",
       "team": "OKC",
@@ -1887,6 +2123,18 @@
       "reg_terry_per_game": 33.3
     },
     {
+      "player_id": 1630245,
+      "player_name": "Ayo Dosunmu",
+      "team": "MIN",
+      "games": 7,
+      "playoff_games": 0,
+      "total_terry": 132.9,
+      "reg_games": 7,
+      "reg_total_terry": 132.9,
+      "terry_per_game": 19.0,
+      "reg_terry_per_game": 19.0
+    },
+    {
       "player_id": 1627832,
       "player_name": "Fred VanVleet",
       "team": "HOU",
@@ -1899,28 +2147,16 @@
       "reg_terry_per_game": 26.2
     },
     {
-      "player_id": 1641708,
-      "player_name": "Amen Thompson",
-      "team": "HOU",
-      "games": 6,
+      "player_id": 1630228,
+      "player_name": "Jonathan Kuminga",
+      "team": "MIN",
+      "games": 7,
       "playoff_games": 0,
-      "total_terry": 130.2,
-      "reg_games": 6,
-      "reg_total_terry": 130.2,
-      "terry_per_game": 21.7,
-      "reg_terry_per_game": 21.7
-    },
-    {
-      "player_id": 1631095,
-      "player_name": "Jabari Smith Jr.",
-      "team": "HOU",
-      "games": 6,
-      "playoff_games": 0,
-      "total_terry": 129.8,
-      "reg_games": 6,
-      "reg_total_terry": 129.8,
-      "terry_per_game": 21.6,
-      "reg_terry_per_game": 21.6
+      "total_terry": 130.8,
+      "reg_games": 7,
+      "reg_total_terry": 130.8,
+      "terry_per_game": 18.7,
+      "reg_terry_per_game": 18.7
     },
     {
       "player_id": 201939,
@@ -1935,52 +2171,16 @@
       "reg_terry_per_game": 25.8
     },
     {
-      "player_id": 1642907,
-      "player_name": "Cedric Coward",
-      "team": "MEM",
-      "games": 4,
+      "player_id": 1630700,
+      "player_name": "Dyson Daniels",
+      "team": "ATL",
+      "games": 7,
       "playoff_games": 0,
-      "total_terry": 126.6,
-      "reg_games": 4,
-      "reg_total_terry": 126.6,
-      "terry_per_game": 31.6,
-      "reg_terry_per_game": 31.6
-    },
-    {
-      "player_id": 201142,
-      "player_name": "Kevin Durant",
-      "team": "HOU",
-      "games": 6,
-      "playoff_games": 0,
-      "total_terry": 126.5,
-      "reg_games": 6,
-      "reg_total_terry": 126.5,
-      "terry_per_game": 21.1,
-      "reg_terry_per_game": 21.1
-    },
-    {
-      "player_id": 1630166,
-      "player_name": "Deni Avdija",
-      "team": "POR",
-      "games": 4,
-      "playoff_games": 0,
-      "total_terry": 125.1,
-      "reg_games": 4,
-      "reg_total_terry": 125.1,
-      "terry_per_game": 31.3,
-      "reg_terry_per_game": 31.3
-    },
-    {
-      "player_id": 1630178,
-      "player_name": "Tyrese Maxey",
-      "team": "PHI",
-      "games": 6,
-      "playoff_games": 0,
-      "total_terry": 124.6,
-      "reg_games": 6,
-      "reg_total_terry": 124.6,
-      "terry_per_game": 20.8,
-      "reg_terry_per_game": 20.8
+      "total_terry": 126.7,
+      "reg_games": 7,
+      "reg_total_terry": 126.7,
+      "terry_per_game": 18.1,
+      "reg_terry_per_game": 18.1
     },
     {
       "player_id": 1630194,
@@ -2017,42 +2217,6 @@
       "reg_total_terry": 123.2,
       "terry_per_game": 24.6,
       "reg_terry_per_game": 24.6
-    },
-    {
-      "player_id": 1630700,
-      "player_name": "Dyson Daniels",
-      "team": "ATL",
-      "games": 6,
-      "playoff_games": 0,
-      "total_terry": 123.2,
-      "reg_games": 6,
-      "reg_total_terry": 123.2,
-      "terry_per_game": 20.5,
-      "reg_terry_per_game": 20.5
-    },
-    {
-      "player_id": 1628386,
-      "player_name": "Jarrett Allen",
-      "team": "CLE",
-      "games": 5,
-      "playoff_games": 0,
-      "total_terry": 120.7,
-      "reg_games": 5,
-      "reg_total_terry": 120.7,
-      "terry_per_game": 24.1,
-      "reg_terry_per_game": 24.1
-    },
-    {
-      "player_id": 1630596,
-      "player_name": "Evan Mobley",
-      "team": "CLE",
-      "games": 5,
-      "playoff_games": 0,
-      "total_terry": 118.8,
-      "reg_games": 5,
-      "reg_total_terry": 118.8,
-      "terry_per_game": 23.8,
-      "reg_terry_per_game": 23.8
     },
     {
       "player_id": 1642450,
@@ -2103,30 +2267,6 @@
       "reg_terry_per_game": 19.4
     },
     {
-      "player_id": 1630228,
-      "player_name": "Jonathan Kuminga",
-      "team": "MIN",
-      "games": 6,
-      "playoff_games": 0,
-      "total_terry": 116.2,
-      "reg_games": 6,
-      "reg_total_terry": 116.2,
-      "terry_per_game": 19.4,
-      "reg_terry_per_game": 19.4
-    },
-    {
-      "player_id": 1628368,
-      "player_name": "De'Aaron Fox",
-      "team": "SAS",
-      "games": 5,
-      "playoff_games": 0,
-      "total_terry": 115.7,
-      "reg_games": 5,
-      "reg_total_terry": 115.7,
-      "terry_per_game": 23.1,
-      "reg_terry_per_game": 23.1
-    },
-    {
       "player_id": 1630193,
       "player_name": "Immanuel Quickley",
       "team": "TOR",
@@ -2151,16 +2291,28 @@
       "reg_terry_per_game": 22.8
     },
     {
-      "player_id": 1630168,
-      "player_name": "Onyeka Okongwu",
-      "team": "ATL",
-      "games": 6,
+      "player_id": 1641744,
+      "player_name": "Zach Edey",
+      "team": "MEM",
+      "games": 5,
       "playoff_games": 0,
-      "total_terry": 113.7,
-      "reg_games": 6,
-      "reg_total_terry": 113.7,
-      "terry_per_game": 18.9,
-      "reg_terry_per_game": 18.9
+      "total_terry": 113.5,
+      "reg_games": 5,
+      "reg_total_terry": 113.5,
+      "terry_per_game": 22.7,
+      "reg_terry_per_game": 22.7
+    },
+    {
+      "player_id": 1642866,
+      "player_name": "Joan Beringer",
+      "team": "MIN",
+      "games": 7,
+      "playoff_games": 0,
+      "total_terry": 113.3,
+      "reg_games": 7,
+      "reg_total_terry": 113.3,
+      "terry_per_game": 16.2,
+      "reg_terry_per_game": 16.2
     },
     {
       "player_id": 202331,
@@ -2175,28 +2327,16 @@
       "reg_terry_per_game": 22.5
     },
     {
-      "player_id": 1642377,
-      "player_name": "Jaylen Wells",
-      "team": "MEM",
-      "games": 5,
+      "player_id": 1628378,
+      "player_name": "Donovan Mitchell",
+      "team": "CLE",
+      "games": 6,
       "playoff_games": 0,
-      "total_terry": 111.5,
-      "reg_games": 5,
-      "reg_total_terry": 111.5,
-      "terry_per_game": 22.3,
-      "reg_terry_per_game": 22.3
-    },
-    {
-      "player_id": 1642349,
-      "player_name": "Ajay Mitchell",
-      "team": "OKC",
-      "games": 5,
-      "playoff_games": 0,
-      "total_terry": 108.4,
-      "reg_games": 5,
-      "reg_total_terry": 108.4,
-      "terry_per_game": 21.7,
-      "reg_terry_per_game": 21.7
+      "total_terry": 110.8,
+      "reg_games": 6,
+      "reg_total_terry": 110.8,
+      "terry_per_game": 18.5,
+      "reg_terry_per_game": 18.5
     },
     {
       "player_id": 1641709,
@@ -2211,64 +2351,16 @@
       "reg_terry_per_game": 21.6
     },
     {
-      "player_id": 1628392,
-      "player_name": "Isaiah Hartenstein",
-      "team": "OKC",
+      "player_id": 201950,
+      "player_name": "Jrue Holiday",
+      "team": "POR",
       "games": 5,
       "playoff_games": 0,
-      "total_terry": 108.0,
+      "total_terry": 107.8,
       "reg_games": 5,
-      "reg_total_terry": 108.0,
+      "reg_total_terry": 107.8,
       "terry_per_game": 21.6,
       "reg_terry_per_game": 21.6
-    },
-    {
-      "player_id": 1630245,
-      "player_name": "Ayo Dosunmu",
-      "team": "MIN",
-      "games": 6,
-      "playoff_games": 0,
-      "total_terry": 107.9,
-      "reg_games": 6,
-      "reg_total_terry": 107.9,
-      "terry_per_game": 18.0,
-      "reg_terry_per_game": 18.0
-    },
-    {
-      "player_id": 202681,
-      "player_name": "Kyrie Irving",
-      "team": "DAL",
-      "games": 5,
-      "playoff_games": 0,
-      "total_terry": 107.4,
-      "reg_games": 5,
-      "reg_total_terry": 107.4,
-      "terry_per_game": 21.5,
-      "reg_terry_per_game": 21.5
-    },
-    {
-      "player_id": 1642844,
-      "player_name": "Dylan Harper",
-      "team": "SAS",
-      "games": 5,
-      "playoff_games": 0,
-      "total_terry": 106.9,
-      "reg_games": 5,
-      "reg_total_terry": 106.9,
-      "terry_per_game": 21.4,
-      "reg_terry_per_game": 21.4
-    },
-    {
-      "player_id": 1642270,
-      "player_name": "Donovan Clingan",
-      "team": "POR",
-      "games": 4,
-      "playoff_games": 0,
-      "total_terry": 106.6,
-      "reg_games": 4,
-      "reg_total_terry": 106.6,
-      "terry_per_game": 26.6,
-      "reg_terry_per_game": 26.6
     }
   ],
   "per_game_worst": [
@@ -2297,6 +2389,42 @@
       "reg_terry_per_game": -7.1
     },
     {
+      "player_id": 1642363,
+      "player_name": "Nique Clifford",
+      "team": "SAC",
+      "games": 5,
+      "playoff_games": 0,
+      "total_terry": -34.7,
+      "reg_games": 5,
+      "reg_total_terry": -34.7,
+      "terry_per_game": -6.9,
+      "reg_terry_per_game": -6.9
+    },
+    {
+      "player_id": 1628370,
+      "player_name": "Malik Monk",
+      "team": "SAC",
+      "games": 5,
+      "playoff_games": 0,
+      "total_terry": -27.1,
+      "reg_games": 5,
+      "reg_total_terry": -27.1,
+      "terry_per_game": -5.4,
+      "reg_terry_per_game": -5.4
+    },
+    {
+      "player_id": 1643567,
+      "player_name": "Emanuel Sharp",
+      "team": "SAC",
+      "games": 6,
+      "playoff_games": 0,
+      "total_terry": -31.2,
+      "reg_games": 6,
+      "reg_total_terry": -31.2,
+      "terry_per_game": -5.2,
+      "reg_terry_per_game": -5.2
+    },
+    {
       "player_id": 1631288,
       "player_name": "Jamal Cain",
       "team": "ORL",
@@ -2321,16 +2449,28 @@
       "reg_terry_per_game": -4.8
     },
     {
-      "player_id": 1643567,
-      "player_name": "Emanuel Sharp",
-      "team": "SAC",
+      "player_id": 1630703,
+      "player_name": "Scoot Henderson",
+      "team": "POR",
       "games": 5,
       "playoff_games": 0,
-      "total_terry": -20.4,
+      "total_terry": -23.0,
       "reg_games": 5,
-      "reg_total_terry": -20.4,
-      "terry_per_game": -4.1,
-      "reg_terry_per_game": -4.1
+      "reg_total_terry": -23.0,
+      "terry_per_game": -4.6,
+      "reg_terry_per_game": -4.6
+    },
+    {
+      "player_id": 203897,
+      "player_name": "Zach LaVine",
+      "team": "SAC",
+      "games": 6,
+      "playoff_games": 0,
+      "total_terry": -26.8,
+      "reg_games": 6,
+      "reg_total_terry": -26.8,
+      "terry_per_game": -4.5,
+      "reg_terry_per_game": -4.5
     },
     {
       "player_id": 1642849,
@@ -2357,6 +2497,18 @@
       "reg_terry_per_game": -3.9
     },
     {
+      "player_id": 1631342,
+      "player_name": "Daeqwon Plowden",
+      "team": "SAC",
+      "games": 5,
+      "playoff_games": 0,
+      "total_terry": -18.4,
+      "reg_games": 5,
+      "reg_total_terry": -18.4,
+      "terry_per_game": -3.7,
+      "reg_terry_per_game": -3.7
+    },
+    {
       "player_id": 203114,
       "player_name": "Khris Middleton",
       "team": "WAS",
@@ -2369,28 +2521,16 @@
       "reg_terry_per_game": -3.5
     },
     {
-      "player_id": 1626167,
-      "player_name": "Myles Turner",
-      "team": "MIL",
-      "games": 5,
+      "player_id": 1643515,
+      "player_name": "Christian Anderson",
+      "team": "CHA",
+      "games": 7,
       "playoff_games": 0,
-      "total_terry": -14.4,
-      "reg_games": 5,
-      "reg_total_terry": -14.4,
-      "terry_per_game": -2.9,
-      "reg_terry_per_game": -2.9
-    },
-    {
-      "player_id": 1643411,
-      "player_name": "Darius Acuff Jr.",
-      "team": "SAC",
-      "games": 5,
-      "playoff_games": 0,
-      "total_terry": -13.7,
-      "reg_games": 5,
-      "reg_total_terry": -13.7,
-      "terry_per_game": -2.7,
-      "reg_terry_per_game": -2.7
+      "total_terry": -21.2,
+      "reg_games": 7,
+      "reg_total_terry": -21.2,
+      "terry_per_game": -3.0,
+      "reg_terry_per_game": -3.0
     },
     {
       "player_id": 1643052,
@@ -2417,16 +2557,16 @@
       "reg_terry_per_game": -2.5
     },
     {
-      "player_id": 1643515,
-      "player_name": "Christian Anderson",
+      "player_id": 1642883,
+      "player_name": "Sion James",
       "team": "CHA",
-      "games": 6,
+      "games": 7,
       "playoff_games": 0,
-      "total_terry": -12.5,
-      "reg_games": 6,
-      "reg_total_terry": -12.5,
-      "terry_per_game": -2.1,
-      "reg_terry_per_game": -2.1
+      "total_terry": -15.7,
+      "reg_games": 7,
+      "reg_total_terry": -15.7,
+      "terry_per_game": -2.2,
+      "reg_terry_per_game": -2.2
     },
     {
       "player_id": 1628969,
@@ -2453,28 +2593,16 @@
       "reg_terry_per_game": -1.6
     },
     {
-      "player_id": 1631212,
-      "player_name": "Peyton Watson",
-      "team": "CLE",
+      "player_id": 1629006,
+      "player_name": "Josh Okogie",
+      "team": "UTA",
       "games": 5,
       "playoff_games": 0,
-      "total_terry": -8.2,
+      "total_terry": -5.6,
       "reg_games": 5,
-      "reg_total_terry": -8.2,
-      "terry_per_game": -1.6,
-      "reg_terry_per_game": -1.6
-    },
-    {
-      "player_id": 203897,
-      "player_name": "Zach LaVine",
-      "team": "SAC",
-      "games": 5,
-      "playoff_games": 0,
-      "total_terry": -6.2,
-      "reg_games": 5,
-      "reg_total_terry": -6.2,
-      "terry_per_game": -1.2,
-      "reg_terry_per_game": -1.2
+      "reg_total_terry": -5.6,
+      "terry_per_game": -1.1,
+      "reg_terry_per_game": -1.1
     },
     {
       "player_id": 202691,
@@ -2501,16 +2629,40 @@
       "reg_terry_per_game": -1.0
     },
     {
-      "player_id": 1642883,
-      "player_name": "Sion James",
-      "team": "CHA",
+      "player_id": 1631172,
+      "player_name": "Ousmane Dieng",
+      "team": "MIL",
+      "games": 5,
+      "playoff_games": 0,
+      "total_terry": -4.7,
+      "reg_games": 5,
+      "reg_total_terry": -4.7,
+      "terry_per_game": -0.9,
+      "reg_terry_per_game": -0.9
+    },
+    {
+      "player_id": 1631260,
+      "player_name": "AJ Green",
+      "team": "MIL",
       "games": 6,
       "playoff_games": 0,
-      "total_terry": -3.7,
+      "total_terry": -4.5,
       "reg_games": 6,
-      "reg_total_terry": -3.7,
-      "terry_per_game": -0.6,
-      "reg_terry_per_game": -0.6
+      "reg_total_terry": -4.5,
+      "terry_per_game": -0.8,
+      "reg_terry_per_game": -0.8
+    },
+    {
+      "player_id": 1626167,
+      "player_name": "Myles Turner",
+      "team": "MIL",
+      "games": 6,
+      "playoff_games": 0,
+      "total_terry": -4.0,
+      "reg_games": 6,
+      "reg_total_terry": -4.0,
+      "terry_per_game": -0.7,
+      "reg_terry_per_game": -0.7
     },
     {
       "player_id": 1641730,
@@ -2525,6 +2677,18 @@
       "reg_terry_per_game": -0.6
     },
     {
+      "player_id": 1642892,
+      "player_name": "Bennett Stirtz",
+      "team": "OKC",
+      "games": 6,
+      "playoff_games": 0,
+      "total_terry": -2.7,
+      "reg_games": 6,
+      "reg_total_terry": -2.7,
+      "terry_per_game": -0.5,
+      "reg_terry_per_game": -0.5
+    },
+    {
       "player_id": 1626145,
       "player_name": "Tyus Jones",
       "team": "DEN",
@@ -2537,28 +2701,16 @@
       "reg_terry_per_game": -0.5
     },
     {
-      "player_id": 1642892,
-      "player_name": "Bennett Stirtz",
-      "team": "OKC",
-      "games": 5,
-      "playoff_games": 0,
-      "total_terry": -1.6,
-      "reg_games": 5,
-      "reg_total_terry": -1.6,
-      "terry_per_game": -0.3,
-      "reg_terry_per_game": -0.3
-    },
-    {
       "player_id": 1629004,
       "player_name": "Svi Mykhailiuk",
       "team": "UTA",
-      "games": 5,
+      "games": 6,
       "playoff_games": 0,
-      "total_terry": -1.6,
-      "reg_games": 5,
-      "reg_total_terry": -1.6,
-      "terry_per_game": -0.3,
-      "reg_terry_per_game": -0.3
+      "total_terry": -0.7,
+      "reg_games": 6,
+      "reg_total_terry": -0.7,
+      "terry_per_game": -0.1,
+      "reg_terry_per_game": -0.1
     },
     {
       "player_id": 1627780,
@@ -2585,26 +2737,38 @@
       "reg_terry_per_game": 0.1
     },
     {
-      "player_id": 1642868,
-      "player_name": "Carter Bryant",
-      "team": "SAS",
-      "games": 5,
+      "player_id": 1629631,
+      "player_name": "De'Andre Hunter",
+      "team": "SAC",
+      "games": 6,
       "playoff_games": 0,
-      "total_terry": 1.6,
-      "reg_games": 5,
-      "reg_total_terry": 1.6,
+      "total_terry": 1.7,
+      "reg_games": 6,
+      "reg_total_terry": 1.7,
       "terry_per_game": 0.3,
       "reg_terry_per_game": 0.3
     },
     {
-      "player_id": 1631260,
-      "player_name": "AJ Green",
-      "team": "MIL",
-      "games": 5,
+      "player_id": 1643411,
+      "player_name": "Darius Acuff Jr.",
+      "team": "SAC",
+      "games": 6,
       "playoff_games": 0,
-      "total_terry": 2.0,
-      "reg_games": 5,
-      "reg_total_terry": 2.0,
+      "total_terry": 2.6,
+      "reg_games": 6,
+      "reg_total_terry": 2.6,
+      "terry_per_game": 0.4,
+      "reg_terry_per_game": 0.4
+    },
+    {
+      "player_id": 1642868,
+      "player_name": "Carter Bryant",
+      "team": "SAS",
+      "games": 6,
+      "playoff_games": 0,
+      "total_terry": 2.5,
+      "reg_games": 6,
+      "reg_total_terry": 2.5,
       "terry_per_game": 0.4,
       "reg_terry_per_game": 0.4
     },
@@ -2645,16 +2809,28 @@
       "reg_terry_per_game": 0.6
     },
     {
-      "player_id": 1628436,
-      "player_name": "Luke Kornet",
-      "team": "SAS",
-      "games": 5,
+      "player_id": 1642272,
+      "player_name": "Jared McCain",
+      "team": "OKC",
+      "games": 6,
       "playoff_games": 0,
-      "total_terry": 5.2,
-      "reg_games": 5,
-      "reg_total_terry": 5.2,
-      "terry_per_game": 1.0,
-      "reg_terry_per_game": 1.0
+      "total_terry": 5.3,
+      "reg_games": 6,
+      "reg_total_terry": 5.3,
+      "terry_per_game": 0.9,
+      "reg_terry_per_game": 0.9
+    },
+    {
+      "player_id": 1642857,
+      "player_name": "Kasparas Jaku\u010dionis",
+      "team": "MIL",
+      "games": 6,
+      "playoff_games": 0,
+      "total_terry": 5.3,
+      "reg_games": 6,
+      "reg_total_terry": 5.3,
+      "terry_per_game": 0.9,
+      "reg_terry_per_game": 0.9
     },
     {
       "player_id": 1631165,
@@ -2681,18 +2857,6 @@
       "reg_terry_per_game": 1.4
     },
     {
-      "player_id": 1626220,
-      "player_name": "Royce O'Neale",
-      "team": "CHA",
-      "games": 6,
-      "playoff_games": 0,
-      "total_terry": 8.2,
-      "reg_games": 6,
-      "reg_total_terry": 8.2,
-      "terry_per_game": 1.4,
-      "reg_terry_per_game": 1.4
-    },
-    {
       "player_id": 202696,
       "player_name": "Nikola Vu\u010devi\u0107",
       "team": "ORL",
@@ -2705,16 +2869,28 @@
       "reg_terry_per_game": 1.4
     },
     {
-      "player_id": 1641706,
-      "player_name": "Brandon Miller",
-      "team": "CHA",
-      "games": 6,
+      "player_id": 1629652,
+      "player_name": "Luguentz Dort",
+      "team": "ATL",
+      "games": 7,
       "playoff_games": 0,
-      "total_terry": 9.9,
-      "reg_games": 6,
-      "reg_total_terry": 9.9,
-      "terry_per_game": 1.7,
-      "reg_terry_per_game": 1.7
+      "total_terry": 13.1,
+      "reg_games": 7,
+      "reg_total_terry": 13.1,
+      "terry_per_game": 1.9,
+      "reg_terry_per_game": 1.9
+    },
+    {
+      "player_id": 1642964,
+      "player_name": "Brooks Barnhizer",
+      "team": "OKC",
+      "games": 5,
+      "playoff_games": 0,
+      "total_terry": 9.5,
+      "reg_games": 5,
+      "reg_total_terry": 9.5,
+      "terry_per_game": 1.9,
+      "reg_terry_per_game": 1.9
     },
     {
       "player_id": 1630217,
@@ -2729,28 +2905,16 @@
       "reg_terry_per_game": 1.9
     },
     {
-      "player_id": 1629631,
-      "player_name": "De'Andre Hunter",
-      "team": "SAC",
-      "games": 5,
+      "player_id": 203471,
+      "player_name": "Dennis Schr\u00f6der",
+      "team": "CHA",
+      "games": 7,
       "playoff_games": 0,
-      "total_terry": 9.3,
-      "reg_games": 5,
-      "reg_total_terry": 9.3,
-      "terry_per_game": 1.9,
-      "reg_terry_per_game": 1.9
-    },
-    {
-      "player_id": 1630529,
-      "player_name": "Herbert Jones",
-      "team": "NOP",
-      "games": 5,
-      "playoff_games": 0,
-      "total_terry": 10.1,
-      "reg_games": 5,
-      "reg_total_terry": 10.1,
-      "terry_per_game": 2.0,
-      "reg_terry_per_game": 2.0
+      "total_terry": 14.6,
+      "reg_games": 7,
+      "reg_total_terry": 14.6,
+      "terry_per_game": 2.1,
+      "reg_terry_per_game": 2.1
     },
     {
       "player_id": 1641711,
@@ -2777,114 +2941,54 @@
       "reg_terry_per_game": 2.3
     },
     {
-      "player_id": 1631108,
-      "player_name": "Max Christie",
-      "team": "DAL",
+      "player_id": 1631212,
+      "player_name": "Peyton Watson",
+      "team": "CLE",
       "games": 6,
       "playoff_games": 0,
-      "total_terry": 14.7,
+      "total_terry": 14.5,
       "reg_games": 6,
-      "reg_total_terry": 14.7,
+      "reg_total_terry": 14.5,
       "terry_per_game": 2.4,
       "reg_terry_per_game": 2.4
-    },
-    {
-      "player_id": 201942,
-      "player_name": "DeMar DeRozan",
-      "team": "DEN",
-      "games": 5,
-      "playoff_games": 0,
-      "total_terry": 12.7,
-      "reg_games": 5,
-      "reg_total_terry": 12.7,
-      "terry_per_game": 2.5,
-      "reg_terry_per_game": 2.5
-    },
-    {
-      "player_id": 1628960,
-      "player_name": "Grayson Allen",
-      "team": "CHA",
-      "games": 6,
-      "playoff_games": 0,
-      "total_terry": 15.1,
-      "reg_games": 6,
-      "reg_total_terry": 15.1,
-      "terry_per_game": 2.5,
-      "reg_terry_per_game": 2.5
-    },
-    {
-      "player_id": 1629013,
-      "player_name": "Landry Shamet",
-      "team": "NYK",
-      "games": 6,
-      "playoff_games": 0,
-      "total_terry": 15.8,
-      "reg_games": 6,
-      "reg_total_terry": 15.8,
-      "terry_per_game": 2.6,
-      "reg_terry_per_game": 2.6
     },
     {
       "player_id": 1631097,
       "player_name": "Bennedict Mathurin",
       "team": "NOP",
-      "games": 5,
-      "playoff_games": 0,
-      "total_terry": 13.2,
-      "reg_games": 5,
-      "reg_total_terry": 13.2,
-      "terry_per_game": 2.6,
-      "reg_terry_per_game": 2.6
-    },
-    {
-      "player_id": 1643410,
-      "player_name": "Caleb Wilson",
-      "team": "CHI",
       "games": 6,
       "playoff_games": 0,
-      "total_terry": 18.1,
+      "total_terry": 14.3,
       "reg_games": 6,
-      "reg_total_terry": 18.1,
-      "terry_per_game": 3.0,
-      "reg_terry_per_game": 3.0
-    },
-    {
-      "player_id": 1643413,
-      "player_name": "Keaton Wagler",
-      "team": "LAC",
-      "games": 5,
-      "playoff_games": 0,
-      "total_terry": 14.9,
-      "reg_games": 5,
-      "reg_total_terry": 14.9,
-      "terry_per_game": 3.0,
-      "reg_terry_per_game": 3.0
-    },
-    {
-      "player_id": 1642847,
-      "player_name": "Jeremiah Fears",
-      "team": "NOP",
-      "games": 5,
-      "playoff_games": 0,
-      "total_terry": 14.9,
-      "reg_games": 5,
-      "reg_total_terry": 14.9,
-      "terry_per_game": 3.0,
-      "reg_terry_per_game": 3.0
+      "reg_total_terry": 14.3,
+      "terry_per_game": 2.4,
+      "reg_terry_per_game": 2.4
     }
   ],
   "per_game_best": [
     {
+      "player_id": 1630578,
+      "player_name": "Alperen Sengun",
+      "team": "HOU",
+      "games": 5,
+      "playoff_games": 0,
+      "total_terry": 199.3,
+      "reg_games": 5,
+      "reg_total_terry": 199.3,
+      "terry_per_game": 39.9,
+      "reg_terry_per_game": 39.9
+    },
+    {
       "player_id": 1641705,
       "player_name": "Victor Wembanyama",
       "team": "SAS",
-      "games": 5,
+      "games": 6,
       "playoff_games": 0,
-      "total_terry": 190.4,
-      "reg_games": 5,
-      "reg_total_terry": 190.4,
-      "terry_per_game": 38.1,
-      "reg_terry_per_game": 38.1
+      "total_terry": 225.8,
+      "reg_games": 6,
+      "reg_total_terry": 225.8,
+      "terry_per_game": 37.6,
+      "reg_terry_per_game": 37.6
     },
     {
       "player_id": 1642843,
@@ -2899,28 +3003,40 @@
       "reg_terry_per_game": 34.3
     },
     {
-      "player_id": 1643409,
-      "player_name": "Cameron Boozer",
-      "team": "MEM",
-      "games": 5,
-      "playoff_games": 0,
-      "total_terry": 170.3,
-      "reg_games": 5,
-      "reg_total_terry": 170.3,
-      "terry_per_game": 34.1,
-      "reg_terry_per_game": 34.1
-    },
-    {
       "player_id": 1627734,
       "player_name": "Domantas Sabonis",
       "team": "SAC",
+      "games": 6,
+      "playoff_games": 0,
+      "total_terry": 195.2,
+      "reg_games": 6,
+      "reg_total_terry": 195.2,
+      "terry_per_game": 32.5,
+      "reg_terry_per_game": 32.5
+    },
+    {
+      "player_id": 1642907,
+      "player_name": "Cedric Coward",
+      "team": "MEM",
       "games": 5,
       "playoff_games": 0,
-      "total_terry": 163.4,
+      "total_terry": 156.9,
       "reg_games": 5,
-      "reg_total_terry": 163.4,
-      "terry_per_game": 32.7,
-      "reg_terry_per_game": 32.7
+      "reg_total_terry": 156.9,
+      "terry_per_game": 31.4,
+      "reg_terry_per_game": 31.4
+    },
+    {
+      "player_id": 1630166,
+      "player_name": "Deni Avdija",
+      "team": "POR",
+      "games": 5,
+      "playoff_games": 0,
+      "total_terry": 153.9,
+      "reg_games": 5,
+      "reg_total_terry": 153.9,
+      "terry_per_game": 30.8,
+      "reg_terry_per_game": 30.8
     },
     {
       "player_id": 203507,
@@ -2933,6 +3049,18 @@
       "reg_total_terry": 184.8,
       "terry_per_game": 30.8,
       "reg_terry_per_game": 30.8
+    },
+    {
+      "player_id": 1643409,
+      "player_name": "Cameron Boozer",
+      "team": "MEM",
+      "games": 6,
+      "playoff_games": 0,
+      "total_terry": 181.4,
+      "reg_games": 6,
+      "reg_total_terry": 181.4,
+      "terry_per_game": 30.2,
+      "reg_terry_per_game": 30.2
     },
     {
       "player_id": 1629029,
@@ -2971,6 +3099,18 @@
       "reg_terry_per_game": 28.5
     },
     {
+      "player_id": 1628386,
+      "player_name": "Jarrett Allen",
+      "team": "CLE",
+      "games": 6,
+      "playoff_games": 0,
+      "total_terry": 170.0,
+      "reg_games": 6,
+      "reg_total_terry": 170.0,
+      "terry_per_game": 28.3,
+      "reg_terry_per_game": 28.3
+    },
+    {
       "player_id": 1628369,
       "player_name": "Jayson Tatum",
       "team": "BOS",
@@ -2983,28 +3123,52 @@
       "reg_terry_per_game": 28.2
     },
     {
-      "player_id": 1630183,
-      "player_name": "Jaden McDaniels",
-      "team": "MIN",
-      "games": 6,
+      "player_id": 1642270,
+      "player_name": "Donovan Clingan",
+      "team": "POR",
+      "games": 5,
       "playoff_games": 0,
-      "total_terry": 163.9,
-      "reg_games": 6,
-      "reg_total_terry": 163.9,
-      "terry_per_game": 27.3,
-      "reg_terry_per_game": 27.3
+      "total_terry": 135.9,
+      "reg_games": 5,
+      "reg_total_terry": 135.9,
+      "terry_per_game": 27.2,
+      "reg_terry_per_game": 27.2
     },
     {
-      "player_id": 1630552,
-      "player_name": "Jalen Johnson",
-      "team": "ATL",
+      "player_id": 1631095,
+      "player_name": "Jabari Smith Jr.",
+      "team": "HOU",
+      "games": 7,
+      "playoff_games": 0,
+      "total_terry": 189.7,
+      "reg_games": 7,
+      "reg_total_terry": 189.7,
+      "terry_per_game": 27.1,
+      "reg_terry_per_game": 27.1
+    },
+    {
+      "player_id": 1630596,
+      "player_name": "Evan Mobley",
+      "team": "CLE",
       "games": 6,
       "playoff_games": 0,
-      "total_terry": 164.1,
+      "total_terry": 158.2,
       "reg_games": 6,
-      "reg_total_terry": 164.1,
-      "terry_per_game": 27.3,
-      "reg_terry_per_game": 27.3
+      "reg_total_terry": 158.2,
+      "terry_per_game": 26.4,
+      "reg_terry_per_game": 26.4
+    },
+    {
+      "player_id": 1628368,
+      "player_name": "De'Aaron Fox",
+      "team": "SAS",
+      "games": 6,
+      "playoff_games": 0,
+      "total_terry": 158.0,
+      "reg_games": 6,
+      "reg_total_terry": 158.0,
+      "terry_per_game": 26.3,
+      "reg_terry_per_game": 26.3
     },
     {
       "player_id": 1627832,
@@ -3067,16 +3231,16 @@
       "reg_terry_per_game": 24.4
     },
     {
-      "player_id": 1628386,
-      "player_name": "Jarrett Allen",
-      "team": "CLE",
-      "games": 5,
+      "player_id": 1642285,
+      "player_name": "Cam Spencer",
+      "team": "MEM",
+      "games": 6,
       "playoff_games": 0,
-      "total_terry": 120.7,
-      "reg_games": 5,
-      "reg_total_terry": 120.7,
-      "terry_per_game": 24.1,
-      "reg_terry_per_game": 24.1
+      "total_terry": 142.8,
+      "reg_games": 6,
+      "reg_total_terry": 142.8,
+      "terry_per_game": 23.8,
+      "reg_terry_per_game": 23.8
     },
     {
       "player_id": 203497,
@@ -3091,16 +3255,28 @@
       "reg_terry_per_game": 23.8
     },
     {
-      "player_id": 1630596,
-      "player_name": "Evan Mobley",
-      "team": "CLE",
-      "games": 5,
+      "player_id": 1642844,
+      "player_name": "Dylan Harper",
+      "team": "SAS",
+      "games": 6,
       "playoff_games": 0,
-      "total_terry": 118.8,
-      "reg_games": 5,
-      "reg_total_terry": 118.8,
-      "terry_per_game": 23.8,
-      "reg_terry_per_game": 23.8
+      "total_terry": 141.3,
+      "reg_games": 6,
+      "reg_total_terry": 141.3,
+      "terry_per_game": 23.6,
+      "reg_terry_per_game": 23.6
+    },
+    {
+      "player_id": 1630183,
+      "player_name": "Jaden McDaniels",
+      "team": "MIN",
+      "games": 7,
+      "playoff_games": 0,
+      "total_terry": 165.3,
+      "reg_games": 7,
+      "reg_total_terry": 165.3,
+      "terry_per_game": 23.6,
+      "reg_terry_per_game": 23.6
     },
     {
       "player_id": 1627750,
@@ -3115,16 +3291,16 @@
       "reg_terry_per_game": 23.3
     },
     {
-      "player_id": 1628368,
-      "player_name": "De'Aaron Fox",
-      "team": "SAS",
-      "games": 5,
+      "player_id": 1630178,
+      "player_name": "Tyrese Maxey",
+      "team": "PHI",
+      "games": 7,
       "playoff_games": 0,
-      "total_terry": 115.7,
-      "reg_games": 5,
-      "reg_total_terry": 115.7,
-      "terry_per_game": 23.1,
-      "reg_terry_per_game": 23.1
+      "total_terry": 162.1,
+      "reg_games": 7,
+      "reg_total_terry": 162.1,
+      "terry_per_game": 23.2,
+      "reg_terry_per_game": 23.2
     },
     {
       "player_id": 1630193,
@@ -3137,6 +3313,18 @@
       "reg_total_terry": 115.1,
       "terry_per_game": 23.0,
       "reg_terry_per_game": 23.0
+    },
+    {
+      "player_id": 1630552,
+      "player_name": "Jalen Johnson",
+      "team": "ATL",
+      "games": 7,
+      "playoff_games": 0,
+      "total_terry": 160.2,
+      "reg_games": 7,
+      "reg_total_terry": 160.2,
+      "terry_per_game": 22.9,
+      "reg_terry_per_game": 22.9
     },
     {
       "player_id": 1629027,
@@ -3163,6 +3351,18 @@
       "reg_terry_per_game": 22.8
     },
     {
+      "player_id": 1641744,
+      "player_name": "Zach Edey",
+      "team": "MEM",
+      "games": 5,
+      "playoff_games": 0,
+      "total_terry": 113.5,
+      "reg_games": 5,
+      "reg_total_terry": 113.5,
+      "terry_per_game": 22.7,
+      "reg_terry_per_game": 22.7
+    },
+    {
       "player_id": 202331,
       "player_name": "Paul George",
       "team": "BOS",
@@ -3175,69 +3375,33 @@
       "reg_terry_per_game": 22.5
     },
     {
-      "player_id": 1642377,
-      "player_name": "Jaylen Wells",
-      "team": "MEM",
-      "games": 5,
-      "playoff_games": 0,
-      "total_terry": 111.5,
-      "reg_games": 5,
-      "reg_total_terry": 111.5,
-      "terry_per_game": 22.3,
-      "reg_terry_per_game": 22.3
-    },
-    {
-      "player_id": 1641708,
-      "player_name": "Amen Thompson",
+      "player_id": 201142,
+      "player_name": "Kevin Durant",
       "team": "HOU",
-      "games": 6,
+      "games": 7,
       "playoff_games": 0,
-      "total_terry": 130.2,
-      "reg_games": 6,
-      "reg_total_terry": 130.2,
-      "terry_per_game": 21.7,
-      "reg_terry_per_game": 21.7
+      "total_terry": 151.0,
+      "reg_games": 7,
+      "reg_total_terry": 151.0,
+      "terry_per_game": 21.6,
+      "reg_terry_per_game": 21.6
     },
     {
-      "player_id": 1642349,
-      "player_name": "Ajay Mitchell",
-      "team": "OKC",
+      "player_id": 201950,
+      "player_name": "Jrue Holiday",
+      "team": "POR",
       "games": 5,
       "playoff_games": 0,
-      "total_terry": 108.4,
+      "total_terry": 107.8,
       "reg_games": 5,
-      "reg_total_terry": 108.4,
-      "terry_per_game": 21.7,
-      "reg_terry_per_game": 21.7
+      "reg_total_terry": 107.8,
+      "terry_per_game": 21.6,
+      "reg_terry_per_game": 21.6
     },
     {
       "player_id": 1641709,
       "player_name": "Ausar Thompson",
       "team": "DET",
-      "games": 5,
-      "playoff_games": 0,
-      "total_terry": 108.0,
-      "reg_games": 5,
-      "reg_total_terry": 108.0,
-      "terry_per_game": 21.6,
-      "reg_terry_per_game": 21.6
-    },
-    {
-      "player_id": 1631095,
-      "player_name": "Jabari Smith Jr.",
-      "team": "HOU",
-      "games": 6,
-      "playoff_games": 0,
-      "total_terry": 129.8,
-      "reg_games": 6,
-      "reg_total_terry": 129.8,
-      "terry_per_game": 21.6,
-      "reg_terry_per_game": 21.6
-    },
-    {
-      "player_id": 1628392,
-      "player_name": "Isaiah Hartenstein",
-      "team": "OKC",
       "games": 5,
       "playoff_games": 0,
       "total_terry": 108.0,
@@ -3257,42 +3421,6 @@
       "reg_total_terry": 107.4,
       "terry_per_game": 21.5,
       "reg_terry_per_game": 21.5
-    },
-    {
-      "player_id": 1642844,
-      "player_name": "Dylan Harper",
-      "team": "SAS",
-      "games": 5,
-      "playoff_games": 0,
-      "total_terry": 106.9,
-      "reg_games": 5,
-      "reg_total_terry": 106.9,
-      "terry_per_game": 21.4,
-      "reg_terry_per_game": 21.4
-    },
-    {
-      "player_id": 201142,
-      "player_name": "Kevin Durant",
-      "team": "HOU",
-      "games": 6,
-      "playoff_games": 0,
-      "total_terry": 126.5,
-      "reg_games": 6,
-      "reg_total_terry": 126.5,
-      "terry_per_game": 21.1,
-      "reg_terry_per_game": 21.1
-    },
-    {
-      "player_id": 1630178,
-      "player_name": "Tyrese Maxey",
-      "team": "PHI",
-      "games": 6,
-      "playoff_games": 0,
-      "total_terry": 124.6,
-      "reg_games": 6,
-      "reg_total_terry": 124.6,
-      "terry_per_game": 20.8,
-      "reg_terry_per_game": 20.8
     },
     {
       "player_id": 1629655,
@@ -3319,18 +3447,6 @@
       "reg_terry_per_game": 20.7
     },
     {
-      "player_id": 1630700,
-      "player_name": "Dyson Daniels",
-      "team": "ATL",
-      "games": 6,
-      "playoff_games": 0,
-      "total_terry": 123.2,
-      "reg_games": 6,
-      "reg_total_terry": 123.2,
-      "terry_per_game": 20.5,
-      "reg_terry_per_game": 20.5
-    },
-    {
       "player_id": 1630573,
       "player_name": "Sam Hauser",
       "team": "BOS",
@@ -3341,6 +3457,18 @@
       "reg_total_terry": 102.2,
       "terry_per_game": 20.4,
       "reg_terry_per_game": 20.4
+    },
+    {
+      "player_id": 1641708,
+      "player_name": "Amen Thompson",
+      "team": "HOU",
+      "games": 7,
+      "playoff_games": 0,
+      "total_terry": 142.0,
+      "reg_games": 7,
+      "reg_total_terry": 142.0,
+      "terry_per_game": 20.3,
+      "reg_terry_per_game": 20.3
     },
     {
       "player_id": 1642450,
@@ -3379,18 +3507,6 @@
       "reg_terry_per_game": 19.5
     },
     {
-      "player_id": 1628983,
-      "player_name": "Shai Gilgeous-Alexander",
-      "team": "OKC",
-      "games": 5,
-      "playoff_games": 0,
-      "total_terry": 97.4,
-      "reg_games": 5,
-      "reg_total_terry": 97.4,
-      "terry_per_game": 19.5,
-      "reg_terry_per_game": 19.5
-    },
-    {
       "player_id": 203076,
       "player_name": "Anthony Davis",
       "team": "WAS",
@@ -3403,38 +3519,38 @@
       "reg_terry_per_game": 19.4
     },
     {
+      "player_id": 1630245,
+      "player_name": "Ayo Dosunmu",
+      "team": "MIN",
+      "games": 7,
+      "playoff_games": 0,
+      "total_terry": 132.9,
+      "reg_games": 7,
+      "reg_total_terry": 132.9,
+      "terry_per_game": 19.0,
+      "reg_terry_per_game": 19.0
+    },
+    {
       "player_id": 1630228,
       "player_name": "Jonathan Kuminga",
       "team": "MIN",
-      "games": 6,
+      "games": 7,
       "playoff_games": 0,
-      "total_terry": 116.2,
-      "reg_games": 6,
-      "reg_total_terry": 116.2,
-      "terry_per_game": 19.4,
-      "reg_terry_per_game": 19.4
+      "total_terry": 130.8,
+      "reg_games": 7,
+      "reg_total_terry": 130.8,
+      "terry_per_game": 18.7,
+      "reg_terry_per_game": 18.7
     },
     {
-      "player_id": 1630168,
-      "player_name": "Onyeka Okongwu",
-      "team": "ATL",
+      "player_id": 1628378,
+      "player_name": "Donovan Mitchell",
+      "team": "CLE",
       "games": 6,
       "playoff_games": 0,
-      "total_terry": 113.7,
+      "total_terry": 110.8,
       "reg_games": 6,
-      "reg_total_terry": 113.7,
-      "terry_per_game": 18.9,
-      "reg_terry_per_game": 18.9
-    },
-    {
-      "player_id": 1627759,
-      "player_name": "Jaylen Brown",
-      "team": "PHI",
-      "games": 5,
-      "playoff_games": 0,
-      "total_terry": 92.6,
-      "reg_games": 5,
-      "reg_total_terry": 92.6,
+      "reg_total_terry": 110.8,
       "terry_per_game": 18.5,
       "reg_terry_per_game": 18.5
     },
@@ -3449,30 +3565,6 @@
       "reg_total_terry": 91.2,
       "terry_per_game": 18.2,
       "reg_terry_per_game": 18.2
-    },
-    {
-      "player_id": 1630245,
-      "player_name": "Ayo Dosunmu",
-      "team": "MIN",
-      "games": 6,
-      "playoff_games": 0,
-      "total_terry": 107.9,
-      "reg_games": 6,
-      "reg_total_terry": 107.9,
-      "terry_per_game": 18.0,
-      "reg_terry_per_game": 18.0
-    },
-    {
-      "player_id": 1630567,
-      "player_name": "Scottie Barnes",
-      "team": "TOR",
-      "games": 5,
-      "playoff_games": 0,
-      "total_terry": 88.1,
-      "reg_games": 5,
-      "reg_total_terry": 88.1,
-      "terry_per_game": 17.6,
-      "reg_terry_per_game": 17.6
     }
   ]
 }
